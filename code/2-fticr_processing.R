@@ -13,7 +13,6 @@ report = read.csv("data/SpatAccess_dwp14_FTICR_Report.csv")
 fticr_key = read.csv("data/fticr_key.csv")
 
 # ---
-
     # fticr_report  =
     #   report %>% 
     #   # filter appropriate mass range
@@ -22,7 +21,6 @@ fticr_key = read.csv("data/fticr_key.csv")
     #   filter(C13==0) %>% 
     #   # remove peaks without C assignment
     #   filter(C>0)
-
 # ---
 
 classes = read.csv("data/fticr_meta_classes.csv")
@@ -39,8 +37,6 @@ fticr_key_cleaned =
   
 #
 # fticr_meta ---------------------------------------------------------
-
-
 meta = 
   fticr_meta %>% 
   # filter appropriate mass range
@@ -89,19 +85,12 @@ meta =
 mass_list = 
   meta %>% pull(Mass)
 
-
 meta_hcoc = 
   meta %>% 
   select(formula, HC, OC)
 
-  
-# domains ggplot
-gg_vankrev(meta, aes(x = OC, y = HC, color = class))
-
-
 # fticr_data --------------------------------------------------------------------
-
-data = 
+data_long = 
   fticr_data %>% 
   filter(Mass %in% mass_list) %>% 
   select(-NeutralMass, -ErrorPPM, -Candidates) %>% 
@@ -113,53 +102,21 @@ data =
   # add the molecular formula column
   left_join(select(meta, Mass, formula), by = "Mass") %>% 
   # some formulae have multiple m/z. drop the multiples
-  distinct(FTICR_ID, formula) %>% 
+  distinct(FTICR_ID, formula, presence) 
+
+data_long_key =
+  data_long %>% 
   left_join(fticr_key_cleaned, by = "FTICR_ID") %>%
   na.omit() %>% 
   group_by(Assignment, formula) %>% 
   mutate(n = n()) %>% 
   filter(n>1)
 
+#
 
-# ggplots ----
-
-(data_long_hcoc_1.5_intact = 
-    data %>% 
-    left_join(meta_hcoc, by = "formula") %>% 
-    filter(Suction=="1.5" & Homogenization=="Intact") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Assignment))+
-    facet_wrap(~Assignment, ncol = 3)+
-    theme(legend.position = "none")+
-    NULL
-)
-
-
-(data_long_hcoc_50_intact = 
-    data %>% 
-    left_join(meta_hcoc, by = "formula") %>% 
-    filter(Suction==50.0 & Homogenization=="Intact") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Assignment))+
-    facet_wrap(~Assignment, ncol = 3)+
-    theme(legend.position = "none")+
-    NULL
-)
-
-(data_long_hcoc_1.5_homo = 
-    data %>% 
-    left_join(meta_hcoc, by = "formula") %>% 
-    filter(Suction==1.5 & Homogenization=="Homogenized") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Assignment))+
-    facet_wrap(~Assignment, ncol = 3)+
-    theme(legend.position = "none")+
-    NULL
-)
-
-(data_long_hcoc_50_homo = 
-    data %>% 
-    left_join(meta_hcoc, by = "formula") %>% 
-    filter(Suction==50 & Homogenization=="Homogenized") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Assignment))+
-    facet_wrap(~Assignment, ncol = 3)+
-    theme(legend.position = "none")+
-    NULL
-)
+# outputs -----------------------------------------------------------------
+write.csv(data_long, "data/processed/fticr_long.csv", row.names = F)
+write.csv(data_long_key, "data/processed/fticr_long_key.csv", row.names = F)
+write.csv(meta, "data/processed/fticr_meta.csv", row.names = F)
+crunch::write.csv.gz(data_long, "data/processed/fticr_long.csv.gz", row.names = F, na="")
+crunch::write.csv.gz(data_long_key, "data/processed/fticr_long_key.csv.gz", row.names = F, na="")
