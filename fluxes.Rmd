@@ -16,7 +16,9 @@ knitr::opts_chunk$set(echo = FALSE,
 source("code/0-packages.R")
 theme_set(theme_bw())
 
-flux = read.csv("data/processed/flux.csv")
+flux = read.csv("data/processed/flux.csv") %>% 
+  mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
+         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
 flux_summary = read.csv("data/processed/flux_summary.csv") %>% 
   mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
          Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
@@ -59,17 +61,23 @@ flux %>%
 flux %>% 
   group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>% 
   summarise(CO2_umol_g_s = mean(CO2_umol_g_s)) %>% 
+  mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
   ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments))+
   geom_path()+ #geom_point()+
   #ylim(0, 30)+
   facet_grid(Homogenization~Moisture+Wetting)
 
-flux %>% 
-  group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>% 
-  summarise(CO2_umol_g_s = mean(CO2_umol_g_s)) %>% 
-  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments))+
-  geom_smooth(se=FALSE)+ #geom_point()+
-  #ylim(0, 30)+
+ggplot()+
+  geom_point(data = flux, 
+             aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments), 
+             size=0.5, alpha = 0.5)+
+  geom_smooth(data = flux %>% 
+                group_by(Homogenization, Moisture, Wetting, Amendments, 
+                         Assignment, elapsed_min_bin) %>%
+                summarise(CO2_umol_g_s = mean(CO2_umol_g_s)),
+              aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments),
+              se=FALSE)+ #geom_point()+
+  #ylim(0, 12)+
   labs(title = "LOESS smooth")+
   facet_grid(Homogenization~Moisture+Wetting)
 ```
