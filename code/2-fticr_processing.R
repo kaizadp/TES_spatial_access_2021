@@ -71,7 +71,8 @@ meta =
                            (0.7 < OC & OC <= 1.5 & 1.5 <= HC & HC <= 2.5) ~ "carbohydrate",
                            (0.125 < OC & OC <= 0.65 & 0.8 <= HC & HC < 1.5) ~ "lignin",
                            (0.65 < OC & OC <= 1.1 & 0.8 <= HC & HC < 1.5) ~ "tannin",
-                           (0 <= OC & OC <= 0.95 & 0.2 <= HC & HC < 0.8) ~ "condensed_hc")) %>% 
+                           (0 <= OC & OC <= 0.95 & 0.2 <= HC & HC < 0.8) ~ "condensed_hc"),
+         class = if_else(is.na(class)&!is.na(formula), "other", class)) %>% 
   dplyr::mutate(element_c = if_else(C>0,paste0("C"),as.character(NA)),
                 element_h = if_else(H>0,paste0("H"),as.character(NA)),
                 element_o = if_else(O>0,paste0("O"),as.character(NA)),
@@ -115,8 +116,8 @@ data_long_key =
 #
 
 # outputs -----------------------------------------------------------------
-write.csv(data_long, "data/processed/fticr_long.csv", row.names = F)
-write.csv(data_long_key, "data/processed/fticr_long_key.csv", row.names = F)
+#write.csv(data_long, "data/processed/fticr_long.csv", row.names = F)
+#write.csv(data_long_key, "data/processed/fticr_long_key.csv", row.names = F)
 write.csv(meta, "data/processed/fticr_meta.csv", row.names = F)
 crunch::write.csv.gz(data_long, "data/processed/fticr_long.csv.gz", row.names = F, na="")
 crunch::write.csv.gz(data_long_key, "data/processed/fticr_long_key.csv.gz", row.names = F, na="")
