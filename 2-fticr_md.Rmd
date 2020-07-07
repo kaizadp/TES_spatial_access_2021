@@ -162,7 +162,186 @@ data %>%
    NULL
 ```
 
+---
 
+### PEAKS
+
+```{r fticr_peaks, eval=FALSE}
+meta_classes = 
+  meta %>% 
+  select(formula, class)
+
+fticr_key = read.csv("data/processed/fticr_key.csv") %>% 
+   distinct(Assignment, Moisture, Wetting, Amendments, Suction, Homogenization)
+fticr_data_key = read.csv("data/processed/fticr_long_key.csv.gz")
+
+fticr_peaks = 
+  fticr_data_key %>% 
+  left_join(meta_classes, by = "formula") %>% 
+  group_by(FTICR_ID, Assignment, class) %>% 
+  summarize(n = n()) %>% 
+  ungroup() %>% 
+  group_by(FTICR_ID, Assignment) %>% 
+  mutate(total = sum(n)) %>% 
+  spread(class, n) %>% 
+  pivot_longer(-c(FTICR_ID, Assignment),
+               names_to = "class") %>% 
+  ungroup() %>% 
+  group_by(Assignment, class) %>% 
+   summarize(peaks = as.integer(mean(value))) %>% 
+  #spread(name, peaks) %>% 
+   left_join(fticr_key, by = "Assignment") %>% 
+   ungroup %>% 
+   select(-Assignment) %>% 
+   mutate(Amendments = factor(Amendments, 
+                              levels = c("control", "C", "N")),
+          class = factor(class, levels = 
+                          c("amino_sugar", "carbohydrate","lipid","protein","unsat_hc",
+                            "condensed_hc","lignin","tannin", "other", "total")))
+```
+
+```{r fticr_peaks_tables, eval=FALSE}
+print("1.5 kPa -- INTACT")
+fticr_peaks %>% 
+   filter(Suction==1.5 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("15 kPa -- INTACT")
+fticr_peaks %>% 
+   filter(Suction==15 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("50 kPa -- INTACT")
+fticr_peaks %>% 
+   filter(Suction==50 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("1.5 kPa -- HOMOGENIZED")
+fticr_peaks %>% 
+   filter(Suction==1.5 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("15 kPa -- HOMOGENIZED")
+fticr_peaks %>% 
+   filter(Suction==15 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("50 kPa -- HOMOGENIZED")
+fticr_peaks %>% 
+   filter(Suction==50 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+```
+
+distinct peaks seen in each treatment type  
+
+
+```{r}
+fticr_key = read.csv("data/processed/fticr_key.csv") %>% 
+   distinct(Assignment, Moisture, Wetting, Amendments, Suction, Homogenization)
+fticr_data_key = read.csv("data/processed/fticr_long_key.csv.gz")
+meta_classes = 
+  meta %>% 
+  select(formula, class)
+```
+
+```{r}
+peaks_distinct = 
+   fticr_data_key %>% 
+   group_by(Assignment) %>% 
+   distinct(formula)
+
+peakcounts = 
+   peaks_distinct %>% 
+   left_join(meta_classes, by = "formula") %>% 
+  group_by(Assignment, class) %>% 
+  summarize(n = n()) %>% 
+  ungroup() %>% 
+  group_by(Assignment) %>% 
+  mutate(total = sum(n)) %>% 
+  spread(class, n) %>% 
+  pivot_longer(-c(Assignment),
+               names_to = "class") %>% 
+  ungroup() %>% 
+  group_by(Assignment, class) %>% 
+   summarize(peaks = as.integer(mean(value))) %>% 
+  #spread(name, peaks) %>% 
+   left_join(fticr_key, by = "Assignment") %>% 
+   ungroup %>% 
+   select(-Assignment) %>% 
+   mutate(Amendments = factor(Amendments, 
+                              levels = c("control", "C", "N")),
+          class = factor(class, levels = 
+                          c("amino_sugar", "carbohydrate","lipid","protein","unsat_hc",
+                            "condensed_hc","lignin","tannin", "other", "total")))
+```
+
+```{r}
+print("1.5 kPa -- INTACT")
+peakcounts %>% 
+   filter(Suction==1.5 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("15 kPa -- INTACT")
+peakcounts %>% 
+   filter(Suction==15 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("50 kPa -- INTACT")
+peakcounts %>% 
+   filter(Suction==50 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("1.5 kPa -- HOMOGENIZED")
+peakcounts %>% 
+   filter(Suction==1.5 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("15 kPa -- HOMOGENIZED")
+peakcounts %>% 
+   filter(Suction==15 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+
+print("50 kPa -- HOMOGENIZED")
+peakcounts %>% 
+   filter(Suction==50 & Homogenization=="Homogenized") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   knitr::kable()
+```
 
 
 ---
