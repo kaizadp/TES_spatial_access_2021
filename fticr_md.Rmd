@@ -1,0 +1,177 @@
+---
+title: "fticr"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = "images/fticr_markdown/")
+```
+
+```{r load}
+source("code/0-packages.R")
+theme_set(theme_bw())
+pal = pnw_palette("Bay", 3)
+
+```
+
+```{r}
+data_long = read.csv("data/processed/fticr_long.csv.gz")
+data = read.csv("data/processed/fticr_long_key.csv.gz") %>% 
+  mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+         Amendments = factor(Amendments, levels = c("control", "C", "N")))
+meta = read.csv("data/processed/fticr_meta.csv")
+
+meta_hcoc = 
+  meta %>% 
+  select(formula, HC, OC)
+```
+
+
+### fticr domains  
+
+
+```{r domains, fig.height=4, fig.width=6}
+# domains ggplot
+gg_vankrev(meta, aes(x = OC, y = HC, color = class))
+```
+
+**aromatic peaks**  
+
+```{r ai_domains, fig.height=4, fig.width=6}
+meta %>% 
+   select(formula, class, HC, OC, AImod) %>% 
+   mutate(AImod_abs = abs(AImod),
+          arom = if_else(AImod>0.67, "condensed aromatic",
+                         if_else(AImod>0.5, "aromatic", NA_character_))) %>% 
+   filter(!is.na(arom)) %>% 
+   gg_vankrev(aes(x = OC, y = HC, color = arom))
+```
+
+
+---
+
+### van krevelens  
+
+```{r vk_pores, fig.width=10, fig.height=5}
+data %>%
+   left_join(meta_hcoc, by = "formula") %>%
+   filter(Suction=="1.5") %>% 
+   gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+   stat_ellipse()+
+   scale_color_manual(values = pal)+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   labs(title = "1.5 kPa")+
+   #theme(legend.position = "none")+
+   NULL
+
+data %>%
+   left_join(meta_hcoc, by = "formula") %>%
+   filter(Suction=="15") %>% 
+   gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+   stat_ellipse()+
+   scale_color_manual(values = pal)+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   labs(title = "15 kPa")+
+   #theme(legend.position = "none")+
+   NULL
+
+data %>%
+   left_join(meta_hcoc, by = "formula") %>%
+   filter(Suction=="50") %>% 
+   gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+   stat_ellipse()+
+   scale_color_manual(values = pal)+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   labs(title = "50 kPa")+
+   #theme(legend.position = "none")+
+   NULL
+```
+
+---
+
+### relative abundances
+
+```{r}
+relabund_trt = read.csv("data/processed/fticr_relabund_trt") %>% 
+   dplyr::mutate(class = factor(class, levels = 
+                          c("amino_sugar", "carbohydrate","lipid","protein","unsat_hc",
+                            "condensed_hc","lignin","tannin", "other")),
+                 Amendments = factor(Amendments, levels = c("control", "C", "N")),
+                 Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) 
+```
+
+
+```{r fticr_relabund}
+relabund_trt %>%  
+   filter(Suction==1.5) %>% 
+   ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
+   geom_bar(stat = "identity")+
+   scale_fill_viridis_d(option = "inferno")+
+   labs(x = "percent saturation",
+        y = "relative abundance (%)",
+        title = "1.5 kPa")+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   NULL
+
+relabund_trt %>%  
+   filter(Suction==15) %>% 
+   ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
+   geom_bar(stat = "identity")+
+   scale_fill_viridis_d(option = "inferno")+
+   labs(x = "percent saturation",
+        y = "relative abundance (%)",
+        title = "15 kPa")+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   NULL
+
+
+relabund_trt %>%  
+   filter(Suction==50) %>% 
+   ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
+   geom_bar(stat = "identity")+
+   scale_fill_viridis_d(option = "inferno")+
+   labs(x = "percent saturation",
+        y = "relative abundance (%)",
+        title = "50 kPa")+
+   facet_grid(Homogenization~Moisture+Wetting)+
+   NULL
+
+```
+
+```{r NOSC, fig.height=6, fig.width=10}
+meta_nosc = 
+   meta %>% 
+   select(formula, NOSC)
+
+data %>% 
+   left_join(meta_nosc, by = "formula") %>% 
+   ggplot(aes(x = Amendments, y = NOSC, fill = Amendments))+
+   geom_violin()+
+   geom_boxplot(width=0.2, coef=0, outlier.shape = NA, fill = "white")+
+#   geom_dotplot(binaxis = "y", size=1)+
+   scale_fill_manual(values = pal)+
+   labs(x = "",
+        y = "NOSC")+
+   theme(legend.position = "none")+
+   facet_grid(Suction~Homogenization+Moisture+Wetting)+
+   NULL
+```
+
+
+
+
+---
+#### Session Info
+
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+
