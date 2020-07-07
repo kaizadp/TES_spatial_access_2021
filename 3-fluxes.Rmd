@@ -1,0 +1,169 @@
+---
+title: "Spatial Access -- Gas Fluxes"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = "images/markdown-flux/")
+```
+
+```{r load}
+source("code/0-packages.R")
+theme_set(theme_bw())
+
+flux = read.csv("data/processed/flux.csv") %>% 
+  mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
+         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
+flux_summary = read.csv("data/processed/flux_summary.csv") %>% 
+  mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
+         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
+```
+
+
+```{r flux_corewise, eval=FALSE}
+print("corewise")
+flux %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s))+
+  geom_point()+
+  facet_wrap(~ID)
+```
+
+### time series of fluxes  
+ 
+```{r fluxes}
+flux %>% 
+  filter(Homogenization=="Intact") %>% 
+  arrange(CORE, elapsed_min_bin) %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = as.character(CORE)))+
+  geom_path()+ geom_point()+
+  ylim(0, 30)+
+  labs(title = "intact cores")+
+  theme(legend.position = "none")+
+  facet_wrap(~Assignment, ncol = 3)
+  
+flux %>% 
+  filter(Homogenization=="Homogenized") %>% 
+  arrange(CORE, elapsed_min_bin) %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = as.character(CORE)))+
+  geom_path()+ geom_point()+
+  ylim(0, 30)+
+  labs(title = "homogenized cores")+
+  theme(legend.position = "none")+
+  facet_wrap(~Assignment, ncol = 3)
+```
+
+```{r meanflux_ts}
+flux %>% 
+  group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>% 
+  summarise(CO2_umol_g_s = mean(CO2_umol_g_s)) %>% 
+  mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments))+
+  geom_path()+ #geom_point()+
+  #ylim(0, 30)+
+  facet_grid(Homogenization~Moisture+Wetting)
+
+ggplot()+
+  geom_point(data = flux, 
+             aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments), 
+             size=0.5, alpha = 0.5)+
+  geom_smooth(data = flux %>% 
+                group_by(Homogenization, Moisture, Wetting, Amendments, 
+                         Assignment, elapsed_min_bin) %>%
+                summarise(CO2_umol_g_s = mean(CO2_umol_g_s)),
+              aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments),
+              se=FALSE)+ #geom_point()+
+  #ylim(0, 12)+
+  labs(title = "LOESS smooth")+
+  facet_grid(Homogenization~Moisture+Wetting)
+```
+
+
+
+
+---
+
+
+## FLUX -- summaries
+
+```{r summarytable}
+flux_summarytable =
+  flux_summary %>% 
+  group_by(Homogenization,Assignment, Moisture, Wetting, Amendments) %>% 
+  summarise(se_cum_CO2_nmol_g_s = sd(cum_CO2_nmol_g_s, na.rm = T)/sqrt(n()),
+            cum_CO2_nmol_g_s = mean(cum_CO2_nmol_g_s, na.rm = T),
+            se_mean_CO2_nmol_g_s = sd(mean_CO2_nmol_g_s, na.rm = T)/sqrt(n()),
+            mean_CO2_nmol_g_s = mean(mean_CO2_nmol_g_s, na.rm = T)) %>% 
+  mutate(cum_CO2_nmol_g_s = paste(round(cum_CO2_nmol_g_s,2), "\u00b1", round(se_cum_CO2_nmol_g_s,2)),
+         mean_CO2_nmol_g_s = paste(round(mean_CO2_nmol_g_s,2), "\u00b1", round(se_mean_CO2_nmol_g_s,2))) %>% 
+  ungroup %>% 
+  select(Homogenization, Assignment, Moisture, Wetting, Amendments, mean_CO2_nmol_g_s, cum_CO2_nmol_g_s) 
+```
+
+### MEAN FLUX
+
+```{r}
+## summary table for mean flux
+flux_summarytable %>% 
+  ungroup %>% 
+  select(-cum_CO2_nmol_g_s, -Assignment) %>% 
+  spread(Amendments, mean_CO2_nmol_g_s) %>% 
+  knitr::kable(align = "c")
+```
+
+
+#### Dunnett's Test - effect of amendment  
+**different from control** 
+
+```{r}
+## stats -- Dunnett test to see if amendments increase C flux
+
+fit_dunnett_co2_amendment <- function(dat) {
+  d <-DescTools::DunnettTest((mean_CO2_nmol_g_s)~Amendments, control = "control", data = dat)
+  #create a tibble with one column for each treatment
+  # column 4 has the pvalue
+  t = tibble(`C` = d$`control`["C-control",4], 
+             `N` = d$`control`["N-control",4])
+  # we need to convert significant p values to asterisks
+  # since the values are in a single row, it is tricky
+# t %>% 
+#   # first, gather all p-values into a single column, pval
+#   gather(trt, pval, 1:2) %>% 
+#   # conditionally replace all significant pvalues (p<0.05) with asterisks and the rest remain blank
+#   mutate(p = if_else(pval<0.05, "*","")) %>% 
+#   # remove the pval column
+#   dplyr::select(-pval) %>% spread(trt, p) ->
+#   t
+}
+
+print("log-transformed")
+flux_summary %>% 
+  group_by(Homogenization, Moisture, Wetting) %>% 
+  do(fit_dunnett_co2_amendment(.)) %>% 
+  knitr::kable()
+```
+
+
+```{r meanflux}
+flux_summary %>% 
+  mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
+  ggplot(aes(x = Amendments, y = mean_CO2_nmol_g_s, color = Amendments))+
+  geom_point()+
+  facet_grid(Homogenization~Moisture+Wetting)+
+  theme(legend.position = "none")
+```
+
+
+---
+#### Session Info
+
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
