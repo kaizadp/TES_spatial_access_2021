@@ -32,8 +32,8 @@ fticr_key_cleaned =
   fticr_key %>% 
   mutate(Moisture = recode(Soil_Moisture, "Field Moisture" = "fm", "Drought Induced" = "drought"),
          Wetting = recode(Rewetting, "precipitation" = "precip", "groundwater rise" = "groundw"),
-         Assignment = paste0(Suction, "-", Moisture, "-", Wetting, "-", Amendments, "-", Homogenization)) %>% 
-  select(FTICR_ID, Core, Suction, Moisture, Wetting, Amendments, Homogenization, Assignment)
+         SampleAssignment = paste0(Suction, "-", Moisture, "-", Wetting, "-", Amendments, "-", Homogenization)) %>% 
+  select(FTICR_ID, Core, Suction, Moisture, Wetting, Amendments, Homogenization, SampleAssignment)
   
 #
 # fticr_meta ---------------------------------------------------------
@@ -109,9 +109,15 @@ data_long_key =
   data_long %>% 
   left_join(fticr_key_cleaned, by = "FTICR_ID") %>%
   na.omit() %>% 
-  group_by(Assignment, formula) %>% 
+  group_by(SampleAssignment, formula) %>% 
   mutate(n = n()) %>% 
   filter(n>1)
+
+
+data_long_trt = 
+  data_long_key %>% 
+  group_by(SampleAssignment) %>% 
+  distinct(formula, presence)
 
 #
 
@@ -119,5 +125,7 @@ data_long_key =
 #write.csv(data_long, "data/processed/fticr_long.csv", row.names = F)
 #write.csv(data_long_key, "data/processed/fticr_long_key.csv", row.names = F)
 write.csv(meta, "data/processed/fticr_meta.csv", row.names = F)
-crunch::write.csv.gz(data_long, "data/processed/fticr_long.csv.gz", row.names = F, na="")
+write.csv(fticr_key_cleaned, "data/processed/fticr_key.csv", row.names = F)
+crunch::write.csv.gz(data_long, "data/processed/fticr_long_core.csv.gz", row.names = F, na="")
 crunch::write.csv.gz(data_long_key, "data/processed/fticr_long_key.csv.gz", row.names = F, na="")
+crunch::write.csv.gz(data_long_trt, "data/processed/fticr_long_trt.csv.gz", row.names = F, na="")
