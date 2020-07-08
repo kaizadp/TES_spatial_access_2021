@@ -8,6 +8,8 @@
 
 library(tidyverse)
 library(PNWColors)
+#devtools::install_github("miraKlein/ggbiplot")
+library(ggbiplot)
 
 # ggplot customizations ------------------------------------------------------------------
 
