@@ -20,12 +20,13 @@ pal = pnw_palette("Bay", 3)
 ```
 
 ```{r}
-data_long = read.csv("data/processed/fticr_long.csv.gz")
+data_long = read.csv("data/processed/fticr_long_core.csv.gz")
 data = read.csv("data/processed/fticr_long_key.csv.gz") %>% 
   mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
          Amendments = factor(Amendments, levels = c("control", "C", "N")))
-meta = read.csv("data/processed/fticr_meta.csv")
+data_long_trt = read.csv("data/processed/fticr_long_trt.csv.gz")
 
+meta = read.csv("data/processed/fticr_meta.csv")
 meta_hcoc = 
   meta %>% 
   select(formula, HC, OC)
@@ -49,7 +50,22 @@ meta %>%
           arom = if_else(AImod>0.67, "condensed aromatic",
                          if_else(AImod>0.5, "aromatic", NA_character_))) %>% 
    filter(!is.na(arom)) %>% 
-   gg_vankrev(aes(x = OC, y = HC, color = arom))
+   ggplot(aes(x = OC, y = HC, color = arom)) +
+    geom_point(size=2, alpha = 0.2) + # set size and transparency
+    ylab("H/C") +
+    xlab("O/C") +
+    xlim(0,1.25) +
+    ylim(0,2.5) +
+   scale_color_manual(values = pnw_palette("Sailboat",2))+
+    geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 0.7, xend = 1.2, yend = 0.4,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 1.06, xend = 1.2, yend = 0.51,color="black",linetype="longdash") +
+   
+   annotate("text", label = "aliphatic", x = 0.2, y = 1.75)+
+   annotate("text", label = "highly unsaturated/ \n lignin-like", x = 0.2, y = 1.25)+
+   annotate("text", label = "aromatic", x = 0.2, y = 0.85)+
+   annotate("text", label = "condensed aromatic", x = 0.2, y = 0.35)+
+   guides(colour = guide_legend(override.aes = list(alpha=1)))
 ```
 
 
@@ -275,13 +291,13 @@ peakcounts =
   summarize(n = n()) %>% 
   ungroup() %>% 
   group_by(Assignment) %>% 
-  mutate(total = sum(n)) %>% 
+  dplyr::mutate(total = sum(n)) %>% 
   spread(class, n) %>% 
   pivot_longer(-c(Assignment),
                names_to = "class") %>% 
   ungroup() %>% 
   group_by(Assignment, class) %>% 
-   summarize(peaks = as.integer(mean(value))) %>% 
+   dplyr::summarize(peaks = as.integer(mean(value))) %>% 
   #spread(name, peaks) %>% 
    left_join(fticr_key, by = "Assignment") %>% 
    ungroup %>% 
@@ -353,4 +369,306 @@ Date run: `r Sys.Date()`
 sessionInfo()
 ```
 
+
+
+### STATS -- 
+
+#### MANOVA
+
+```{r}
+relabund_cores = 
+   read.csv("data/processed/fticr_relabund_cores.csv") %>% 
+   dplyr::mutate(class = factor(class, levels = 
+                          c("amino_sugar", "carbohydrate","lipid","protein","unsat_hc",
+                            "condensed_hc","lignin","tannin", "other")),
+                 Amendments = factor(Amendments, levels = c("control", "C", "N")),
+                 Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) 
+```
+
+
+```{r fticr_manova, eval=FALSE}
+relabund_wide = 
+  relabund_cores %>% 
+  dplyr::select(Core, Assignment, class, relabund, Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+  spread(class, relabund) %>% 
+  replace(is.na(.),0)
+
+# create a matrix of all the group columns
+relabund_wide$DV = as.matrix(relabund_wide[,8:16])
+
+# since the relative abundances are not strictly independent and all add to 100 %,
+# use the isometric log ratio transformation
+# http://www.sthda.com/english/wiki/manova-test-in-r-multivariate-analysis-of-variance#import-your-data-into-r
+
+library(compositions)
+
+man = manova(ilr(clo(DV)) ~ Amendments*Moisture*Wetting*Suction*Homogenization, data = relabund_wide)
+summary(man)
+```
+
+#### PCA 
+```{r fticr_pca_intact}
+library(ggbiplot)
+
+relabund_pca=
+  relabund_cores %>% 
+  select(Core, Assignment, class, relabund, Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+  spread(class, relabund) %>% 
+  replace(is.na(.),0) %>% 
+  select(-1,)
+
+#
+## 0. overall intact----
+relabund_pca_num_intact = 
+   relabund_pca %>% 
+   filter(Homogenization=="Intact") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_intact = 
+  relabund_pca %>% 
+      filter(Homogenization=="Intact") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_intact, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_intact$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_intact$Moisture),
+                                                                      as.factor(relabund_pca_grp_intact$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "INTACT")+
+   NULL
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = as.character(relabund_pca_grp_intact$Suction), ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_intact$Moisture),
+                                                                      as.factor(relabund_pca_grp_intact$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "INTACT")+
+   NULL
+
+```
+
+The PCA of FTICR in intact cores shows that the control cores (no amendment) showed greater influence of  
+
+
+```{r fticr_pca_homo}
+#
+## 0b. overall homogenized----
+relabund_pca_num_Homogenized = 
+   relabund_pca %>% 
+   filter(Homogenization=="Homogenized") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_Homogenized = 
+  relabund_pca %>% 
+      filter(Homogenization=="Homogenized") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_Homogenized, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_Homogenized$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_Homogenized$Moisture),
+                                                                      as.factor(relabund_pca_grp_Homogenized$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "Homogenized")+
+   NULL
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = as.character(relabund_pca_grp_Homogenized$Suction), ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_Homogenized$Moisture),
+                                                                      as.factor(relabund_pca_grp_Homogenized$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "Homogenized")+
+   NULL
+
+```
+
+
+
+
+
+```{r fticr_pca_indiv}
+## 1. 50 & intact ----
+relabund_pca_num_50_intact = 
+   relabund_pca %>% 
+   filter(Suction==50 & Homogenization=="Intact") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_50_intact = 
+  relabund_pca %>% 
+      filter(Suction==50 & Homogenization=="Intact") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_50_intact, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_50_intact$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_50_intact$Moisture),
+                                                                      as.factor(relabund_pca_grp_50_intact$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "50 kPa INTACT")+
+   NULL
+
+
+## 2. 15 & intact ----
+relabund_pca_num_15_intact = 
+   relabund_pca %>% 
+   filter(Suction==15 & Homogenization=="Intact") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_15_intact = 
+  relabund_pca %>% 
+      filter(Suction==15 & Homogenization=="Intact") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_15_intact, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_15_intact$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_15_intact$Moisture),
+                                                                      as.factor(relabund_pca_grp_15_intact$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "15 kPa INTACT")+
+   NULL
+
+## 3. 1.5 & intact ----
+relabund_pca_num_1_intact = 
+   relabund_pca %>% 
+   filter(Suction==1.5 & Homogenization=="Intact") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_1_intact = 
+  relabund_pca %>% 
+      filter(Suction==1.5 & Homogenization=="Intact") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_1_intact, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_1_intact$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_1_intact$Moisture),
+                                                                      as.factor(relabund_pca_grp_1_intact$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "1.5 kPa INTACT")+
+   NULL
+
+
+
+
+
+
+
+## 4. 50 & Homogenized ----
+relabund_pca_num_50_Homogenized = 
+   relabund_pca %>% 
+   filter(Suction==50 & Homogenization=="Homogenized") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_50_Homogenized = 
+  relabund_pca %>% 
+      filter(Suction==50 & Homogenization=="Homogenized") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_50_Homogenized, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_50_Homogenized$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_50_Homogenized$Moisture),
+                                                                      as.factor(relabund_pca_grp_50_Homogenized$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "50 kPa Homogenized")+
+   NULL
+
+
+## 5. 15 & Homogenized ----
+relabund_pca_num_15_Homogenized = 
+   relabund_pca %>% 
+   filter(Suction==15 & Homogenization=="Homogenized") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_15_Homogenized = 
+  relabund_pca %>% 
+      filter(Suction==15 & Homogenization=="Homogenized") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_15_Homogenized, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_15_Homogenized$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_15_Homogenized$Moisture),
+                                                                      as.factor(relabund_pca_grp_15_Homogenized$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "15 kPa Homogenized")+
+   NULL
+
+## 6. 1.5 & intact ----
+relabund_pca_num_1_Homogenized = 
+   relabund_pca %>% 
+   filter(Suction==1.5 & Homogenization=="Homogenized") %>% 
+   dplyr::select(.,-(1:6))
+
+relabund_pca_grp_1_Homogenized = 
+  relabund_pca %>% 
+      filter(Suction==1.5 & Homogenization=="Homogenized") %>% 
+  dplyr::select(.,(1:6)) %>% 
+  dplyr::mutate(row = row_number())
+
+pca = prcomp(relabund_pca_num_1_Homogenized, scale. = T)
+#summary(pca)
+
+ggbiplot(pca, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_1_Homogenized$Amendments, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, aes(color = groups, shape = interaction(as.factor(relabund_pca_grp_1_Homogenized$Moisture),
+                                                                      as.factor(relabund_pca_grp_1_Homogenized$Wetting))))+
+   scale_shape_manual(values = c(1, 2, 19, 17))+
+   scale_color_manual(values = pal)+
+   labs(shape="",
+        title = "1.5 kPa Homogenized")+
+   NULL
+
+```
 

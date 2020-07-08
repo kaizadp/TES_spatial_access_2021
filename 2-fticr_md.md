@@ -340,3 +340,11 @@ Date run: 2020-07-07
     #> [49] reprex_0.3.0      lubridate_1.7.9   assertthat_0.2.1  rmarkdown_2.3    
     #> [53] httr_1.4.1        rstudioapi_0.11   R6_2.4.1          nlme_3.1-148     
     #> [57] compiler_4.0.1
+
+### STATS –
+
+#### MANOVA
+
+#### PCA
+
+![](images/fticr_markdown/fticr_pca-1.png)<!-- -->![](images/fticr_markdown/fticr_pca-2.png)<!-- -->![](images/fticr_markdown/fticr_pca-3.png)<!-- -->![](images/fticr_markdown/fticr_pca-4.png)<!-- -->![](images/fticr_markdown/fticr_pca-5.png)<!-- -->![](images/fticr_markdown/fticr_pca-6.png)<!-- -->
