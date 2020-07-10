@@ -38,6 +38,76 @@ doc %>%
 
 ---
 
+**what influenced DOC?**  
+
+DOC in **intact** cores was influenced by:  
+1. Amendments  
+2. Wetting direction  
+DOC in **homogenized** cores was influenced by:  
+1. Amendments  
+2. Wetting direction  
+3. Suction  
+
+<details>
+  <summary> </summary>
+```{r echo=TRUE}
+summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+              data = doc %>% filter(Homogenization=="Intact")))
+
+summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+              data = doc %>% filter(Homogenization=="Homogenized")))
+
+```
+</details>  
+
+
+**how did amendments influence DOC?**  
+
+C addition increased DOC  
+N addition decreased DOC - *N stimulated consumption of DOC?*  
+
+<details>
+  <summary> </summary>
+```{r echo=TRUE}
+## both C and N
+aov1 = aov(DOC_mg ~ Amendments, data = doc); summary(aov1)
+h1 = agricolae::HSD.test(aov1, "Amendments"); h1$groups
+
+#DescTools::DunnettTest(DOC_mg ~ Amendments, data = doc, control="control")
+
+## excluding C
+aov2 = aov(DOC_mg ~ Amendments, data = doc %>% filter(!Amendments=="C")); summary(aov2)
+h2 = agricolae::HSD.test(aov1, "Amendments"); h2$groups
+
+##
+
+# l = nlme::lme(DOC_mg ~ Amendments*Suction*Moisture*Wetting, random = ~1|CORE, 
+#               data = doc %>% filter(Homogenization=="Intact"), na.action = na.omit)
+# anova(l)
+
+
+```
+
+</details>
+
+**control soils**  
+
+
+<details>
+  <summary> </summary>
+```{r echo=TRUE}
+doc_control = doc %>% filter(Amendments=="control")
+
+summary(aov(DOC_mg ~ Suction*Moisture,
+              data = doc_control %>% filter(Homogenization=="Intact")),
+        na.action=na.omit)
+
+
+```
+
+</details>
+---
+
 how much DOC was added as part of the amendment?
 
 5 mL of 10.1 M acetate (CH3-COO-K)  
