@@ -9,7 +9,7 @@ source("code/0-packages.R")
 # load files --------------------------------------------------------------
 fticr_data = read.csv("data/SpatAccess_eData.csv")
 fticr_meta = read.csv("data/SpatAccess_eMeta.csv")
-report = read.csv("data/SpatAccess_dwp14_FTICR_Report.csv")
+#report = read.csv("data/SpatAccess_dwp14_FTICR_Report.csv")
 fticr_key = read.csv("data/fticr_key.csv")
 
 # ---
@@ -24,7 +24,6 @@ fticr_key = read.csv("data/fticr_key.csv")
 # ---
 
 classes = read.csv("data/fticr_meta_classes.csv")
-
 
 
 # fticr_key -----------------------------------------------------------------
@@ -92,7 +91,7 @@ meta =
                 element_comp = str_replace_all(element_comp,"NA","")) %>% 
   dplyr::select(Mass, formula, element_comp, class, HC, OC, AImod, NOSC, C:P, -C13)
 
-gg_vankrev(meta, aes(x = OC, y = HC, color = class))
+# gg_vankrev(meta, aes(x = OC, y = HC, color = class))
 
 mass_list = 
   meta %>% pull(Mass)
@@ -123,7 +122,6 @@ data_long_key =
   group_by(SampleAssignment, formula) %>% 
   mutate(n = n()) %>% 
   filter(n>1)
-
 
 data_long_trt = 
   data_long_key %>% 
