@@ -3,25 +3,25 @@ fticr
 
 ### fticr domains
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/domains-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/domains-2.png)<!-- -->
+![](markdown/fticr/domains-1.png)<!-- -->![](markdown/fticr/domains-2.png)<!-- -->
 
 **aromatic peaks**
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/ai_domains-1.png)<!-- -->
+![](markdown/fticr/ai_domains-1.png)<!-- -->
 
 -----
 
 ### van krevelens
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/vk_pores-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/vk_pores-2.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/vk_pores-3.png)<!-- -->
+![](markdown/fticr/vk_pores-1.png)<!-- -->![](markdown/fticr/vk_pores-2.png)<!-- -->![](markdown/fticr/vk_pores-3.png)<!-- -->
 
 -----
 
 ### relative abundances
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_relabund-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_relabund-2.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_relabund-3.png)<!-- -->
+![](markdown/fticr/fticr_relabund-1.png)<!-- -->![](markdown/fticr/fticr_relabund-2.png)<!-- -->![](markdown/fticr/fticr_relabund-3.png)<!-- -->
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/NOSC-1.png)<!-- -->
+![](markdown/fticr/NOSC-1.png)<!-- -->
 
 -----
 
@@ -245,7 +245,7 @@ distinct peaks seen in each treatment type
 
 <summary>click to expand</summary>
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_intact-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_intact-2.png)<!-- -->
+![](markdown/fticr/fticr_pca_intact-1.png)<!-- -->![](markdown/fticr/fticr_pca_intact-2.png)<!-- -->
 
 </details>
 
@@ -255,9 +255,9 @@ distinct peaks seen in each treatment type
 
 <summary>click to expand</summary>
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_homo-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_homo-2.png)<!-- -->
+![](markdown/fticr/fticr_pca_homo-1.png)<!-- -->![](markdown/fticr/fticr_pca_homo-2.png)<!-- -->
 
-![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-1.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-2.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-3.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-4.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-5.png)<!-- -->![](/Users/pate212/OneDrive%20-%20PNNL/GitHub/tes_spatial_access/images/fticr_markdown/fticr_pca_indiv-6.png)<!-- -->
+![](markdown/fticr/fticr_pca_indiv-1.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-2.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-3.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-4.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-5.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-6.png)<!-- -->
 
 </details>
 
