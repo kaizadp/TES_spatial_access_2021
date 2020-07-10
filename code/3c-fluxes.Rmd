@@ -9,17 +9,19 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       message = FALSE,
                       comment = "#>",
-                      fig.path = "images/markdown-flux/")
+                      fig.path = "markdown/flux/")
 ```
 
 ```{r load}
-source("code/0-packages.R")
+library(here)
+source(here("code/0-packages.R"))
 theme_set(theme_bw())
 
-flux = read.csv("data/processed/flux.csv") %>% 
+flux = read.csv(here("data/processed/flux.csv")) %>% 
   mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
          Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
-flux_summary = read.csv("data/processed/flux_summary.csv") %>% 
+
+flux_summary = read.csv(here("data/processed/flux_summary.csv")) %>% 
   mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
          Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
 ```
@@ -161,9 +163,13 @@ flux_summary %>%
 ---
 #### Session Info
 
+<details>
+  <summary>click to expand</summary>
+  
 Date run: `r Sys.Date()`
 
 ```{r}
 sessionInfo()
 ```
 
+</details>
