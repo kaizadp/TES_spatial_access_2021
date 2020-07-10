@@ -1,4 +1,4 @@
-"FTICR_ID","Core","Suction","Moisture","Wetting","Amendments","Homogenization","Assignment"
+"FTICR_ID","Core","Suction","Moisture","Wetting","Amendments","Homogenization","SampleAssignment"
 "LIntCal_0_80",1,1.5,"fm","precip","control","Homogenized","1.5-fm-precip-control-Homogenized"
 "LIntCal_0_85",1,15,"fm","precip","control","Homogenized","15-fm-precip-control-Homogenized"
 "LIntCal_0_18",1,1.5,"fm","precip","control","Intact","1.5-fm-precip-control-Intact"
