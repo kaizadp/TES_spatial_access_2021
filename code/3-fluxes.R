@@ -19,9 +19,10 @@ fluxes_input = read.csv("data/GHG_Flux_exclOutliers.csv")
 flux = 
   fluxes_input %>% 
   select(ID, DATETIME, CORE, Homogenization, elapsed_minutes, `ElapsedMin.BIN.`,
-         `CO2_flux_umol.g.s`, `CH4_flux_umol.g.s`) %>% 
+         `CO2_flux_umol.g.s`, `CH4_flux_umol.g.s`, `cumCO2.C..mg.`) %>% 
   rename(CO2_umol_g_s = `CO2_flux_umol.g.s`,
          CH4_umol_g_s = `CH4_flux_umol.g.s`,
+         CO2C_cum_mg = `cumCO2.C..mg.`,
          elapsed_min_bin = `ElapsedMin.BIN.`) %>% 
   left_join(corekey, by = c("CORE"="Core")) %>% 
   mutate(Homogenization = recode(Homogenization, " Intact" = "Intact"))
@@ -35,11 +36,16 @@ flux_summary =
   flux %>% 
   group_by(ID, CORE, Homogenization) %>% 
   summarise(mean_CO2_nmol_g_s = mean(CO2_umol_g_s*1000),
-            cum_CO2_nmol_g_s = sum(CO2_umol_g_s*1000)) %>% 
+            cum_CO2_mg = max(CO2C_cum_mg)) %>% 
   left_join(corekey, by = c("CORE"="Core"))
 
+#
+# cumulative evolution ----------------------------------------------------
 
 
+
+
+#
 # output ------------------------------------------------------------------
 
 write.csv(flux, "data/processed/flux.csv", row.names = F)
