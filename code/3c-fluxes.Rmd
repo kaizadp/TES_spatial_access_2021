@@ -12,6 +12,19 @@ knitr::opts_chunk$set(echo = FALSE,
                       fig.path = "markdown/flux/")
 ```
 
+
+### HYPOTHESES
+
+- C amendments will increase CO2 flux  
+   - especially in cores wet from below  
+
+- post-rewetting CO2 flush: drought > fm for unamended soils, but drought < fm for C-amended soils
+
+- N amendments will increase CO2 flux when wet from above
+
+---
+
+
 ```{r load}
 library(here)
 source(here("code/0-packages.R"))
@@ -23,7 +36,9 @@ flux = read.csv(here("data/processed/flux.csv")) %>%
 
 flux_summary = read.csv(here("data/processed/flux_summary.csv")) %>% 
   mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
-         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
+         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+         Moisture = factor(Moisture, levels = c("fm", "drought")),
+         Wetting = factor(Wetting, levels = c("precip", "groundw")))
 ```
 
 
@@ -34,9 +49,106 @@ flux %>%
   geom_point()+
   facet_wrap(~ID)
 ```
+### CUMULATIVE FLUX/CO2 EVOLVED
 
-### time series of fluxes  
- 
+<details>
+  <summary>stats - click to expand</summary>
+  
+```{r flux_aov, echo=TRUE}
+aov_flux_intact = aov(log(cum_CO2C_mg) ~ Moisture*Amendments + Moisture*Wetting + Wetting*Amendments, 
+                      data = flux_summary %>% filter(Homogenization=="Intact"))
+summary(aov_flux_intact)
+
+aov_flux_homo = aov(log(cum_CO2C_mg) ~ Moisture*Amendments + Moisture*Wetting + Wetting*Amendments, 
+                    data = flux_summary %>% filter(Homogenization=="Homogenized"))
+summary(aov_flux_homo)
+```
+</details>
+
+
+
+```{r cum_flux_hsd, include=FALSE}
+fit_hsd <- function(dat) {
+  a <-aov(log(cum_CO2C_mg) ~ Amendments, data = dat)
+  h <-agricolae::HSD.test(a,"Amendment")
+  #create a tibble with one column for each treatment
+  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+  tibble(`control` = h$groups["control",2], 
+         `C` = h$groups["C",2],
+         `N` = h$groups["N",2])
+}  
+
+
+flux_hsd = 
+  flux_summary %>% 
+  group_by(Moisture, Wetting, Homogenization) %>% 
+  do(fit_hsd(.)) %>% 
+  # retain only those with differences
+  mutate(newcol = paste0(control,C,N)) %>% 
+  filter(!newcol=="aaa") %>% 
+  select(-newcol) %>% 
+  pivot_longer(-c(Moisture, Wetting, Homogenization),
+               names_to = "Amendments",
+               values_to = "label")
+```
+
+
+```{r cum_flux_ggplot, fig.width=10, fig.height=6}
+flux_cum_labels = 
+  flux_summary %>% 
+  na.omit() %>% 
+  group_by(Moisture, Wetting, Homogenization, Amendments) %>% 
+  summarize(y_lab = max(cum_CO2C_mg)) %>% 
+  left_join(flux_hsd) %>% 
+  na.omit()
+
+flux_summary %>% 
+  ggplot(aes(x = Amendments, y = cum_CO2C_mg))+
+  geom_point(size=2)+ 
+  geom_text(data = flux_cum_labels, aes(x = Amendments, y = y_lab+70, label = label))+
+  #scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
+  labs(title = "cumulative CO2-C evolved")+
+  facet_grid(Homogenization~Moisture+Wetting)+
+  theme_kp()+
+  theme(panel.grid = element_blank())
+```
+
+
+```{r meanflux_ts, fig.width=10, fig.height=6}
+# flux %>% 
+#   group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>% 
+#   summarise(CO2_umol_g_s = mean(CO2_umol_g_s)) %>% 
+#   mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
+#   ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments))+
+#   geom_path()+ #geom_point()+
+#   #ylim(0, 30)+
+#   facet_grid(Homogenization~Moisture+Wetting)
+
+ggplot()+
+  geom_line(stat = "smooth",
+            data = flux, 
+             aes(x = elapsed_min_bin, y = CO2C_mg_g_s*1000, group=CORE, color = Amendments), 
+             size=0.5, geom="line", alpha = 0.5, se=FALSE, size=3)+
+  geom_smooth(data = flux %>% 
+                group_by(Homogenization, Moisture, Wetting, Amendments, 
+                         Assignment, elapsed_min_bin) %>%
+                summarise(CO2C_mg_g_s = mean(CO2C_mg_g_s)),
+              aes(x = elapsed_min_bin, y = CO2C_mg_g_s*1000, color = Amendments),
+              se=FALSE, size=1.5)+ #geom_point()+
+  scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
+  labs(title = "mean CO2-C flux",
+       subtitle = "LOESS smooth")+
+  facet_grid(Homogenization~Moisture+Wetting)+
+  theme_kp()+
+  NULL
+```
+
+---
+
+
+<details>
+  <summary>time series by core</summary>
+
 ```{r fluxes}
 flux %>% 
   filter(Homogenization=="Intact") %>% 
@@ -59,30 +171,6 @@ flux %>%
   facet_wrap(~Assignment, ncol = 3)
 ```
 
-```{r meanflux_ts}
-flux %>% 
-  group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>% 
-  summarise(CO2_umol_g_s = mean(CO2_umol_g_s)) %>% 
-  mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
-  ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments))+
-  geom_path()+ #geom_point()+
-  #ylim(0, 30)+
-  facet_grid(Homogenization~Moisture+Wetting)
-
-ggplot()+
-  geom_point(data = flux, 
-             aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments), 
-             size=0.5, alpha = 0.5)+
-  geom_smooth(data = flux %>% 
-                group_by(Homogenization, Moisture, Wetting, Amendments, 
-                         Assignment, elapsed_min_bin) %>%
-                summarise(CO2_umol_g_s = mean(CO2_umol_g_s)),
-              aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = Amendments),
-              se=FALSE)+ #geom_point()+
-  #ylim(0, 12)+
-  labs(title = "LOESS smooth")+
-  facet_grid(Homogenization~Moisture+Wetting)
-```
 
 
 
@@ -90,39 +178,40 @@ ggplot()+
 ---
 
 
-## FLUX -- summaries
 
-```{r summarytable}
+</details>
+
+```{r summarytable, eval=FALSE}
 flux_summarytable =
   flux_summary %>% 
   group_by(Homogenization,Assignment, Moisture, Wetting, Amendments) %>% 
-  summarise(se_cum_CO2_nmol_g_s = sd(cum_CO2_nmol_g_s, na.rm = T)/sqrt(n()),
-            cum_CO2_nmol_g_s = mean(cum_CO2_nmol_g_s, na.rm = T),
+  summarise(se_cum_CO2_mg = sd(cum_CO2_mg, na.rm = T)/sqrt(n()),
+            cum_CO2_mg = mean(cum_CO2_mg, na.rm = T),
             se_mean_CO2_nmol_g_s = sd(mean_CO2_nmol_g_s, na.rm = T)/sqrt(n()),
             mean_CO2_nmol_g_s = mean(mean_CO2_nmol_g_s, na.rm = T)) %>% 
-  mutate(cum_CO2_nmol_g_s = paste(round(cum_CO2_nmol_g_s,2), "\u00b1", round(se_cum_CO2_nmol_g_s,2)),
+  mutate(cum_CO2_mg = paste(round(cum_CO2_mg,2), "\u00b1", round(se_cum_CO2_mg,2)),
          mean_CO2_nmol_g_s = paste(round(mean_CO2_nmol_g_s,2), "\u00b1", round(se_mean_CO2_nmol_g_s,2))) %>% 
   ungroup %>% 
-  select(Homogenization, Assignment, Moisture, Wetting, Amendments, mean_CO2_nmol_g_s, cum_CO2_nmol_g_s) 
+  select(Homogenization, Assignment, Moisture, Wetting, Amendments, mean_CO2_nmol_g_s, cum_CO2_mg) 
 ```
 
-### MEAN FLUX
 
-```{r}
+```{r MEAN_FLUX, eval=FALSE}
 ## summary table for mean flux
 flux_summarytable %>% 
   ungroup %>% 
-  select(-cum_CO2_nmol_g_s, -Assignment) %>% 
+  select(-cum_CO2_mg, -Assignment) %>% 
   spread(Amendments, mean_CO2_nmol_g_s) %>% 
   knitr::kable(align = "c")
 ```
 
 
+
+
+```{r DUNNETT, eval=FALSE}
 #### Dunnett's Test - effect of amendment  
 **different from control** 
-
-```{r}
-## stats -- Dunnett test to see if amendments increase C flux
+  ## stats -- Dunnett test to see if amendments increase C flux
 
 fit_dunnett_co2_amendment <- function(dat) {
   d <-DescTools::DunnettTest((mean_CO2_nmol_g_s)~Amendments, control = "control", data = dat)
@@ -150,7 +239,7 @@ flux_summary %>%
 ```
 
 
-```{r meanflux}
+```{r meanflux, eval=FALSE}
 flux_summary %>% 
   mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
   ggplot(aes(x = Amendments, y = mean_CO2_nmol_g_s, color = Amendments))+
@@ -173,3 +262,5 @@ sessionInfo()
 ```
 
 </details>
+
+
