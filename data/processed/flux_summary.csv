@@ -1,4 +1,4 @@
-"ID","CORE","Homogenization","mean_CO2_nmol_g_s","cum_CO2_mg","Moisture","Wetting","Amendments","Assignment"
+"ID","CORE","Homogenization","mean_CO2_nmol_g_s","cum_CO2C_mg","Moisture","Wetting","Amendments","Assignment"
 "1_homogenized",1,"Homogenized",0.800010714285714,102.754022,"fm","precip","control","fm-precip-control"
 "1_intact",1,"Intact",0.765367118644068,109.818799,"fm","precip","control","fm-precip-control"
 "10_homogenized",10,"Homogenized",0.824880512820513,104.112067,"drought","precip","C","drought-precip-C"

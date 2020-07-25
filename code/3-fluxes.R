@@ -24,6 +24,7 @@ flux =
          CH4_umol_g_s = `CH4_flux_umol.g.s`,
          CO2C_cum_mg = `cumCO2.C..mg.`,
          elapsed_min_bin = `ElapsedMin.BIN.`) %>% 
+  mutate(CO2C_mg_g_s = CO2_umol_g_s*12/1000) %>% 
   left_join(corekey, by = c("CORE"="Core")) %>% 
   mutate(Homogenization = recode(Homogenization, " Intact" = "Intact"))
 
@@ -36,7 +37,7 @@ flux_summary =
   flux %>% 
   group_by(ID, CORE, Homogenization) %>% 
   summarise(mean_CO2_nmol_g_s = mean(CO2_umol_g_s*1000),
-            cum_CO2_mg = max(CO2C_cum_mg)) %>% 
+            cum_CO2C_mg = max(CO2C_cum_mg)) %>% 
   left_join(corekey, by = c("CORE"="Core"))
 
 #
