@@ -127,17 +127,18 @@ flux_summary %>%
 ggplot()+
   geom_line(stat = "smooth",
             data = flux, 
-             aes(x = elapsed_min_bin, y = CO2C_mg_g_s*1000, group=CORE, color = Amendments), 
+             aes(x = elapsed_min_bin/60, y = CO2C_mg_g_s*1000, group=CORE, color = Amendments), 
              size=0.5, geom="line", alpha = 0.5, se=FALSE, size=3)+
   geom_smooth(data = flux %>% 
                 group_by(Homogenization, Moisture, Wetting, Amendments, 
                          Assignment, elapsed_min_bin) %>%
                 summarise(CO2C_mg_g_s = mean(CO2C_mg_g_s)),
-              aes(x = elapsed_min_bin, y = CO2C_mg_g_s*1000, color = Amendments),
+              aes(x = elapsed_min_bin/60, y = CO2C_mg_g_s*1000, color = Amendments),
               se=FALSE, size=1.5)+ #geom_point()+
   scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
   labs(title = "mean CO2-C flux",
-       subtitle = "LOESS smooth")+
+       subtitle = "LOESS smooth",
+       x = "elapsed hours")+
   facet_grid(Homogenization~Moisture+Wetting)+
   theme_kp()+
   NULL
