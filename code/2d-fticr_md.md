@@ -1,6 +1,19 @@
 fticr
 ================
 
+## HYPOTHESES
+
+  - C amendments will increase diversity of SOM molecules
+  - C amendments will cause a depletion of aromatic molecules,
+    especially in fine pores
+  - Homogenization will increase (a) total peaks, (b) diversity of
+    peaks, (c) aromatic peaks
+
+We selected only peaks seen in \>1 of the 4 replicates (i.e. n = 2 or 3
+or 4)
+
+-----
+
 ### fticr domains
 
 ![](markdown/fticr/domains-1.png)<!-- -->![](markdown/fticr/domains-2.png)<!-- -->
@@ -12,6 +25,8 @@ fticr
 -----
 
 ### van krevelens
+
+![](markdown/fticr/vk_baseline-1.png)<!-- -->
 
 ![](markdown/fticr/vk_pores-1.png)<!-- -->![](markdown/fticr/vk_pores-2.png)<!-- -->![](markdown/fticr/vk_pores-3.png)<!-- -->
 
@@ -269,11 +284,11 @@ distinct peaks seen in each treatment type
 
 <summary>click to expand</summary>
 
-Date run: 2020-07-10
+Date run: 2020-07-24
 
-    #> R version 4.0.1 (2020-06-06)
+    #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
-    #> Running under: macOS Mojave 10.14.6
+    #> Running under: macOS Catalina 10.15.6
     #> 
     #> Matrix products: default
     #> BLAS:   /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRblas.dylib
@@ -288,23 +303,23 @@ Date run: 2020-07-10
     #> other attached packages:
     #>  [1] ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0  
     #>  [5] dplyr_1.0.0     purrr_0.3.4     readr_1.3.1     tidyr_1.1.0    
-    #>  [9] tibble_3.0.1    ggplot2_3.3.2   tidyverse_1.3.0 here_0.1       
+    #>  [9] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0 here_0.1       
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] tidyselect_1.1.0  xfun_0.15         haven_2.3.1       lattice_0.20-41  
-    #>  [5] colorspace_1.4-1  vctrs_0.3.1       generics_0.0.2    viridisLite_0.3.0
-    #>  [9] htmltools_0.5.0   yaml_2.2.1        blob_1.2.1        rlang_0.4.6      
-    #> [13] pillar_1.4.4      glue_1.4.1        withr_2.2.0       DBI_1.1.0        
-    #> [17] dbplyr_1.4.4      modelr_0.1.8      readxl_1.3.1      plyr_1.8.6       
-    #> [21] lifecycle_0.2.0   munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0 
-    #> [25] rvest_0.3.5       evaluate_0.14     labeling_0.3      knitr_1.28       
-    #> [29] fansi_0.4.1       highr_0.8         broom_0.5.6       Rcpp_1.0.4.6     
-    #> [33] scales_1.1.1      backports_1.1.8   jsonlite_1.6.1    farver_2.0.3     
-    #> [37] fs_1.4.1          hms_0.5.3         digest_0.6.25     stringi_1.4.6    
-    #> [41] grid_4.0.1        rprojroot_1.3-2   cli_2.0.2         tools_4.0.1      
-    #> [45] magrittr_1.5      crayon_1.3.4      pkgconfig_2.0.3   MASS_7.3-51.6    
-    #> [49] ellipsis_0.3.1    xml2_1.3.2        reprex_0.3.0      lubridate_1.7.9  
-    #> [53] assertthat_0.2.1  rmarkdown_2.3     httr_1.4.1        rstudioapi_0.11  
-    #> [57] R6_2.4.1          nlme_3.1-148      compiler_4.0.1
+    #>  [1] tidyselect_1.1.0  xfun_0.15         haven_2.3.1       colorspace_1.4-1 
+    #>  [5] vctrs_0.3.2       generics_0.0.2    viridisLite_0.3.0 htmltools_0.5.0  
+    #>  [9] yaml_2.2.1        blob_1.2.1        rlang_0.4.7       pillar_1.4.6     
+    #> [13] glue_1.4.1        withr_2.2.0       DBI_1.1.0         dbplyr_1.4.4     
+    #> [17] modelr_0.1.8      readxl_1.3.1      plyr_1.8.6        lifecycle_0.2.0  
+    #> [21] munsell_0.5.0     gtable_0.3.0      cellranger_1.1.0  rvest_0.3.5      
+    #> [25] evaluate_0.14     labeling_0.3      knitr_1.29        fansi_0.4.1      
+    #> [29] highr_0.8         broom_0.7.0       Rcpp_1.0.5        scales_1.1.1     
+    #> [33] backports_1.1.8   jsonlite_1.7.0    farver_2.0.3      fs_1.4.2         
+    #> [37] hms_0.5.3         digest_0.6.25     stringi_1.4.6     grid_4.0.2       
+    #> [41] rprojroot_1.3-2   cli_2.0.2         tools_4.0.2       magrittr_1.5     
+    #> [45] crayon_1.3.4      pkgconfig_2.0.3   MASS_7.3-51.6     ellipsis_0.3.1   
+    #> [49] xml2_1.3.2        reprex_0.3.0      lubridate_1.7.9   assertthat_0.2.1 
+    #> [53] rmarkdown_2.3     httr_1.4.2        rstudioapi_0.11   R6_2.4.1         
+    #> [57] compiler_4.0.2
 
 </details>
