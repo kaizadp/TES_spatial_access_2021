@@ -394,8 +394,63 @@ peakcounts %>%
    knitr::kable()
 ```
 
+```{r gt}
+library(gt)
+peakcounts %>% 
+   filter(Suction==1.5 & Homogenization=="Intact") %>% 
+   spread(Amendments, peaks) %>% 
+   select(Moisture, Wetting, class, control, C, N) %>% 
+   arrange(Moisture, Wetting) %>%
+   gt(rowname_col = "row", groupname_col = "Moisture") %>% 
+   tab_spanner(label = "Amendments", columns = vars(control,C,N)) %>%
+
+   tab_header(
+    title = md("Peaks Present"),
+    subtitle = md("Intact - 1.5 kPa")
+  )
+```
+
 </details>
 
+
+```{r table_total_peak_counts}
+peakcounts %>% 
+   filter(class=="total" & !Suction == 15) %>% 
+   select(-class) %>% 
+   mutate(var = paste0(Suction,"-",Amendments),
+          var = factor(var, levels = c("1.5-control", "1.5-C", "1.5-N",
+                                       "50-control", "50-C", "50-N")), 
+          Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
+   select(-Suction,-Amendments) %>% 
+   spread(var, peaks) %>% 
+   gt(rowname_col = "row", groupname_col = "Homogenization") %>% 
+   tab_spanner(label = "1.5 kPa", columns = contains("1.5")) %>% 
+   tab_spanner(label = "50 kPa", columns = contains("50")) %>% 
+   tab_header(
+    title = md("Total Peaks Present"),
+  )
+```
+
+```{r table_aromatic_peak_counts}
+peakcounts %>% 
+   filter(class %in% c("aromatic", "condensed_arom") & !Suction == 15) %>%
+   group_by(Suction, Moisture, Wetting, Amendments, Homogenization) %>% 
+   summarise(peaks=sum(peaks)) %>% 
+   ungroup() %>% 
+   #select(-class) %>% 
+   mutate(var = paste0(Suction,"-",Amendments),
+          var = factor(var, levels = c("1.5-control", "1.5-C", "1.5-N",
+                                       "50-control", "50-C", "50-N")),
+          Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) %>% 
+   select(-Suction,-Amendments) %>% 
+   spread(var, peaks) %>% 
+   gt(rowname_col = "row", groupname_col = "Homogenization") %>% 
+   tab_spanner(label = "1.5 kPa", columns = contains("1.5")) %>% 
+   tab_spanner(label = "50 kPa", columns = contains("50")) %>% 
+   tab_header(
+    title = md("Aromatic Peaks Present")
+  )
+```
 
 
 ### STATS -- 
