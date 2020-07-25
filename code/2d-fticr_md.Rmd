@@ -151,46 +151,24 @@ data %>%
 ```{r}
 relabund_trt = read.csv(here("data/processed/fticr_relabund_trt.csv")) %>% 
    dplyr::mutate(class = factor(class, levels = 
-                          c("aliphatic", "aliphatic+N","unsaturated","aromatic","condensed_arom", "other")),
+                          c("aliphatic", "aliphatic+N","unsaturated",
+                            "aromatic","condensed_arom", "other")),
                  Amendments = factor(Amendments, levels = c("control", "C", "N")),
-                 Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) 
+                 Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+                 Moisture = factor(Moisture, levels = c("fm", "drought"))) %>% 
+   filter(!Suction=="15")
 ```
 
 
 ```{r fticr_relabund}
 relabund_trt %>%  
-   filter(Suction==1.5) %>% 
    ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
    geom_bar(stat = "identity")+
    scale_fill_viridis_d(option = "inferno")+
    labs(x = "percent saturation",
-        y = "relative abundance (%)",
-        title = "1.5 kPa")+
-   facet_grid(Homogenization~Moisture+Wetting)+
+        y = "relative abundance (%)")+
+   facet_grid(Suction+Homogenization~Moisture+Wetting)+
    NULL
-
-relabund_trt %>%  
-   filter(Suction==15) %>% 
-   ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
-   geom_bar(stat = "identity")+
-   scale_fill_viridis_d(option = "inferno")+
-   labs(x = "percent saturation",
-        y = "relative abundance (%)",
-        title = "15 kPa")+
-   facet_grid(Homogenization~Moisture+Wetting)+
-   NULL
-
-relabund_trt %>%  
-   filter(Suction==50) %>% 
-   ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
-   geom_bar(stat = "identity")+
-   scale_fill_viridis_d(option = "inferno")+
-   labs(x = "percent saturation",
-        y = "relative abundance (%)",
-        title = "50 kPa")+
-   facet_grid(Homogenization~Moisture+Wetting)+
-   NULL
-
 ```
 
 ```{r NOSC, fig.height=6, fig.width=10}
@@ -394,23 +372,10 @@ peakcounts %>%
    knitr::kable()
 ```
 
-```{r gt}
-library(gt)
-peakcounts %>% 
-   filter(Suction==1.5 & Homogenization=="Intact") %>% 
-   spread(Amendments, peaks) %>% 
-   select(Moisture, Wetting, class, control, C, N) %>% 
-   arrange(Moisture, Wetting) %>%
-   gt(rowname_col = "row", groupname_col = "Moisture") %>% 
-   tab_spanner(label = "Amendments", columns = vars(control,C,N)) %>%
-
-   tab_header(
-    title = md("Peaks Present"),
-    subtitle = md("Intact - 1.5 kPa")
-  )
-```
-
 </details>
+
+
+**Peak counts**  
 
 
 ```{r table_total_peak_counts}
@@ -759,6 +724,9 @@ ggbiplot(pca, obs.scale = 1, var.scale = 1,
 
 
 ---
+
+---
+
 ## Session Info
 
 <details>   
