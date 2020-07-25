@@ -28,13 +28,13 @@ or 4)
 
 ![](markdown/fticr/vk_baseline-1.png)<!-- -->
 
-![](markdown/fticr/vk_pores-1.png)<!-- -->![](markdown/fticr/vk_pores-2.png)<!-- -->![](markdown/fticr/vk_pores-3.png)<!-- -->
+![](markdown/fticr/vk_pores-1.png)<!-- -->![](markdown/fticr/vk_pores-2.png)<!-- -->
 
 -----
 
 ### relative abundances
 
-![](markdown/fticr/fticr_relabund-1.png)<!-- -->![](markdown/fticr/fticr_relabund-2.png)<!-- -->![](markdown/fticr/fticr_relabund-3.png)<!-- -->
+![](markdown/fticr/fticr_relabund-1.png)<!-- -->
 
 ![](markdown/fticr/NOSC-1.png)<!-- -->
 
@@ -246,1410 +246,17 @@ distinct peaks seen in each treatment type
 | fm       | precip  | other           |       2 |   NA |    2 |
 | fm       | precip  | total           |    2595 | 4629 | 1188 |
 
-<!--html_preserve-->
-
-<style>html {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
-}
-
-#yudbfyxpcf .gt_table {
-  display: table;
-  border-collapse: collapse;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#yudbfyxpcf .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 0;
-  padding-bottom: 4px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#yudbfyxpcf .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#yudbfyxpcf .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#yudbfyxpcf .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#yudbfyxpcf .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#yudbfyxpcf .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#yudbfyxpcf .gt_group_heading {
-  padding: 8px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#yudbfyxpcf .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#yudbfyxpcf .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#yudbfyxpcf .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#yudbfyxpcf .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#yudbfyxpcf .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#yudbfyxpcf .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 12px;
-}
-
-#yudbfyxpcf .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yudbfyxpcf .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#yudbfyxpcf .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding: 4px;
-}
-
-#yudbfyxpcf .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#yudbfyxpcf .gt_sourcenote {
-  font-size: 90%;
-  padding: 4px;
-}
-
-#yudbfyxpcf .gt_left {
-  text-align: left;
-}
-
-#yudbfyxpcf .gt_center {
-  text-align: center;
-}
-
-#yudbfyxpcf .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#yudbfyxpcf .gt_font_normal {
-  font-weight: normal;
-}
-
-#yudbfyxpcf .gt_font_bold {
-  font-weight: bold;
-}
-
-#yudbfyxpcf .gt_font_italic {
-  font-style: italic;
-}
-
-#yudbfyxpcf .gt_super {
-  font-size: 65%;
-}
-
-#yudbfyxpcf .gt_footnote_marks {
-  font-style: italic;
-  font-size: 65%;
-}
-</style>
-
-<div id="yudbfyxpcf" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-
-<table class="gt_table">
-
-<thead class="gt_header">
-
-<tr>
-
-<th colspan="5" class="gt_heading gt_title gt_font_normal" style>
-
-Peaks Present
-
-</th>
-
-</tr>
-
-<tr>
-
-<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style>
-
-Intact - 1.5 kPa
-
-</th>
-
-</tr>
-
-</thead>
-
-<thead class="gt_col_headings">
-
-<tr>
-
-<th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">
-
-Wetting
-
-</th>
-
-<th class="gt_col_heading gt_center gt_columns_bottom_border" rowspan="2" colspan="1">
-
-class
-
-</th>
-
-<th class="gt_center gt_columns_top_border gt_column_spanner_outer" rowspan="1" colspan="3">
-
-<span class="gt_column_spanner">Amendments</span>
-
-</th>
-
-</tr>
-
-<tr>
-
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
-
-control
-
-</th>
-
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
-
-C
-
-</th>
-
-<th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">
-
-N
-
-</th>
-
-</tr>
-
-</thead>
-
-<tbody class="gt_table_body">
-
-<tr class="gt_group_heading_row">
-
-<td colspan="5" class="gt_group_heading">
-
-drought
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-267
-
-</td>
-
-<td class="gt_row gt_center">
-
-412
-
-</td>
-
-<td class="gt_row gt_center">
-
-406
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic+N
-
-</td>
-
-<td class="gt_row gt_center">
-
-34
-
-</td>
-
-<td class="gt_row gt_center">
-
-135
-
-</td>
-
-<td class="gt_row gt_center">
-
-68
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-unsaturated
-
-</td>
-
-<td class="gt_row gt_center">
-
-466
-
-</td>
-
-<td class="gt_row gt_center">
-
-1014
-
-</td>
-
-<td class="gt_row gt_center">
-
-553
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aromatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-90
-
-</td>
-
-<td class="gt_row gt_center">
-
-281
-
-</td>
-
-<td class="gt_row gt_center">
-
-138
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-condensed\_arom
-
-</td>
-
-<td class="gt_row gt_center">
-
-285
-
-</td>
-
-<td class="gt_row gt_center">
-
-176
-
-</td>
-
-<td class="gt_row gt_center">
-
-140
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-other
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-total
-
-</td>
-
-<td class="gt_row gt_center">
-
-1144
-
-</td>
-
-<td class="gt_row gt_center">
-
-2020
-
-</td>
-
-<td class="gt_row gt_center">
-
-1307
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-354
-
-</td>
-
-<td class="gt_row gt_center">
-
-607
-
-</td>
-
-<td class="gt_row gt_center">
-
-301
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic+N
-
-</td>
-
-<td class="gt_row gt_center">
-
-47
-
-</td>
-
-<td class="gt_row gt_center">
-
-218
-
-</td>
-
-<td class="gt_row gt_center">
-
-170
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-unsaturated
-
-</td>
-
-<td class="gt_row gt_center">
-
-812
-
-</td>
-
-<td class="gt_row gt_center">
-
-1080
-
-</td>
-
-<td class="gt_row gt_center">
-
-872
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aromatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-106
-
-</td>
-
-<td class="gt_row gt_center">
-
-236
-
-</td>
-
-<td class="gt_row gt_center">
-
-211
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-condensed\_arom
-
-</td>
-
-<td class="gt_row gt_center">
-
-189
-
-</td>
-
-<td class="gt_row gt_center">
-
-356
-
-</td>
-
-<td class="gt_row gt_center">
-
-267
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-other
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-total
-
-</td>
-
-<td class="gt_row gt_center">
-
-1510
-
-</td>
-
-<td class="gt_row gt_center">
-
-2499
-
-</td>
-
-<td class="gt_row gt_center">
-
-1823
-
-</td>
-
-</tr>
-
-<tr class="gt_group_heading_row">
-
-<td colspan="5" class="gt_group_heading">
-
-fm
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-397
-
-</td>
-
-<td class="gt_row gt_center">
-
-316
-
-</td>
-
-<td class="gt_row gt_center">
-
-583
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic+N
-
-</td>
-
-<td class="gt_row gt_center">
-
-34
-
-</td>
-
-<td class="gt_row gt_center">
-
-110
-
-</td>
-
-<td class="gt_row gt_center">
-
-96
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-unsaturated
-
-</td>
-
-<td class="gt_row gt_center">
-
-586
-
-</td>
-
-<td class="gt_row gt_center">
-
-410
-
-</td>
-
-<td class="gt_row gt_center">
-
-449
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-aromatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-82
-
-</td>
-
-<td class="gt_row gt_center">
-
-78
-
-</td>
-
-<td class="gt_row gt_center">
-
-118
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-condensed\_arom
-
-</td>
-
-<td class="gt_row gt_center">
-
-241
-
-</td>
-
-<td class="gt_row gt_center">
-
-242
-
-</td>
-
-<td class="gt_row gt_center">
-
-197
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-other
-
-</td>
-
-<td class="gt_row gt_center">
-
-2
-
-</td>
-
-<td class="gt_row gt_center">
-
-4
-
-</td>
-
-<td class="gt_row gt_center">
-
-3
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-groundw
-
-</td>
-
-<td class="gt_row gt_center">
-
-total
-
-</td>
-
-<td class="gt_row gt_center">
-
-1342
-
-</td>
-
-<td class="gt_row gt_center">
-
-1160
-
-</td>
-
-<td class="gt_row gt_center">
-
-1446
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-280
-
-</td>
-
-<td class="gt_row gt_center">
-
-195
-
-</td>
-
-<td class="gt_row gt_center">
-
-193
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aliphatic+N
-
-</td>
-
-<td class="gt_row gt_center">
-
-29
-
-</td>
-
-<td class="gt_row gt_center">
-
-32
-
-</td>
-
-<td class="gt_row gt_center">
-
-20
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-unsaturated
-
-</td>
-
-<td class="gt_row gt_center">
-
-383
-
-</td>
-
-<td class="gt_row gt_center">
-
-394
-
-</td>
-
-<td class="gt_row gt_center">
-
-332
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-aromatic
-
-</td>
-
-<td class="gt_row gt_center">
-
-78
-
-</td>
-
-<td class="gt_row gt_center">
-
-23
-
-</td>
-
-<td class="gt_row gt_center">
-
-51
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-condensed\_arom
-
-</td>
-
-<td class="gt_row gt_center">
-
-131
-
-</td>
-
-<td class="gt_row gt_center">
-
-149
-
-</td>
-
-<td class="gt_row gt_center">
-
-139
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-other
-
-</td>
-
-<td class="gt_row gt_center">
-
-4
-
-</td>
-
-<td class="gt_row gt_center">
-
-4
-
-</td>
-
-<td class="gt_row gt_center">
-
-3
-
-</td>
-
-</tr>
-
-<tr>
-
-<td class="gt_row gt_left">
-
-precip
-
-</td>
-
-<td class="gt_row gt_center">
-
-total
-
-</td>
-
-<td class="gt_row gt_center">
-
-905
-
-</td>
-
-<td class="gt_row gt_center">
-
-797
-
-</td>
-
-<td class="gt_row gt_center">
-
-738
-
-</td>
-
-</tr>
-
-</tbody>
-
-</table>
-
-</div>
-
-<!--/html_preserve-->
-
 </details>
 
+**Peak counts**
+
 <!--html_preserve-->
 
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qvpjrvmafl .gt_table {
+#lpoeirqsbj .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1672,7 +279,7 @@ total
   border-left-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_heading {
+#lpoeirqsbj .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1684,7 +291,7 @@ total
   border-right-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_title {
+#lpoeirqsbj .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1694,7 +301,7 @@ total
   border-bottom-width: 0;
 }
 
-#qvpjrvmafl .gt_subtitle {
+#lpoeirqsbj .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1704,13 +311,13 @@ total
   border-top-width: 0;
 }
 
-#qvpjrvmafl .gt_bottom_border {
+#lpoeirqsbj .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_col_headings {
+#lpoeirqsbj .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1725,7 +332,7 @@ total
   border-right-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_col_heading {
+#lpoeirqsbj .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1745,7 +352,7 @@ total
   overflow-x: hidden;
 }
 
-#qvpjrvmafl .gt_column_spanner_outer {
+#lpoeirqsbj .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1757,15 +364,15 @@ total
   padding-right: 4px;
 }
 
-#qvpjrvmafl .gt_column_spanner_outer:first-child {
+#lpoeirqsbj .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qvpjrvmafl .gt_column_spanner_outer:last-child {
+#lpoeirqsbj .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qvpjrvmafl .gt_column_spanner {
+#lpoeirqsbj .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1777,7 +384,7 @@ total
   width: 100%;
 }
 
-#qvpjrvmafl .gt_group_heading {
+#lpoeirqsbj .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1799,7 +406,7 @@ total
   vertical-align: middle;
 }
 
-#qvpjrvmafl .gt_empty_group_heading {
+#lpoeirqsbj .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1814,19 +421,19 @@ total
   vertical-align: middle;
 }
 
-#qvpjrvmafl .gt_striped {
+#lpoeirqsbj .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qvpjrvmafl .gt_from_md > :first-child {
+#lpoeirqsbj .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qvpjrvmafl .gt_from_md > :last-child {
+#lpoeirqsbj .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qvpjrvmafl .gt_row {
+#lpoeirqsbj .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1845,7 +452,7 @@ total
   overflow-x: hidden;
 }
 
-#qvpjrvmafl .gt_stub {
+#lpoeirqsbj .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1857,7 +464,7 @@ total
   padding-left: 12px;
 }
 
-#qvpjrvmafl .gt_summary_row {
+#lpoeirqsbj .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1867,7 +474,7 @@ total
   padding-right: 5px;
 }
 
-#qvpjrvmafl .gt_first_summary_row {
+#lpoeirqsbj .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1877,7 +484,7 @@ total
   border-top-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_grand_summary_row {
+#lpoeirqsbj .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1887,7 +494,7 @@ total
   padding-right: 5px;
 }
 
-#qvpjrvmafl .gt_first_grand_summary_row {
+#lpoeirqsbj .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1897,7 +504,7 @@ total
   border-top-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_table_body {
+#lpoeirqsbj .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1906,7 +513,7 @@ total
   border-bottom-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_footnotes {
+#lpoeirqsbj .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1920,13 +527,13 @@ total
   border-right-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_footnote {
+#lpoeirqsbj .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qvpjrvmafl .gt_sourcenotes {
+#lpoeirqsbj .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1940,47 +547,47 @@ total
   border-right-color: #D3D3D3;
 }
 
-#qvpjrvmafl .gt_sourcenote {
+#lpoeirqsbj .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qvpjrvmafl .gt_left {
+#lpoeirqsbj .gt_left {
   text-align: left;
 }
 
-#qvpjrvmafl .gt_center {
+#lpoeirqsbj .gt_center {
   text-align: center;
 }
 
-#qvpjrvmafl .gt_right {
+#lpoeirqsbj .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qvpjrvmafl .gt_font_normal {
+#lpoeirqsbj .gt_font_normal {
   font-weight: normal;
 }
 
-#qvpjrvmafl .gt_font_bold {
+#lpoeirqsbj .gt_font_bold {
   font-weight: bold;
 }
 
-#qvpjrvmafl .gt_font_italic {
+#lpoeirqsbj .gt_font_italic {
   font-style: italic;
 }
 
-#qvpjrvmafl .gt_super {
+#lpoeirqsbj .gt_super {
   font-size: 65%;
 }
 
-#qvpjrvmafl .gt_footnote_marks {
+#lpoeirqsbj .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="qvpjrvmafl" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="lpoeirqsbj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -2530,7 +1137,7 @@ precip
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#laupefesvv .gt_table {
+#yieerseylr .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2553,7 +1160,7 @@ precip
   border-left-color: #D3D3D3;
 }
 
-#laupefesvv .gt_heading {
+#yieerseylr .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2565,7 +1172,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#laupefesvv .gt_title {
+#yieerseylr .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2575,7 +1182,7 @@ precip
   border-bottom-width: 0;
 }
 
-#laupefesvv .gt_subtitle {
+#yieerseylr .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2585,13 +1192,13 @@ precip
   border-top-width: 0;
 }
 
-#laupefesvv .gt_bottom_border {
+#yieerseylr .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#laupefesvv .gt_col_headings {
+#yieerseylr .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2606,7 +1213,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#laupefesvv .gt_col_heading {
+#yieerseylr .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2626,7 +1233,7 @@ precip
   overflow-x: hidden;
 }
 
-#laupefesvv .gt_column_spanner_outer {
+#yieerseylr .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2638,15 +1245,15 @@ precip
   padding-right: 4px;
 }
 
-#laupefesvv .gt_column_spanner_outer:first-child {
+#yieerseylr .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#laupefesvv .gt_column_spanner_outer:last-child {
+#yieerseylr .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#laupefesvv .gt_column_spanner {
+#yieerseylr .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2658,7 +1265,7 @@ precip
   width: 100%;
 }
 
-#laupefesvv .gt_group_heading {
+#yieerseylr .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2680,7 +1287,7 @@ precip
   vertical-align: middle;
 }
 
-#laupefesvv .gt_empty_group_heading {
+#yieerseylr .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2695,19 +1302,19 @@ precip
   vertical-align: middle;
 }
 
-#laupefesvv .gt_striped {
+#yieerseylr .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#laupefesvv .gt_from_md > :first-child {
+#yieerseylr .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#laupefesvv .gt_from_md > :last-child {
+#yieerseylr .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#laupefesvv .gt_row {
+#yieerseylr .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2726,7 +1333,7 @@ precip
   overflow-x: hidden;
 }
 
-#laupefesvv .gt_stub {
+#yieerseylr .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2738,7 +1345,7 @@ precip
   padding-left: 12px;
 }
 
-#laupefesvv .gt_summary_row {
+#yieerseylr .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2748,7 +1355,7 @@ precip
   padding-right: 5px;
 }
 
-#laupefesvv .gt_first_summary_row {
+#yieerseylr .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2758,7 +1365,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#laupefesvv .gt_grand_summary_row {
+#yieerseylr .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2768,7 +1375,7 @@ precip
   padding-right: 5px;
 }
 
-#laupefesvv .gt_first_grand_summary_row {
+#yieerseylr .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2778,7 +1385,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#laupefesvv .gt_table_body {
+#yieerseylr .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2787,7 +1394,7 @@ precip
   border-bottom-color: #D3D3D3;
 }
 
-#laupefesvv .gt_footnotes {
+#yieerseylr .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2801,13 +1408,13 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#laupefesvv .gt_footnote {
+#yieerseylr .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#laupefesvv .gt_sourcenotes {
+#yieerseylr .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2821,47 +1428,47 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#laupefesvv .gt_sourcenote {
+#yieerseylr .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#laupefesvv .gt_left {
+#yieerseylr .gt_left {
   text-align: left;
 }
 
-#laupefesvv .gt_center {
+#yieerseylr .gt_center {
   text-align: center;
 }
 
-#laupefesvv .gt_right {
+#yieerseylr .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#laupefesvv .gt_font_normal {
+#yieerseylr .gt_font_normal {
   font-weight: normal;
 }
 
-#laupefesvv .gt_font_bold {
+#yieerseylr .gt_font_bold {
   font-weight: bold;
 }
 
-#laupefesvv .gt_font_italic {
+#yieerseylr .gt_font_italic {
   font-style: italic;
 }
 
-#laupefesvv .gt_super {
+#yieerseylr .gt_super {
   font-size: 65%;
 }
 
-#laupefesvv .gt_footnote_marks {
+#yieerseylr .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="laupefesvv" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="yieerseylr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -3407,31 +2014,177 @@ precip
 
 ### STATS –
 
-#### MANOVA
+#### PERMANOVA
+
+**overall, all variables**
+
+    #> Permutation test for adonis under reduced model
+    #> Terms added sequentially (first to last)
+    #> Permutation: free
+    #> Number of permutations: 999
+    #> 
+    #> adonis2(formula = relabund_wide$DV ~ Amendments * Moisture * Wetting * Suction * Homogenization, data = relabund_wide)
+    #>                                                     Df SumOfSqs      R2       F
+    #> Amendments                                           2   0.2385 0.04841 10.1062
+    #> Moisture                                             1   0.2459 0.04992 20.8407
+    #> Wetting                                              1   0.0487 0.00989  4.1282
+    #> Suction                                              1   0.3131 0.06356 26.5368
+    #> Homogenization                                       1   0.2810 0.05705 23.8195
+    #> Amendments:Moisture                                  2   0.0338 0.00686  1.4318
+    #> Amendments:Wetting                                   2   0.0344 0.00698  1.4564
+    #> Moisture:Wetting                                     1   0.0133 0.00270  1.1279
+    #> Amendments:Suction                                   2   0.0496 0.01007  2.1024
+    #> Moisture:Suction                                     1   0.0505 0.01025  4.2805
+    #> Wetting:Suction                                      1   0.0501 0.01017  4.2447
+    #> Amendments:Homogenization                            2   0.2767 0.05617 11.7252
+    #> Moisture:Homogenization                              1   0.0324 0.00658  2.7476
+    #> Wetting:Homogenization                               1   0.0914 0.01856  7.7492
+    #> Suction:Homogenization                               1   0.0188 0.00382  1.5957
+    #> Amendments:Moisture:Wetting                          2   0.1581 0.03211  6.7024
+    #> Amendments:Moisture:Suction                          2   0.0359 0.00728  1.5206
+    #> Amendments:Wetting:Suction                           2   0.0342 0.00695  1.4498
+    #> Moisture:Wetting:Suction                             1   0.0294 0.00597  2.4917
+    #> Amendments:Moisture:Homogenization                   2   0.0427 0.00866  1.8085
+    #> Amendments:Wetting:Homogenization                    2   0.0062 0.00126  0.2624
+    #> Moisture:Wetting:Homogenization                      1   0.0112 0.00227  0.9496
+    #> Amendments:Suction:Homogenization                    2   0.0813 0.01651  3.4464
+    #> Moisture:Suction:Homogenization                      1   0.0317 0.00643  2.6838
+    #> Wetting:Suction:Homogenization                       1   0.0069 0.00140  0.5850
+    #> Amendments:Moisture:Wetting:Suction                  2   0.0340 0.00691  1.4420
+    #> Amendments:Moisture:Wetting:Homogenization           2   0.0725 0.01471  3.0712
+    #> Amendments:Moisture:Suction:Homogenization           2   0.0566 0.01150  2.4008
+    #> Amendments:Wetting:Suction:Homogenization            2   0.0411 0.00835  1.7424
+    #> Moisture:Wetting:Suction:Homogenization              1   0.0209 0.00424  1.7707
+    #> Amendments:Moisture:Wetting:Suction:Homogenization   2   0.0189 0.00383  0.8002
+    #> Residual                                           209   2.4657 0.50061        
+    #> Total                                              256   4.9254 1.00000        
+    #>                                                    Pr(>F)    
+    #> Amendments                                          0.001 ***
+    #> Moisture                                            0.001 ***
+    #> Wetting                                             0.017 *  
+    #> Suction                                             0.001 ***
+    #> Homogenization                                      0.001 ***
+    #> Amendments:Moisture                                 0.233    
+    #> Amendments:Wetting                                  0.220    
+    #> Moisture:Wetting                                    0.318    
+    #> Amendments:Suction                                  0.061 .  
+    #> Moisture:Suction                                    0.016 *  
+    #> Wetting:Suction                                     0.014 *  
+    #> Amendments:Homogenization                           0.001 ***
+    #> Moisture:Homogenization                             0.056 .  
+    #> Wetting:Homogenization                              0.001 ***
+    #> Suction:Homogenization                              0.198    
+    #> Amendments:Moisture:Wetting                         0.001 ***
+    #> Amendments:Moisture:Suction                         0.202    
+    #> Amendments:Wetting:Suction                          0.201    
+    #> Moisture:Wetting:Suction                            0.056 .  
+    #> Amendments:Moisture:Homogenization                  0.121    
+    #> Amendments:Wetting:Homogenization                   0.927    
+    #> Moisture:Wetting:Homogenization                     0.409    
+    #> Amendments:Suction:Homogenization                   0.011 *  
+    #> Moisture:Suction:Homogenization                     0.060 .  
+    #> Wetting:Suction:Homogenization                      0.581    
+    #> Amendments:Moisture:Wetting:Suction                 0.205    
+    #> Amendments:Moisture:Wetting:Homogenization          0.012 *  
+    #> Amendments:Moisture:Suction:Homogenization          0.049 *  
+    #> Amendments:Wetting:Suction:Homogenization           0.123    
+    #> Moisture:Wetting:Suction:Homogenization             0.143    
+    #> Amendments:Moisture:Wetting:Suction:Homogenization  0.566    
+    #> Residual                                                     
+    #> Total                                                        
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+**subsets**
+
+    #> [1] "Intact-1.5 kPa"
+    #> Permutation test for adonis under reduced model
+    #> Terms added sequentially (first to last)
+    #> Permutation: free
+    #> Number of permutations: 999
+    #> 
+    #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5))
+    #>                             Df SumOfSqs      R2       F Pr(>F)    
+    #> Amendments                   2  0.03530 0.05921  2.3935  0.053 .  
+    #> Moisture                     1  0.09497 0.15931 12.8795  0.001 ***
+    #> Wetting                      1  0.05753 0.09650  7.8018  0.001 ***
+    #> Amendments:Moisture          2  0.03824 0.06415  2.5930  0.027 *  
+    #> Amendments:Wetting           2  0.05381 0.09026  3.6488  0.006 ** 
+    #> Moisture:Wetting             1  0.01880 0.03154  2.5498  0.059 .  
+    #> Amendments:Moisture:Wetting  2  0.05416 0.09085  3.6726  0.007 ** 
+    #> Residual                    33  0.24335 0.40818                   
+    #> Total                       44  0.59618 1.00000                   
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    #> [1] "Intact-50 kPa"
+    #> Permutation test for adonis under reduced model
+    #> Terms added sequentially (first to last)
+    #> Permutation: free
+    #> Number of permutations: 999
+    #> 
+    #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50))
+    #>                             Df SumOfSqs      R2      F Pr(>F)    
+    #> Amendments                   2  0.10854 0.21197 6.6690  0.001 ***
+    #> Moisture                     1  0.01313 0.02564 1.6136  0.189    
+    #> Wetting                      1  0.02031 0.03965 2.4952  0.078 .  
+    #> Amendments:Moisture          2  0.03779 0.07380 2.3219  0.051 .  
+    #> Amendments:Wetting           2  0.02716 0.05305 1.6689  0.133    
+    #> Moisture:Wetting             1  0.03384 0.06609 4.1589  0.012 *  
+    #> Amendments:Moisture:Wetting  2  0.02715 0.05302 1.6682  0.144    
+    #> Residual                    30  0.24414 0.47677                  
+    #> Total                       41  0.51206 1.00000                  
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    #> [1] "Homogenized-1.5 kPa"
+    #> Permutation test for adonis under reduced model
+    #> Terms added sequentially (first to last)
+    #> Permutation: free
+    #> Number of permutations: 999
+    #> 
+    #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 1.5) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 1.5))
+    #>                             Df SumOfSqs      R2       F Pr(>F)    
+    #> Amendments                   2  0.12959 0.16748  7.4735  0.001 ***
+    #> Moisture                     1  0.20780 0.26856 23.9682  0.001 ***
+    #> Wetting                      1  0.03228 0.04172  3.7229  0.031 *  
+    #> Amendments:Moisture          2  0.02887 0.03731  1.6647  0.162    
+    #> Amendments:Wetting           2  0.04414 0.05704  2.5454  0.050 *  
+    #> Moisture:Wetting             1  0.01559 0.02014  1.7978  0.155    
+    #> Amendments:Moisture:Wetting  2  0.04673 0.06040  2.6951  0.043 *  
+    #> Residual                    31  0.26877 0.34735                   
+    #> Total                       42  0.77376 1.00000                   
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+    #> [1] "Homogenized-50 kPa"
+    #> Permutation test for adonis under reduced model
+    #> Terms added sequentially (first to last)
+    #> Permutation: free
+    #> Number of permutations: 999
+    #> 
+    #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50))
+    #>                             Df SumOfSqs      R2      F Pr(>F)    
+    #> Amendments                   2  0.19504 0.22932 6.7513  0.001 ***
+    #> Moisture                     1  0.00761 0.00894 0.5265  0.612    
+    #> Wetting                      1  0.03466 0.04075 2.3993  0.084 .  
+    #> Amendments:Moisture          2  0.07372 0.08668 2.5520  0.046 *  
+    #> Amendments:Wetting           2  0.02883 0.03390 0.9981  0.414    
+    #> Moisture:Wetting             1  0.01010 0.01188 0.6996  0.502    
+    #> Amendments:Moisture:Wetting  2  0.05276 0.06203 1.8263  0.134    
+    #> Residual                    31  0.44777 0.52649                  
+    #> Total                       42  0.85049 1.00000                  
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 #### PCA
 
 **intact cores**
 
-<details>
-
-<summary>click to expand</summary>
-
-![](markdown/fticr/fticr_pca_intact-1.png)<!-- -->![](markdown/fticr/fticr_pca_intact-2.png)<!-- -->
-
-</details>
+![](markdown/fticr/fticr_pca_intact-1.png)<!-- -->
 
 **homogenized cores**
 
-<details>
+![](markdown/fticr/fticr_pca_homo-1.png)<!-- -->
 
-<summary>click to expand</summary>
-
-![](markdown/fticr/fticr_pca_homo-1.png)<!-- -->![](markdown/fticr/fticr_pca_homo-2.png)<!-- -->
-
-![](markdown/fticr/fticr_pca_indiv-1.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-2.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-3.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-4.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-5.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-6.png)<!-- -->
-
-</details>
+![](markdown/fticr/fticr_pca_indiv-1.png)<!-- -->![](markdown/fticr/fticr_pca_indiv-2.png)<!-- -->
 
 -----
 
@@ -3458,26 +2211,29 @@ Date run: 2020-07-24
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] gt_0.2.1        ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0  
-    #>  [5] stringr_1.4.0   dplyr_1.0.0     purrr_0.3.4     readr_1.3.1    
-    #>  [9] tidyr_1.1.0     tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
-    #> [13] here_0.1       
+    #>  [1] patchwork_1.0.1 vegan_2.5-6     lattice_0.20-41 permute_0.9-5  
+    #>  [5] gt_0.2.1        ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0  
+    #>  [9] stringr_1.4.0   dplyr_1.0.0     purrr_0.3.4     readr_1.3.1    
+    #> [13] tidyr_1.1.0     tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
+    #> [17] here_0.1       
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] Rcpp_1.0.5        lubridate_1.7.9   assertthat_0.2.1  rprojroot_1.3-2  
-    #>  [5] digest_0.6.25     R6_2.4.1          cellranger_1.1.0  plyr_1.8.6       
-    #>  [9] backports_1.1.8   reprex_0.3.0      evaluate_0.14     httr_1.4.2       
-    #> [13] highr_0.8         pillar_1.4.6      rlang_0.4.7       readxl_1.3.1     
-    #> [17] rstudioapi_0.11   blob_1.2.1        checkmate_2.0.0   rmarkdown_2.3    
-    #> [21] labeling_0.3      munsell_0.5.0     broom_0.7.0       compiler_4.0.2   
-    #> [25] modelr_0.1.8      xfun_0.15         pkgconfig_2.0.3   htmltools_0.5.0  
-    #> [29] tidyselect_1.1.0  fansi_0.4.1       viridisLite_0.3.0 crayon_1.3.4     
-    #> [33] dbplyr_1.4.4      withr_2.2.0       MASS_7.3-51.6     commonmark_1.7   
-    #> [37] grid_4.0.2        jsonlite_1.7.0    gtable_0.3.0      lifecycle_0.2.0  
-    #> [41] DBI_1.1.0         magrittr_1.5      scales_1.1.1      cli_2.0.2        
-    #> [45] stringi_1.4.6     farver_2.0.3      fs_1.4.2          xml2_1.3.2       
-    #> [49] ellipsis_0.3.1    generics_0.0.2    vctrs_0.3.2       tools_4.0.2      
-    #> [53] glue_1.4.1        hms_0.5.3         yaml_2.2.1        colorspace_1.4-1 
-    #> [57] rvest_0.3.5       knitr_1.29        haven_2.3.1       sass_0.2.0
+    #>  [1] httr_1.4.2        sass_0.2.0        jsonlite_1.7.0    viridisLite_0.3.0
+    #>  [5] splines_4.0.2     modelr_0.1.8      assertthat_0.2.1  highr_0.8        
+    #>  [9] blob_1.2.1        cellranger_1.1.0  yaml_2.2.1        pillar_1.4.6     
+    #> [13] backports_1.1.8   glue_1.4.1        digest_0.6.25     checkmate_2.0.0  
+    #> [17] rvest_0.3.5       colorspace_1.4-1  htmltools_0.5.0   Matrix_1.2-18    
+    #> [21] plyr_1.8.6        pkgconfig_2.0.3   broom_0.7.0       haven_2.3.1      
+    #> [25] scales_1.1.1      mgcv_1.8-31       generics_0.0.2    farver_2.0.3     
+    #> [29] ellipsis_0.3.1    withr_2.2.0       cli_2.0.2         magrittr_1.5     
+    #> [33] crayon_1.3.4      readxl_1.3.1      evaluate_0.14     fs_1.4.2         
+    #> [37] fansi_0.4.1       nlme_3.1-148      MASS_7.3-51.6     xml2_1.3.2       
+    #> [41] tools_4.0.2       hms_0.5.3         lifecycle_0.2.0   munsell_0.5.0    
+    #> [45] reprex_0.3.0      cluster_2.1.0     compiler_4.0.2    rlang_0.4.7      
+    #> [49] grid_4.0.2        rstudioapi_0.11   labeling_0.3      rmarkdown_2.3    
+    #> [53] gtable_0.3.0      DBI_1.1.0         R6_2.4.1          lubridate_1.7.9  
+    #> [57] knitr_1.29        commonmark_1.7    rprojroot_1.3-2   stringi_1.4.6    
+    #> [61] parallel_4.0.2    Rcpp_1.0.5        vctrs_0.3.2       dbplyr_1.4.4     
+    #> [65] tidyselect_1.1.0  xfun_0.15
 
 </details>
