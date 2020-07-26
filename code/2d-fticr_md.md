@@ -256,7 +256,7 @@ distinct peaks seen in each treatment type
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lpoeirqsbj .gt_table {
+#swzwfjjdfk .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -279,7 +279,7 @@ distinct peaks seen in each treatment type
   border-left-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_heading {
+#swzwfjjdfk .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -291,7 +291,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_title {
+#swzwfjjdfk .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -301,7 +301,7 @@ distinct peaks seen in each treatment type
   border-bottom-width: 0;
 }
 
-#lpoeirqsbj .gt_subtitle {
+#swzwfjjdfk .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -311,13 +311,13 @@ distinct peaks seen in each treatment type
   border-top-width: 0;
 }
 
-#lpoeirqsbj .gt_bottom_border {
+#swzwfjjdfk .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_col_headings {
+#swzwfjjdfk .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -332,7 +332,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_col_heading {
+#swzwfjjdfk .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -352,7 +352,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#lpoeirqsbj .gt_column_spanner_outer {
+#swzwfjjdfk .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -364,15 +364,15 @@ distinct peaks seen in each treatment type
   padding-right: 4px;
 }
 
-#lpoeirqsbj .gt_column_spanner_outer:first-child {
+#swzwfjjdfk .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lpoeirqsbj .gt_column_spanner_outer:last-child {
+#swzwfjjdfk .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lpoeirqsbj .gt_column_spanner {
+#swzwfjjdfk .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -384,7 +384,7 @@ distinct peaks seen in each treatment type
   width: 100%;
 }
 
-#lpoeirqsbj .gt_group_heading {
+#swzwfjjdfk .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -406,7 +406,7 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#lpoeirqsbj .gt_empty_group_heading {
+#swzwfjjdfk .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -421,19 +421,19 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#lpoeirqsbj .gt_striped {
+#swzwfjjdfk .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lpoeirqsbj .gt_from_md > :first-child {
+#swzwfjjdfk .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lpoeirqsbj .gt_from_md > :last-child {
+#swzwfjjdfk .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lpoeirqsbj .gt_row {
+#swzwfjjdfk .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -452,7 +452,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#lpoeirqsbj .gt_stub {
+#swzwfjjdfk .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -464,7 +464,7 @@ distinct peaks seen in each treatment type
   padding-left: 12px;
 }
 
-#lpoeirqsbj .gt_summary_row {
+#swzwfjjdfk .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -474,7 +474,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#lpoeirqsbj .gt_first_summary_row {
+#swzwfjjdfk .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -484,7 +484,7 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_grand_summary_row {
+#swzwfjjdfk .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -494,7 +494,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#lpoeirqsbj .gt_first_grand_summary_row {
+#swzwfjjdfk .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -504,7 +504,7 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_table_body {
+#swzwfjjdfk .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -513,7 +513,7 @@ distinct peaks seen in each treatment type
   border-bottom-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_footnotes {
+#swzwfjjdfk .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -527,13 +527,13 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_footnote {
+#swzwfjjdfk .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lpoeirqsbj .gt_sourcenotes {
+#swzwfjjdfk .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -547,47 +547,47 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpoeirqsbj .gt_sourcenote {
+#swzwfjjdfk .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lpoeirqsbj .gt_left {
+#swzwfjjdfk .gt_left {
   text-align: left;
 }
 
-#lpoeirqsbj .gt_center {
+#swzwfjjdfk .gt_center {
   text-align: center;
 }
 
-#lpoeirqsbj .gt_right {
+#swzwfjjdfk .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lpoeirqsbj .gt_font_normal {
+#swzwfjjdfk .gt_font_normal {
   font-weight: normal;
 }
 
-#lpoeirqsbj .gt_font_bold {
+#swzwfjjdfk .gt_font_bold {
   font-weight: bold;
 }
 
-#lpoeirqsbj .gt_font_italic {
+#swzwfjjdfk .gt_font_italic {
   font-style: italic;
 }
 
-#lpoeirqsbj .gt_super {
+#swzwfjjdfk .gt_super {
   font-size: 65%;
 }
 
-#lpoeirqsbj .gt_footnote_marks {
+#swzwfjjdfk .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="lpoeirqsbj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="swzwfjjdfk" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -1137,7 +1137,7 @@ precip
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#yieerseylr .gt_table {
+#wniyohhdgd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1160,7 +1160,7 @@ precip
   border-left-color: #D3D3D3;
 }
 
-#yieerseylr .gt_heading {
+#wniyohhdgd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1172,7 +1172,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#yieerseylr .gt_title {
+#wniyohhdgd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1182,7 +1182,7 @@ precip
   border-bottom-width: 0;
 }
 
-#yieerseylr .gt_subtitle {
+#wniyohhdgd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1192,13 +1192,13 @@ precip
   border-top-width: 0;
 }
 
-#yieerseylr .gt_bottom_border {
+#wniyohhdgd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#yieerseylr .gt_col_headings {
+#wniyohhdgd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1213,7 +1213,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#yieerseylr .gt_col_heading {
+#wniyohhdgd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1233,7 +1233,7 @@ precip
   overflow-x: hidden;
 }
 
-#yieerseylr .gt_column_spanner_outer {
+#wniyohhdgd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1245,15 +1245,15 @@ precip
   padding-right: 4px;
 }
 
-#yieerseylr .gt_column_spanner_outer:first-child {
+#wniyohhdgd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#yieerseylr .gt_column_spanner_outer:last-child {
+#wniyohhdgd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#yieerseylr .gt_column_spanner {
+#wniyohhdgd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1265,7 +1265,7 @@ precip
   width: 100%;
 }
 
-#yieerseylr .gt_group_heading {
+#wniyohhdgd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1287,7 +1287,7 @@ precip
   vertical-align: middle;
 }
 
-#yieerseylr .gt_empty_group_heading {
+#wniyohhdgd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1302,19 +1302,19 @@ precip
   vertical-align: middle;
 }
 
-#yieerseylr .gt_striped {
+#wniyohhdgd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#yieerseylr .gt_from_md > :first-child {
+#wniyohhdgd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#yieerseylr .gt_from_md > :last-child {
+#wniyohhdgd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#yieerseylr .gt_row {
+#wniyohhdgd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1333,7 +1333,7 @@ precip
   overflow-x: hidden;
 }
 
-#yieerseylr .gt_stub {
+#wniyohhdgd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1345,7 +1345,7 @@ precip
   padding-left: 12px;
 }
 
-#yieerseylr .gt_summary_row {
+#wniyohhdgd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1355,7 +1355,7 @@ precip
   padding-right: 5px;
 }
 
-#yieerseylr .gt_first_summary_row {
+#wniyohhdgd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1365,7 +1365,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#yieerseylr .gt_grand_summary_row {
+#wniyohhdgd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1375,7 +1375,7 @@ precip
   padding-right: 5px;
 }
 
-#yieerseylr .gt_first_grand_summary_row {
+#wniyohhdgd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1385,7 +1385,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#yieerseylr .gt_table_body {
+#wniyohhdgd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1394,7 +1394,7 @@ precip
   border-bottom-color: #D3D3D3;
 }
 
-#yieerseylr .gt_footnotes {
+#wniyohhdgd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1408,13 +1408,13 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#yieerseylr .gt_footnote {
+#wniyohhdgd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#yieerseylr .gt_sourcenotes {
+#wniyohhdgd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1428,47 +1428,47 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#yieerseylr .gt_sourcenote {
+#wniyohhdgd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#yieerseylr .gt_left {
+#wniyohhdgd .gt_left {
   text-align: left;
 }
 
-#yieerseylr .gt_center {
+#wniyohhdgd .gt_center {
   text-align: center;
 }
 
-#yieerseylr .gt_right {
+#wniyohhdgd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#yieerseylr .gt_font_normal {
+#wniyohhdgd .gt_font_normal {
   font-weight: normal;
 }
 
-#yieerseylr .gt_font_bold {
+#wniyohhdgd .gt_font_bold {
   font-weight: bold;
 }
 
-#yieerseylr .gt_font_italic {
+#wniyohhdgd .gt_font_italic {
   font-style: italic;
 }
 
-#yieerseylr .gt_super {
+#wniyohhdgd .gt_super {
   font-size: 65%;
 }
 
-#yieerseylr .gt_footnote_marks {
+#wniyohhdgd .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="yieerseylr" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="wniyohhdgd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -2061,35 +2061,35 @@ precip
     #>                                                    Pr(>F)    
     #> Amendments                                          0.001 ***
     #> Moisture                                            0.001 ***
-    #> Wetting                                             0.017 *  
+    #> Wetting                                             0.015 *  
     #> Suction                                             0.001 ***
     #> Homogenization                                      0.001 ***
-    #> Amendments:Moisture                                 0.233    
-    #> Amendments:Wetting                                  0.220    
-    #> Moisture:Wetting                                    0.318    
-    #> Amendments:Suction                                  0.061 .  
-    #> Moisture:Suction                                    0.016 *  
-    #> Wetting:Suction                                     0.014 *  
+    #> Amendments:Moisture                                 0.204    
+    #> Amendments:Wetting                                  0.180    
+    #> Moisture:Wetting                                    0.314    
+    #> Amendments:Suction                                  0.076 .  
+    #> Moisture:Suction                                    0.014 *  
+    #> Wetting:Suction                                     0.007 ** 
     #> Amendments:Homogenization                           0.001 ***
     #> Moisture:Homogenization                             0.056 .  
-    #> Wetting:Homogenization                              0.001 ***
+    #> Wetting:Homogenization                              0.002 ** 
     #> Suction:Homogenization                              0.198    
     #> Amendments:Moisture:Wetting                         0.001 ***
-    #> Amendments:Moisture:Suction                         0.202    
-    #> Amendments:Wetting:Suction                          0.201    
-    #> Moisture:Wetting:Suction                            0.056 .  
-    #> Amendments:Moisture:Homogenization                  0.121    
-    #> Amendments:Wetting:Homogenization                   0.927    
-    #> Moisture:Wetting:Homogenization                     0.409    
-    #> Amendments:Suction:Homogenization                   0.011 *  
-    #> Moisture:Suction:Homogenization                     0.060 .  
-    #> Wetting:Suction:Homogenization                      0.581    
-    #> Amendments:Moisture:Wetting:Suction                 0.205    
-    #> Amendments:Moisture:Wetting:Homogenization          0.012 *  
-    #> Amendments:Moisture:Suction:Homogenization          0.049 *  
+    #> Amendments:Moisture:Suction                         0.167    
+    #> Amendments:Wetting:Suction                          0.199    
+    #> Moisture:Wetting:Suction                            0.069 .  
+    #> Amendments:Moisture:Homogenization                  0.118    
+    #> Amendments:Wetting:Homogenization                   0.917    
+    #> Moisture:Wetting:Homogenization                     0.369    
+    #> Amendments:Suction:Homogenization                   0.009 ** 
+    #> Moisture:Suction:Homogenization                     0.058 .  
+    #> Wetting:Suction:Homogenization                      0.573    
+    #> Amendments:Moisture:Wetting:Suction                 0.222    
+    #> Amendments:Moisture:Wetting:Homogenization          0.011 *  
+    #> Amendments:Moisture:Suction:Homogenization          0.033 *  
     #> Amendments:Wetting:Suction:Homogenization           0.123    
-    #> Moisture:Wetting:Suction:Homogenization             0.143    
-    #> Amendments:Moisture:Wetting:Suction:Homogenization  0.566    
+    #> Moisture:Wetting:Suction:Homogenization             0.136    
+    #> Amendments:Moisture:Wetting:Suction:Homogenization  0.541    
     #> Residual                                                     
     #> Total                                                        
     #> ---
@@ -2105,13 +2105,13 @@ precip
     #> 
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5))
     #>                             Df SumOfSqs      R2       F Pr(>F)    
-    #> Amendments                   2  0.03530 0.05921  2.3935  0.053 .  
+    #> Amendments                   2  0.03530 0.05921  2.3935  0.037 *  
     #> Moisture                     1  0.09497 0.15931 12.8795  0.001 ***
     #> Wetting                      1  0.05753 0.09650  7.8018  0.001 ***
-    #> Amendments:Moisture          2  0.03824 0.06415  2.5930  0.027 *  
-    #> Amendments:Wetting           2  0.05381 0.09026  3.6488  0.006 ** 
-    #> Moisture:Wetting             1  0.01880 0.03154  2.5498  0.059 .  
-    #> Amendments:Moisture:Wetting  2  0.05416 0.09085  3.6726  0.007 ** 
+    #> Amendments:Moisture          2  0.03824 0.06415  2.5930  0.023 *  
+    #> Amendments:Wetting           2  0.05381 0.09026  3.6488  0.004 ** 
+    #> Moisture:Wetting             1  0.01880 0.03154  2.5498  0.066 .  
+    #> Amendments:Moisture:Wetting  2  0.05416 0.09085  3.6726  0.006 ** 
     #> Residual                    33  0.24335 0.40818                   
     #> Total                       44  0.59618 1.00000                   
     #> ---
@@ -2125,12 +2125,12 @@ precip
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
     #> Amendments                   2  0.10854 0.21197 6.6690  0.001 ***
-    #> Moisture                     1  0.01313 0.02564 1.6136  0.189    
-    #> Wetting                      1  0.02031 0.03965 2.4952  0.078 .  
-    #> Amendments:Moisture          2  0.03779 0.07380 2.3219  0.051 .  
-    #> Amendments:Wetting           2  0.02716 0.05305 1.6689  0.133    
-    #> Moisture:Wetting             1  0.03384 0.06609 4.1589  0.012 *  
-    #> Amendments:Moisture:Wetting  2  0.02715 0.05302 1.6682  0.144    
+    #> Moisture                     1  0.01313 0.02564 1.6136  0.209    
+    #> Wetting                      1  0.02031 0.03965 2.4952  0.086 .  
+    #> Amendments:Moisture          2  0.03779 0.07380 2.3219  0.053 .  
+    #> Amendments:Wetting           2  0.02716 0.05305 1.6689  0.162    
+    #> Moisture:Wetting             1  0.03384 0.06609 4.1589  0.023 *  
+    #> Amendments:Moisture:Wetting  2  0.02715 0.05302 1.6682  0.154    
     #> Residual                    30  0.24414 0.47677                  
     #> Total                       41  0.51206 1.00000                  
     #> ---
@@ -2146,10 +2146,10 @@ precip
     #> Amendments                   2  0.12959 0.16748  7.4735  0.001 ***
     #> Moisture                     1  0.20780 0.26856 23.9682  0.001 ***
     #> Wetting                      1  0.03228 0.04172  3.7229  0.031 *  
-    #> Amendments:Moisture          2  0.02887 0.03731  1.6647  0.162    
-    #> Amendments:Wetting           2  0.04414 0.05704  2.5454  0.050 *  
-    #> Moisture:Wetting             1  0.01559 0.02014  1.7978  0.155    
-    #> Amendments:Moisture:Wetting  2  0.04673 0.06040  2.6951  0.043 *  
+    #> Amendments:Moisture          2  0.02887 0.03731  1.6647  0.156    
+    #> Amendments:Wetting           2  0.04414 0.05704  2.5454  0.037 *  
+    #> Moisture:Wetting             1  0.01559 0.02014  1.7978  0.177    
+    #> Amendments:Moisture:Wetting  2  0.04673 0.06040  2.6951  0.046 *  
     #> Residual                    31  0.26877 0.34735                   
     #> Total                       42  0.77376 1.00000                   
     #> ---
@@ -2163,12 +2163,12 @@ precip
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
     #> Amendments                   2  0.19504 0.22932 6.7513  0.001 ***
-    #> Moisture                     1  0.00761 0.00894 0.5265  0.612    
-    #> Wetting                      1  0.03466 0.04075 2.3993  0.084 .  
-    #> Amendments:Moisture          2  0.07372 0.08668 2.5520  0.046 *  
-    #> Amendments:Wetting           2  0.02883 0.03390 0.9981  0.414    
-    #> Moisture:Wetting             1  0.01010 0.01188 0.6996  0.502    
-    #> Amendments:Moisture:Wetting  2  0.05276 0.06203 1.8263  0.134    
+    #> Moisture                     1  0.00761 0.00894 0.5265  0.615    
+    #> Wetting                      1  0.03466 0.04075 2.3993  0.087 .  
+    #> Amendments:Moisture          2  0.07372 0.08668 2.5520  0.034 *  
+    #> Amendments:Wetting           2  0.02883 0.03390 0.9981  0.424    
+    #> Moisture:Wetting             1  0.01010 0.01188 0.6996  0.515    
+    #> Amendments:Moisture:Wetting  2  0.05276 0.06203 1.8263  0.120    
     #> Residual                    31  0.44777 0.52649                  
     #> Total                       42  0.85049 1.00000                  
     #> ---
@@ -2194,7 +2194,7 @@ precip
 
 <summary>click to expand</summary>
 
-Date run: 2020-07-24
+Date run: 2020-07-25
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
