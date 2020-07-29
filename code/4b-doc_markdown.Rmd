@@ -17,22 +17,24 @@ theme_set(theme_bw())
 
 ```{r}
 doc = read.csv(here("data/processed/doc.csv"))  %>% 
+  filter(!Suction==15) %>% 
   mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
-         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))
-
+         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+         Moisture = factor(Moisture, levels = c("fm", "drought")),
+         Wetting = factor(Wetting, levels = c("precip", "groundw")))
 ```
 
 ```{r doc_graph, fig.width=8}
 doc %>% 
   ggplot(aes(x = Amendments, y = DOC_mg_L, color = Amendments))+
   geom_point()+
-  facet_grid(Suction~Homogenization+Moisture+Wetting, scales = "free_y")+
+  facet_grid(Homogenization+Suction~Moisture+Wetting, scales = "free_y")+
   theme(legend.position = "none")
 
 doc %>% 
   ggplot(aes(x = Amendments, y = DOC_mg, color = Amendments))+
   geom_point()+
-  facet_grid(Suction~Homogenization+Moisture+Wetting, scales = "free_y")+
+  facet_grid(Homogenization+Suction~Moisture+Wetting, scales = "free_y")+
   theme(legend.position = "none")
 ```
 
