@@ -719,7 +719,33 @@ gg_pca_50_intact+gg_pca_50_homo
 
 
 
+## Elements
+
+```{r}
+meta_on = 
+   meta %>% select(formula, O, N)
+
+fticr_elements = 
+   fticr_data_key %>% 
+   filter(!Suction==15) %>% 
+   filter(Homogenization=="Intact") %>% 
+   left_join(meta_on, by = "formula")
+
+fticr_elements %>% 
+   ggplot(aes(x = N, color = Amendments, fill = Amendments))+
+   geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
+   #geom_density(alpha = 0.2)+
+   facet_grid(Suction + Wetting ~ Moisture)+
+   ylim(0,1000)
+
+
+
+```
+
+
 ---
+
+
 
 ## Session Info
 
