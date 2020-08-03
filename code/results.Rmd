@@ -141,18 +141,27 @@ arom_label = tribble(
   50, "C", 900, "a",
   50, "N", 450, "b"
   ) %>% 
-  mutate(Wetting="precip")
+  mutate(Wetting="precip", Moisture="fm")
 
 aromatic_counts_by_core_intact %>% 
-  ggplot( aes(x = Amendments, y = arom_peaks, color = Moisture, shape = Wetting))+
+  ggplot(aes(x = Amendments, y = arom_peaks, color = Moisture, shape = interaction(Moisture, Wetting)))+
   geom_boxplot(fill=NA, color = "grey", aes(group=Amendments))+
-  geom_point(size=2, position = position_dodge(width = 0.7))+
+  geom_point(size=3, stroke=1, position = position_dodge(width = 0.7))+
+  scale_shape_manual(values = c(1,2,19,17))+
+  
   facet_grid(.~Suction)+
   labs(title = "aromatic peaks in intact cores",
-       subtitle = "AImod > 0.5")+
+       subtitle = "AImod > 0.5",
+       shape = "")+
   geom_text(data = arom_label, aes(label = label), color = "black")+
 #  theme(panel.grid = element_blank())+
   NULL
+
+aromatic_counts_by_core_intact %>% 
+  ggplot(aes(x = Suction, y = arom_peaks, shape = Wetting))+
+  geom_point(position = position_dodge(width = 5))
+
+
 ```
 
 <details>
@@ -172,11 +181,17 @@ Intact cores ANOVA
 
 ```{r peaks_arom_stats_aov_intact}
 print("intact cores: aov(arom_peaks ~ (Moisture + Wetting + Amendments + Suction)")
-arom_aov_int = aov(arom_peaks ~ (Moisture + Wetting + Amendments + Suction)^2, 
+arom_aov_int = aov(arom_peaks ~ (Moisture * Wetting * Amendments * Suction), 
                    data = aromatic_counts_by_core_intact)
 summary(arom_aov_int)
 
 h = agricolae::HSD.test(arom_aov_int, trt = "Amendments"); h$groups
+
+interaction.plot(aromatic_counts_by_core_intact$Suction,
+                 aromatic_counts_by_core_intact$Wetting,
+                 aromatic_counts_by_core_intact$arom_peaks)
+
+
 ```
 
 Homogenized cores ANOVA
