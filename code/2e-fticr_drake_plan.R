@@ -15,14 +15,12 @@ fticr_plan =
     data_key = 
       read.csv(here("data/processed/fticr_long_key.csv.gz")) %>%
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
-             Amendments = factor(Amendments, levels = c("control", "C", "N"))) %>% 
-      filter(!Suction==15),
+             Amendments = factor(Amendments, levels = c("control", "C", "N"))),
     
     data_long_trt = 
       read.csv(here("data/processed/fticr_long_trt.csv.gz")) %>% 
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
-             Amendments = factor(Amendments, levels = c("control", "C", "N"))) %>% 
-      filter(!Suction==15),
+             Amendments = factor(Amendments, levels = c("control", "C", "N"))),
     
     meta = 
       read.csv(here("data/processed/fticr_meta.csv")),
@@ -190,7 +188,7 @@ fticr_plan =
       dplyr::mutate(
         class = factor(class, levels = 
                          c("aliphatic", "unsaturated/lignin",
-                           "aromatic","condensed_arom", "other")),
+                           "aromatic","condensed_arom")),
         Amendments = factor(Amendments, levels = c("control", "C", "N")),
         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
         Moisture = factor(Moisture, levels = c("fm", "drought"))),
@@ -205,7 +203,13 @@ fticr_plan =
            y = "peaks")+
       facet_grid(Homogenization+Suction~Moisture+Wetting)+
       NULL,
-
+    
+    # IIb. peak count tables --------------------------------------------------
+    
+    
+    # IIc. aliphatic:complex --------------------------------------------------
+    
+    
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
     # IIa. load files ---------------------------------------------------------
@@ -215,7 +219,7 @@ fticr_plan =
       dplyr::mutate(
         class = factor(class, levels = 
                          c("aliphatic", "unsaturated/lignin",
-                           "aromatic","condensed_arom", "other")),
+                           "aromatic","condensed_arom")),
         Amendments = factor(Amendments, levels = c("control", "C", "N")),
         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
         Moisture = factor(Moisture, levels = c("fm", "drought"))),
@@ -225,7 +229,7 @@ fticr_plan =
       filter(!Suction=="15") %>% 
       dplyr::mutate(
         class = factor(class, levels = 
-                         c("aliphatic", "aliphatic+N","unsaturated/lignin","aromatic","condensed_arom", "other")),
+                         c("aliphatic","unsaturated/lignin","aromatic","condensed_arom")),
         Amendments = factor(Amendments, levels = c("control", "C", "N")),
         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))), 
     
@@ -255,7 +259,7 @@ fticr_plan =
     
     ### IIIa1. overall permanova (homogenization) --------------------------------------
     permanova_fticr_all = 
-      adonis(relabund_wide %>% select(aliphatic:other) ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^3, 
+      adonis(relabund_wide %>% select(aliphatic:condensed_arom) ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^3, 
              data = relabund_wide),
     
     ### IIIa2. permanova for treatments --------------------------------------
@@ -266,22 +270,22 @@ fticr_plan =
     
     permanova_fticr_1_5_intact = 
       adonis(intact_1_5 %>% 
-          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
         data = intact_1_5),
     
     permanova_fticr_50_intact = 
       adonis(intact_50 %>% 
-          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
         data = intact_50),
 
     permanova_fticr_1_5_homo = 
       adonis(homo_1_5 %>%  
-          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
         data = homo_1_5),
 
     permanova_fticr_50_homo = 
       adonis(homo_50 %>% 
-          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
         data = homo_50),
 
     ## IIIb. PCA ---------------------------------------------------------------
@@ -574,5 +578,4 @@ fticr_plan =
 # make plan ---------------------------------------------------------------
 make(fticr_plan)
 
-## peaks
 
