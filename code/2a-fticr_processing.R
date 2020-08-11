@@ -128,7 +128,7 @@ data_long_key =
 
 data_long_trt = 
   data_long_key %>% 
-  group_by(SampleAssignment) %>% 
+  group_by(SampleAssignment, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
   distinct(formula, presence)
 
 #
