@@ -6,17 +6,20 @@
 
 source("code/0-packages.R")
 
+## need core weights
 
 # load files --------------------------------------------------------------
 
 data = read.csv("data/doc.csv")
 corekey = read.csv("data/processed/corekey.csv")
+coreweights = read.csv("data/core_weights.csv") %>% 
+  dplyr::select(CORE, Homogenization, dry_wt_fine_g)
 
 ## clean the doc file
 doc = 
   data %>% 
   pivot_longer(-c(CORE,Homogenization)) %>% 
-  mutate(Homogenization = recode(Homogenization, " Intact" = "Intact")) %>% 
+  dplyr::mutate(Homogenization = dplyr::recode(Homogenization, " Intact" = "Intact")) %>% 
   mutate(Suction = case_when(grepl("1.5kPa", name)~"1.5",
                              grepl("15kPa", name)~"15",
                              grepl("50kPa", name)~"50"),
@@ -25,8 +28,10 @@ doc =
                               grepl("_ml", name)~"porewater_mL")) %>% 
   select(-name) %>% 
   spread(variable, value) %>% 
-  mutate(DOC_mg = round(DOC_mg_L * porewater_mL/1000,2)) %>% 
-  left_join(corekey, by = c("CORE"="Core"))
+  left_join(coreweights, by = c("CORE", "Homogenization")) %>% 
+  mutate(DOC_ng_g = round((DOC_mg_L * porewater_mL/dry_wt_fine_g),2)) %>% 
+  left_join(corekey, by = c("CORE"="Core")) %>% 
+  filter(!is.na(DOC_ng_g))
 
 
 # output ------------------------------------------------------------------
