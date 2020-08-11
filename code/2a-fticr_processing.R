@@ -44,7 +44,7 @@ meta =
   filter(C13==0) %>% 
   # remove peaks without C assignment
   filter(C>0) %>% 
-#  left_join(classes, by = "Mass")
+  #  left_join(classes, by = "Mass")
   # create columns for indices
   dplyr::mutate(AImod = round((1+C-(0.5*O)-S-(0.5*(N+P+H)))/(C-(0.5*O)-S-N-P),4),
                 NOSC =  round(4-(((4*C)+H-(3*N)-(2*O)-(2*S))/C),4),
@@ -61,24 +61,32 @@ meta =
                 formula_p = if_else(P>0,paste0("P",P),as.character(NA)),
                 formula = paste0(formula_c,formula_h, formula_o, formula_n, formula_s, formula_p),
                 formula = str_replace_all(formula,"NA","")) %>% 
-#  dplyr::select(Mass, formula, El_comp, Class, HC, OC, AImod, NOSC, C:P)
+  #  dplyr::select(Mass, formula, El_comp, Class, HC, OC, AImod, NOSC, C:P)
   # assign compound classes
   mutate(
-   # class_vk = case_when((OC>0 & OC <= 0.3 & HC >= 1.5 & HC <= 2.5)~"lipid",
-   #                        (0 <= OC & OC <= 0.125 & 0.8 <= HC & HC <= 2.5) ~ "unsat_hc",
-   #                        (0.3 < OC & OC <= 0.55 & 1.5 <= HC & HC <= 2.3) ~ "protein",
-   #                        (0.55 < OC & OC <= 0.7 & 1.5 <= HC & HC <= 2.2) ~ "amino_sugar",
-   #                        (0.7 < OC & OC <= 1.5 & 1.5 <= HC & HC <= 2.5) ~ "carbohydrate",
-   #                        (0.125 < OC & OC <= 0.65 & 0.8 <= HC & HC < 1.5) ~ "lignin",
-   #                        (0.65 < OC & OC <= 1.1 & 0.8 <= HC & HC < 1.5) ~ "tannin",
-   #                        (0 <= OC & OC <= 0.95 & 0.2 <= HC & HC < 0.8) ~ "condensed_hc"),
+    # class_vk = case_when((OC>0 & OC <= 0.3 & HC >= 1.5 & HC <= 2.5)~"lipid",
+    #                        (0 <= OC & OC <= 0.125 & 0.8 <= HC & HC <= 2.5) ~ "unsat_hc",
+    #                        (0.3 < OC & OC <= 0.55 & 1.5 <= HC & HC <= 2.3) ~ "protein",
+    #                        (0.55 < OC & OC <= 0.7 & 1.5 <= HC & HC <= 2.2) ~ "amino_sugar",
+    #                        (0.7 < OC & OC <= 1.5 & 1.5 <= HC & HC <= 2.5) ~ "carbohydrate",
+    #                        (0.125 < OC & OC <= 0.65 & 0.8 <= HC & HC < 1.5) ~ "lignin",
+    #                        (0.65 < OC & OC <= 1.1 & 0.8 <= HC & HC < 1.5) ~ "tannin",
+    #                        (0 <= OC & OC <= 0.95 & 0.2 <= HC & HC < 0.8) ~ "condensed_hc"),
     
     class = case_when(AImod > 0.66 ~ "condensed_arom",
                       AImod <=0.66 & AImod >= 0.50 ~ "aromatic",
                       AImod < 0.50 & HC < 1.5 ~ "unsaturated/lignin",
                       HC >= 1.5 & N==0 ~ "aliphatic",
                       HC >= 1.5 & N>0 ~ "aliphatic",
-                      HC > 2 ~ "aliphatic"),
+                      HC >= 2 ~ "aliphatic"),
+    
+    #    class = case_when(HC >= 1.5 & HC < 2.0 & N==0 & OC < 0.9 ~ "aliphatic",
+    #                      HC >= 1.5 & HC < 2.0 & N>0 & OC < 0.9 ~ "aliphatic+N",
+    #                      HC >= 2 | OC >= 0.9 ~ "saturated",
+    #                      AImod > 0.66 ~ "condensed_arom",
+    #                      AImod <=0.66 & AImod >= 0.50 ~ "aromatic",
+    #                      AImod < 0.50 & HC < 1.5 ~ "unsaturated/lignin"
+    #                      ),
     
     class = if_else(is.na(class)&!is.na(formula), "other", class)) %>% 
   dplyr::mutate(element_c = if_else(C>0,paste0("C"),as.character(NA)),
@@ -91,15 +99,10 @@ meta =
                 element_comp = str_replace_all(element_comp,"NA","")) %>% 
   dplyr::select(Mass, formula, element_comp, class, HC, OC, AImod, NOSC, C:P, -C13)
 
-# gg_vankrev(meta, aes(x = OC, y = HC, color = class))
-
 mass_list = 
   meta %>% pull(Mass)
 
-meta_hcoc = 
-  meta %>% 
-  select(formula, HC, OC)
-
+#
 # fticr_data --------------------------------------------------------------------
 data_long = 
   fticr_data %>% 
@@ -129,7 +132,14 @@ data_long_trt =
   distinct(formula, presence)
 
 #
+# gg_vankrev(meta, aes(x = OC, y = HC, color = class))
 
+
+meta_hcoc = 
+  meta %>% 
+  select(formula, HC, OC)
+
+#
 # outputs -----------------------------------------------------------------
 #write.csv(data_long, "data/processed/fticr_long.csv", row.names = F)
 #write.csv(data_long_key, "data/processed/fticr_long_key.csv", row.names = F)
