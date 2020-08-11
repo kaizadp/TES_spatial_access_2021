@@ -132,7 +132,7 @@ data_long =
 data_long_key =
   data_long %>% 
   left_join(fticr_key_cleaned, by = "FTICR_ID") %>%
-  filter(!Suction==1.5) %>% 
+  filter(!Suction==15) %>% 
   na.omit() %>% 
   group_by(SampleAssignment, formula) %>% 
   mutate(n = n()) %>% 
