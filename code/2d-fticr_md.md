@@ -14,9 +14,64 @@ or 4)
 
 -----
 
+how many FTICR reps per treatment type?
+
+| SampleAssignment                        | reps |
+| :-------------------------------------- | ---: |
+| 50-drought-groundw-control-Intact       |    2 |
+| 50-drought-precip-C-Intact              |    2 |
+| 1.5-drought-groundw-C-Homogenized       |    3 |
+| 1.5-drought-groundw-C-Intact            |    3 |
+| 1.5-drought-groundw-control-Homogenized |    3 |
+| 1.5-drought-groundw-N-Intact            |    3 |
+| 1.5-drought-precip-C-Homogenized        |    3 |
+| 1.5-drought-precip-N-Homogenized        |    3 |
+| 1.5-fm-precip-C-Intact                  |    3 |
+| 1.5-fm-precip-N-Homogenized             |    3 |
+| 50-drought-groundw-control-Homogenized  |    3 |
+| 50-drought-groundw-N-Intact             |    3 |
+| 50-drought-precip-control-Homogenized   |    3 |
+| 50-fm-groundw-control-Intact            |    3 |
+| 50-fm-groundw-N-Homogenized             |    3 |
+| 50-fm-precip-control-Homogenized        |    3 |
+| 50-fm-precip-N-Homogenized              |    3 |
+| 1.5-drought-groundw-control-Intact      |    4 |
+| 1.5-drought-groundw-N-Homogenized       |    4 |
+| 1.5-drought-precip-C-Intact             |    4 |
+| 1.5-drought-precip-control-Homogenized  |    4 |
+| 1.5-drought-precip-control-Intact       |    4 |
+| 1.5-drought-precip-N-Intact             |    4 |
+| 1.5-fm-groundw-C-Homogenized            |    4 |
+| 1.5-fm-groundw-C-Intact                 |    4 |
+| 1.5-fm-groundw-control-Homogenized      |    4 |
+| 1.5-fm-groundw-control-Intact           |    4 |
+| 1.5-fm-groundw-N-Homogenized            |    4 |
+| 1.5-fm-groundw-N-Intact                 |    4 |
+| 1.5-fm-precip-C-Homogenized             |    4 |
+| 1.5-fm-precip-control-Homogenized       |    4 |
+| 1.5-fm-precip-control-Intact            |    4 |
+| 1.5-fm-precip-N-Intact                  |    4 |
+| 50-drought-groundw-C-Homogenized        |    4 |
+| 50-drought-groundw-C-Intact             |    4 |
+| 50-drought-groundw-N-Homogenized        |    4 |
+| 50-drought-precip-C-Homogenized         |    4 |
+| 50-drought-precip-control-Intact        |    4 |
+| 50-drought-precip-N-Homogenized         |    4 |
+| 50-drought-precip-N-Intact              |    4 |
+| 50-fm-groundw-C-Homogenized             |    4 |
+| 50-fm-groundw-C-Intact                  |    4 |
+| 50-fm-groundw-control-Homogenized       |    4 |
+| 50-fm-groundw-N-Intact                  |    4 |
+| 50-fm-precip-C-Homogenized              |    4 |
+| 50-fm-precip-C-Intact                   |    4 |
+| 50-fm-precip-control-Intact             |    4 |
+| 50-fm-precip-N-Intact                   |    4 |
+
+**so we select formulae seen in at least 2 reps per treatment type**
+
 ### fticr domains
 
-![](markdown/fticr/domains-1.png)<!-- -->![](markdown/fticr/domains-2.png)<!-- -->
+![](markdown/fticr/domains-1.png)<!-- -->
 
 -----
 
@@ -24,7 +79,18 @@ or 4)
 
 ![](markdown/fticr/vk_baseline-1.png)<!-- -->
 
+#### VK by replication
+
+![](markdown/fticr/vk_pores_reps-1.png)<!-- -->![](markdown/fticr/vk_pores_reps-2.png)<!-- -->![](markdown/fticr/vk_pores_reps-3.png)<!-- -->![](markdown/fticr/vk_pores_reps-4.png)<!-- -->
+
+#### VK diagrams by treatment
+
 ![](markdown/fticr/vk_pores-1.png)<!-- -->![](markdown/fticr/vk_pores-2.png)<!-- -->
+
+#### VK unique
+
+unique to each amendment, in each incubation type
+![](markdown/fticr/vk_unique-1.png)<!-- -->![](markdown/fticr/vk_unique-2.png)<!-- -->
 
 -----
 
@@ -228,7 +294,7 @@ distinct peaks seen in each treatment type
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lpzkoqzues .gt_table {
+#azotecgdgn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -253,7 +319,7 @@ distinct peaks seen in each treatment type
   border-left-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_heading {
+#azotecgdgn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -265,7 +331,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_title {
+#azotecgdgn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -275,7 +341,7 @@ distinct peaks seen in each treatment type
   border-bottom-width: 0;
 }
 
-#lpzkoqzues .gt_subtitle {
+#azotecgdgn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -285,13 +351,13 @@ distinct peaks seen in each treatment type
   border-top-width: 0;
 }
 
-#lpzkoqzues .gt_bottom_border {
+#azotecgdgn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_col_headings {
+#azotecgdgn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -306,7 +372,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_col_heading {
+#azotecgdgn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -326,7 +392,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#lpzkoqzues .gt_column_spanner_outer {
+#azotecgdgn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -338,15 +404,15 @@ distinct peaks seen in each treatment type
   padding-right: 4px;
 }
 
-#lpzkoqzues .gt_column_spanner_outer:first-child {
+#azotecgdgn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lpzkoqzues .gt_column_spanner_outer:last-child {
+#azotecgdgn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lpzkoqzues .gt_column_spanner {
+#azotecgdgn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -358,7 +424,7 @@ distinct peaks seen in each treatment type
   width: 100%;
 }
 
-#lpzkoqzues .gt_group_heading {
+#azotecgdgn .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -380,7 +446,7 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#lpzkoqzues .gt_empty_group_heading {
+#azotecgdgn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -395,15 +461,15 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#lpzkoqzues .gt_from_md > :first-child {
+#azotecgdgn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lpzkoqzues .gt_from_md > :last-child {
+#azotecgdgn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lpzkoqzues .gt_row {
+#azotecgdgn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -422,7 +488,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#lpzkoqzues .gt_stub {
+#azotecgdgn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -434,7 +500,7 @@ distinct peaks seen in each treatment type
   padding-left: 12px;
 }
 
-#lpzkoqzues .gt_summary_row {
+#azotecgdgn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -444,7 +510,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#lpzkoqzues .gt_first_summary_row {
+#azotecgdgn .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -454,7 +520,7 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_grand_summary_row {
+#azotecgdgn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -464,7 +530,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#lpzkoqzues .gt_first_grand_summary_row {
+#azotecgdgn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -474,11 +540,11 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_striped {
+#azotecgdgn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lpzkoqzues .gt_table_body {
+#azotecgdgn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -487,7 +553,7 @@ distinct peaks seen in each treatment type
   border-bottom-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_footnotes {
+#azotecgdgn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -501,13 +567,13 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_footnote {
+#azotecgdgn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lpzkoqzues .gt_sourcenotes {
+#azotecgdgn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -521,47 +587,47 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#lpzkoqzues .gt_sourcenote {
+#azotecgdgn .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lpzkoqzues .gt_left {
+#azotecgdgn .gt_left {
   text-align: left;
 }
 
-#lpzkoqzues .gt_center {
+#azotecgdgn .gt_center {
   text-align: center;
 }
 
-#lpzkoqzues .gt_right {
+#azotecgdgn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lpzkoqzues .gt_font_normal {
+#azotecgdgn .gt_font_normal {
   font-weight: normal;
 }
 
-#lpzkoqzues .gt_font_bold {
+#azotecgdgn .gt_font_bold {
   font-weight: bold;
 }
 
-#lpzkoqzues .gt_font_italic {
+#azotecgdgn .gt_font_italic {
   font-style: italic;
 }
 
-#lpzkoqzues .gt_super {
+#azotecgdgn .gt_super {
   font-size: 65%;
 }
 
-#lpzkoqzues .gt_footnote_marks {
+#azotecgdgn .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="lpzkoqzues" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="azotecgdgn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -1111,7 +1177,7 @@ precip
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tabxnhqunj .gt_table {
+#pybxkktqea .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1136,7 +1202,7 @@ precip
   border-left-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_heading {
+#pybxkktqea .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1148,7 +1214,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_title {
+#pybxkktqea .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1158,7 +1224,7 @@ precip
   border-bottom-width: 0;
 }
 
-#tabxnhqunj .gt_subtitle {
+#pybxkktqea .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1168,13 +1234,13 @@ precip
   border-top-width: 0;
 }
 
-#tabxnhqunj .gt_bottom_border {
+#pybxkktqea .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_col_headings {
+#pybxkktqea .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1189,7 +1255,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_col_heading {
+#pybxkktqea .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1209,7 +1275,7 @@ precip
   overflow-x: hidden;
 }
 
-#tabxnhqunj .gt_column_spanner_outer {
+#pybxkktqea .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1221,15 +1287,15 @@ precip
   padding-right: 4px;
 }
 
-#tabxnhqunj .gt_column_spanner_outer:first-child {
+#pybxkktqea .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tabxnhqunj .gt_column_spanner_outer:last-child {
+#pybxkktqea .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tabxnhqunj .gt_column_spanner {
+#pybxkktqea .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1241,7 +1307,7 @@ precip
   width: 100%;
 }
 
-#tabxnhqunj .gt_group_heading {
+#pybxkktqea .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1263,7 +1329,7 @@ precip
   vertical-align: middle;
 }
 
-#tabxnhqunj .gt_empty_group_heading {
+#pybxkktqea .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1278,15 +1344,15 @@ precip
   vertical-align: middle;
 }
 
-#tabxnhqunj .gt_from_md > :first-child {
+#pybxkktqea .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tabxnhqunj .gt_from_md > :last-child {
+#pybxkktqea .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tabxnhqunj .gt_row {
+#pybxkktqea .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1305,7 +1371,7 @@ precip
   overflow-x: hidden;
 }
 
-#tabxnhqunj .gt_stub {
+#pybxkktqea .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1317,7 +1383,7 @@ precip
   padding-left: 12px;
 }
 
-#tabxnhqunj .gt_summary_row {
+#pybxkktqea .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1327,7 +1393,7 @@ precip
   padding-right: 5px;
 }
 
-#tabxnhqunj .gt_first_summary_row {
+#pybxkktqea .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1337,7 +1403,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_grand_summary_row {
+#pybxkktqea .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1347,7 +1413,7 @@ precip
   padding-right: 5px;
 }
 
-#tabxnhqunj .gt_first_grand_summary_row {
+#pybxkktqea .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1357,11 +1423,11 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_striped {
+#pybxkktqea .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tabxnhqunj .gt_table_body {
+#pybxkktqea .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1370,7 +1436,7 @@ precip
   border-bottom-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_footnotes {
+#pybxkktqea .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1384,13 +1450,13 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_footnote {
+#pybxkktqea .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#tabxnhqunj .gt_sourcenotes {
+#pybxkktqea .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1404,47 +1470,47 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#tabxnhqunj .gt_sourcenote {
+#pybxkktqea .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#tabxnhqunj .gt_left {
+#pybxkktqea .gt_left {
   text-align: left;
 }
 
-#tabxnhqunj .gt_center {
+#pybxkktqea .gt_center {
   text-align: center;
 }
 
-#tabxnhqunj .gt_right {
+#pybxkktqea .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tabxnhqunj .gt_font_normal {
+#pybxkktqea .gt_font_normal {
   font-weight: normal;
 }
 
-#tabxnhqunj .gt_font_bold {
+#pybxkktqea .gt_font_bold {
   font-weight: bold;
 }
 
-#tabxnhqunj .gt_font_italic {
+#pybxkktqea .gt_font_italic {
   font-style: italic;
 }
 
-#tabxnhqunj .gt_super {
+#pybxkktqea .gt_super {
   font-size: 65%;
 }
 
-#tabxnhqunj .gt_footnote_marks {
+#pybxkktqea .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="tabxnhqunj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="pybxkktqea" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -2003,29 +2069,29 @@ precip
     #>                                     Df SumOfSqs      R2       F Pr(>F)    
     #> Amendments                           2   0.2037 0.04500  9.0710  0.001 ***
     #> Moisture                             1   0.2220 0.04904 19.7706  0.001 ***
-    #> Wetting                              1   0.0496 0.01095  4.4137  0.020 *  
+    #> Wetting                              1   0.0496 0.01095  4.4137  0.008 ** 
     #> Suction                              1   0.3233 0.07143 28.7938  0.001 ***
     #> Homogenization                       1   0.2968 0.06557 26.4324  0.001 ***
-    #> Amendments:Moisture                  2   0.0336 0.00742  1.4959  0.208    
-    #> Amendments:Wetting                   2   0.0376 0.00831  1.6755  0.147    
-    #> Amendments:Suction                   2   0.0370 0.00818  1.6482  0.145    
+    #> Amendments:Moisture                  2   0.0336 0.00742  1.4959  0.197    
+    #> Amendments:Wetting                   2   0.0376 0.00831  1.6755  0.156    
+    #> Amendments:Suction                   2   0.0370 0.00818  1.6482  0.148    
     #> Amendments:Homogenization            2   0.2123 0.04691  9.4547  0.001 ***
-    #> Moisture:Wetting                     1   0.0131 0.00290  1.1709  0.299    
-    #> Moisture:Suction                     1   0.0376 0.00830  3.3470  0.039 *  
-    #> Moisture:Homogenization              1   0.0382 0.00843  3.3997  0.046 *  
-    #> Wetting:Suction                      1   0.0417 0.00921  3.7126  0.028 *  
-    #> Wetting:Homogenization               1   0.0753 0.01664  6.7062  0.001 ***
-    #> Suction:Homogenization               1   0.0198 0.00437  1.7611  0.165    
+    #> Moisture:Wetting                     1   0.0131 0.00290  1.1709  0.321    
+    #> Moisture:Suction                     1   0.0376 0.00830  3.3470  0.037 *  
+    #> Moisture:Homogenization              1   0.0382 0.00843  3.3997  0.040 *  
+    #> Wetting:Suction                      1   0.0417 0.00921  3.7126  0.031 *  
+    #> Wetting:Homogenization               1   0.0753 0.01664  6.7062  0.005 ** 
+    #> Suction:Homogenization               1   0.0198 0.00437  1.7611  0.168    
     #> Amendments:Moisture:Wetting          2   0.1517 0.03351  6.7538  0.001 ***
-    #> Amendments:Moisture:Suction          2   0.0336 0.00742  1.4953  0.212    
-    #> Amendments:Moisture:Homogenization   2   0.0348 0.00769  1.5510  0.197    
-    #> Amendments:Wetting:Suction           2   0.0275 0.00607  1.2243  0.309    
-    #> Amendments:Wetting:Homogenization    2   0.0002 0.00004  0.0081  0.996    
-    #> Amendments:Suction:Homogenization    2   0.0851 0.01879  3.7877  0.004 ** 
-    #> Moisture:Wetting:Suction             1   0.0272 0.00601  2.4218  0.086 .  
-    #> Moisture:Wetting:Homogenization      1   0.0120 0.00265  1.0682  0.345    
-    #> Moisture:Suction:Homogenization      1   0.0335 0.00740  2.9829  0.065 .  
-    #> Wetting:Suction:Homogenization       1   0.0090 0.00199  0.8002  0.452    
+    #> Amendments:Moisture:Suction          2   0.0336 0.00742  1.4953  0.201    
+    #> Amendments:Moisture:Homogenization   2   0.0348 0.00769  1.5510  0.205    
+    #> Amendments:Wetting:Suction           2   0.0275 0.00607  1.2243  0.283    
+    #> Amendments:Wetting:Homogenization    2   0.0002 0.00004  0.0081  0.995    
+    #> Amendments:Suction:Homogenization    2   0.0851 0.01879  3.7877  0.008 ** 
+    #> Moisture:Wetting:Suction             1   0.0272 0.00601  2.4218  0.065 .  
+    #> Moisture:Wetting:Homogenization      1   0.0120 0.00265  1.0682  0.357    
+    #> Moisture:Suction:Homogenization      1   0.0335 0.00740  2.9829  0.045 *  
+    #> Wetting:Suction:Homogenization       1   0.0090 0.00199  0.8002  0.445    
     #> Residual                           220   2.4701 0.54575                   
     #> Total                              256   4.5260 1.00000                   
     #> ---
@@ -2044,10 +2110,10 @@ precip
     #> Amendments                   2  0.00598 0.01265  0.4876  0.777    
     #> Moisture                     1  0.07655 0.16179 12.4747  0.001 ***
     #> Wetting                      1  0.05513 0.11653  8.9847  0.001 ***
-    #> Amendments:Moisture          2  0.02610 0.05517  2.1268  0.095 .  
-    #> Amendments:Wetting           2  0.04201 0.08880  3.4232  0.015 *  
-    #> Moisture:Wetting             1  0.01159 0.02450  1.8888  0.162    
-    #> Amendments:Moisture:Wetting  2  0.05326 0.11257  4.3398  0.002 ** 
+    #> Amendments:Moisture          2  0.02610 0.05517  2.1268  0.073 .  
+    #> Amendments:Wetting           2  0.04201 0.08880  3.4232  0.012 *  
+    #> Moisture:Wetting             1  0.01159 0.02450  1.8888  0.145    
+    #> Amendments:Moisture:Wetting  2  0.05326 0.11257  4.3398  0.003 ** 
     #> Residual                    33  0.20249 0.42800                   
     #> Total                       44  0.47311 1.00000                   
     #> ---
@@ -2061,12 +2127,12 @@ precip
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
     #> Amendments                   2  0.08911 0.19613 5.8120  0.001 ***
-    #> Moisture                     1  0.01105 0.02432 1.4416  0.253    
-    #> Wetting                      1  0.01364 0.03003 1.7798  0.188    
-    #> Amendments:Moisture          2  0.03580 0.07880 2.3352  0.056 .  
-    #> Amendments:Wetting           2  0.02310 0.05084 1.5064  0.196    
-    #> Moisture:Wetting             1  0.02864 0.06303 3.7355  0.024 *  
-    #> Amendments:Moisture:Wetting  2  0.02301 0.05065 1.5008  0.202    
+    #> Moisture                     1  0.01105 0.02432 1.4416  0.232    
+    #> Wetting                      1  0.01364 0.03003 1.7798  0.153    
+    #> Amendments:Moisture          2  0.03580 0.07880 2.3352  0.065 .  
+    #> Amendments:Wetting           2  0.02310 0.05084 1.5064  0.201    
+    #> Moisture:Wetting             1  0.02864 0.06303 3.7355  0.028 *  
+    #> Amendments:Moisture:Wetting  2  0.02301 0.05065 1.5008  0.207    
     #> Residual                    30  0.22999 0.50620                  
     #> Total                       41  0.45436 1.00000                  
     #> ---
@@ -2081,11 +2147,11 @@ precip
     #>                             Df SumOfSqs      R2       F Pr(>F)    
     #> Amendments                   2  0.11836 0.16732  7.8805  0.001 ***
     #> Moisture                     1  0.20554 0.29057 27.3701  0.001 ***
-    #> Wetting                      1  0.01826 0.02581  2.4313  0.104    
-    #> Amendments:Moisture          2  0.02901 0.04102  1.9317  0.135    
-    #> Amendments:Wetting           2  0.04013 0.05673  2.6719  0.051 .  
-    #> Moisture:Wetting             1  0.01276 0.01804  1.6995  0.158    
-    #> Amendments:Moisture:Wetting  2  0.05051 0.07140  3.3630  0.027 *  
+    #> Wetting                      1  0.01826 0.02581  2.4313  0.085 .  
+    #> Amendments:Moisture          2  0.02901 0.04102  1.9317  0.128    
+    #> Amendments:Wetting           2  0.04013 0.05673  2.6719  0.049 *  
+    #> Moisture:Wetting             1  0.01276 0.01804  1.6995  0.185    
+    #> Amendments:Moisture:Wetting  2  0.05051 0.07140  3.3630  0.025 *  
     #> Residual                    31  0.23280 0.32910                   
     #> Total                       42  0.70737 1.00000                   
     #> ---
@@ -2099,12 +2165,12 @@ precip
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
     #> Amendments                   2  0.19043 0.22699 6.6889  0.001 ***
-    #> Moisture                     1  0.00609 0.00726 0.4277  0.663    
+    #> Moisture                     1  0.00609 0.00726 0.4277  0.676    
     #> Wetting                      1  0.03251 0.03875 2.2839  0.112    
-    #> Amendments:Moisture          2  0.07283 0.08681 2.5582  0.040 *  
-    #> Amendments:Wetting           2  0.03047 0.03632 1.0703  0.393    
-    #> Moisture:Wetting             1  0.00969 0.01155 0.6805  0.515    
-    #> Amendments:Moisture:Wetting  2  0.05565 0.06634 1.9548  0.106    
+    #> Amendments:Moisture          2  0.07283 0.08681 2.5582  0.044 *  
+    #> Amendments:Wetting           2  0.03047 0.03632 1.0703  0.406    
+    #> Moisture:Wetting             1  0.00969 0.01155 0.6805  0.551    
+    #> Amendments:Moisture:Wetting  2  0.05565 0.06634 1.9548  0.107    
     #> Residual                    31  0.44127 0.52599                  
     #> Total                       42  0.83893 1.00000                  
     #> ---
