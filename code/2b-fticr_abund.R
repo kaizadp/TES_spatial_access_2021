@@ -11,9 +11,9 @@ library(drake)
 fticr_relabund_plan = drake_plan(
   # I. LOAD FILES ----
   
-  fticr_data = read.csv("data/processed/fticr_long.csv.gz"),
-  fticr_data_key = read.csv("data/processed/fticr_long_key.csv.gz"),
-  fticr_meta = read.csv("data/processed/fticr_meta.csv"),
+  fticr_data = read.csv(file_in("data/processed/fticr_long.csv.gz")),
+  fticr_data_key = read.csv(file_in("data/processed/fticr_long_key.csv.gz")),
+  fticr_meta = read.csv(file_in("data/processed/fticr_meta.csv")),
   
   #
   # II. RELATIVE ABUNDANCE ----

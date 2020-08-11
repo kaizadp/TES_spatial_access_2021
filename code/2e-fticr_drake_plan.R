@@ -12,25 +12,25 @@ fticr_plan =
     pal = pnw_palette("Bay", 3),
     
     # 0b. load files --------------------------------------------------------------
-    fticr_key = read.csv(here("data/processed/fticr_key.csv")) %>% 
+    fticr_key = read.csv(file_in("data/processed/fticr_key.csv")) %>% 
       distinct(SampleAssignment, Moisture, Wetting, Amendments, Suction, Homogenization),
     
     data_key = 
-      read.csv(here("data/processed/fticr_long_key.csv.gz")) %>%
+      read.csv(file_in("data/processed/fticr_long_key.csv.gz")) %>%
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
              Amendments = factor(Amendments, levels = c("control", "C", "N")),
              Moisture = factor(Moisture, levels = c("fm", "drought")),
              Wetting = factor(Wetting, levels = c("precip", "groundw"))),
     
     data_long_trt = 
-      read.csv(here("data/processed/fticr_long_trt.csv.gz")) %>% 
+      read.csv(file_in("data/processed/fticr_long_trt.csv.gz")) %>% 
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
              Amendments = factor(Amendments, levels = c("control", "C", "N")),
              Moisture = factor(Moisture, levels = c("fm", "drought")),
              Wetting = factor(Wetting, levels = c("precip", "groundw"))),
     
     meta = 
-      read.csv(here("data/processed/fticr_meta.csv")),
+      read.csv(file_in("data/processed/fticr_meta.csv")),
     
     meta_hcoc = 
       meta %>% 
@@ -305,7 +305,7 @@ fticr_plan =
     # II. relative abundances -------------------------------------------------
     # IIa. load files ---------------------------------------------------------
     relabund_trt = 
-      read.csv(here("data/processed/fticr_relabund_trt.csv")) %>% 
+      read.csv(file_in("data/processed/fticr_relabund_trt.csv")) %>% 
       filter(!Suction=="15") %>% 
       dplyr::mutate(
         class = factor(class, levels = 
@@ -316,7 +316,7 @@ fticr_plan =
         Moisture = factor(Moisture, levels = c("fm", "drought"))),
     
     relabund_cores = 
-      read.csv(here("data/processed/fticr_relabund_cores.csv")) %>% 
+      read.csv(file_in("data/processed/fticr_relabund_cores.csv")) %>% 
       filter(!Suction=="15") %>% 
       dplyr::mutate(
         class = factor(class, levels = 
