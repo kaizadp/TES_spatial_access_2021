@@ -101,11 +101,63 @@ readd(gg_fticr_unique_homo)
 
 ---
 
+### peaks
+
+```{r fticr_peaks_bar, fig.height=8, fig.width=8}
+readd(gg_peaks_bar)
+```
+
+---
+
 ### relative abundances
+
+```{r fticr_relabund, fig.height=8, fig.width=8}
+readd(gg_fticr_relabund_barplots)
+```
+
+
 
 ### STATS 
 
+<details>
+  <summary>PERMANOVA</summary>
+  
 #### PERMANOVA
+**overall**
+```{r permanova_overall}
+readd(permanova_fticr_all)
+```
+
+**PERMANOVA for treatments**
+
+1.5 kPa intact cores
+```{r}
+readd(permanova_fticr_1_5_intact)
+```
+
+50 kPa intact cores
+```{r}
+readd(permanova_fticr_50_intact)
+```
+
+1.5 kPa homogenized cores
+```{r}
+readd(permanova_fticr_1_5_homo)
+```
+
+50 kPa homogenized cores
+```{r}
+readd(permanova_fticr_50_homo)
+```
+
+
+
+
+
+
+
+
+</details>
 
 #### PCA 
 
@@ -135,6 +187,28 @@ readd(gg_fticr_pca_homo_combined)
 
 ---
 
+
+
+
+### others
+
+<details>
+  <summary>other plots</summary>
+  
+#### NOSC
+
+```{r NOSC, fig.height=8, fig.width=10}
+readd(gg_nosc)
+```
+
+#### elements
+```{r elements}
+readd(gg_elements_n)
+readd(gg_elements_o)
+
+```
+
+</details>
 
 
 ## Session Info

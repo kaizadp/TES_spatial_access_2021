@@ -31,6 +31,9 @@ fticr_plan =
       meta %>% 
       select(formula, HC, OC),    
     
+    meta_classes = 
+      meta %>% 
+      select(formula, class),
     
     
     # 0c. reps ----------------------------------------------------------------
@@ -144,7 +147,6 @@ fticr_plan =
     
     
     ## IId. vk unique ---------------------------------------------------------------
-    
     data_unique = 
       data_key %>% 
       group_by(formula, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
@@ -178,8 +180,34 @@ fticr_plan =
       NULL,
     
     # ----- ---------------------------------------------------------------------
-    # II. relative abundances -------------------------------------------------
+    # II. peaks ---------------------------------------------------------------------
+    peak_counts = 
+      data_key %>% 
+      left_join(meta_classes, by = "formula") %>% 
+      group_by(Homogenization, Suction, Moisture, Wetting, Amendments, class) %>% 
+      dplyr::summarise(counts = n()) %>% 
+      ungroup() %>% 
+      dplyr::mutate(
+        class = factor(class, levels = 
+                         c("aliphatic", "unsaturated/lignin",
+                           "aromatic","condensed_arom", "other")),
+        Amendments = factor(Amendments, levels = c("control", "C", "N")),
+        Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+        Moisture = factor(Moisture, levels = c("fm", "drought"))),
     
+    ## IIa. bar plots ------------------------------------------------------------------
+    gg_peaks_bar = peak_counts %>% 
+      ggplot(aes(x = Amendments, y = counts, fill = class))+
+      geom_bar(stat = "identity")+
+      #scale_fill_viridis_d(option = "inferno")+
+      scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+      labs(x = "",
+           y = "peaks")+
+      facet_grid(Homogenization+Suction~Moisture+Wetting)+
+      NULL,
+
+    # ----- ---------------------------------------------------------------------
+    # II. relative abundances -------------------------------------------------
     # IIa. load files ---------------------------------------------------------
     relabund_trt = 
       read.csv(here("data/processed/fticr_relabund_trt.csv")) %>% 
@@ -202,22 +230,19 @@ fticr_plan =
         Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))), 
     
     # IIb. bar plots ----------------------------------------------------------
-    
     gg_fticr_relabund_barplots =     
       relabund_trt %>%  
       ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
       geom_bar(stat = "identity")+
       #scale_fill_viridis_d(option = "inferno")+
       scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
-      labs(x = "percent saturation",
+      labs(x = "",
            y = "relative abundance (%)")+
       facet_grid(Homogenization+Suction~Moisture+Wetting)+
       NULL,
-    
-    
-    
+
     # ----- ---------------------------------------------------------------------
-    # III statistics ----------------------------------------------------------
+    # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
     # make wide
     relabund_wide = 
@@ -233,6 +258,32 @@ fticr_plan =
       adonis(relabund_wide %>% select(aliphatic:other) ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^3, 
              data = relabund_wide),
     
+    ### IIIa2. permanova for treatments --------------------------------------
+    intact_1_5 = relabund_wide %>% filter(Homogenization=="Intact" & Suction==1.5),
+    intact_50 = relabund_wide %>% filter(Homogenization=="Intact" & Suction==50),
+    homo_1_5 = relabund_wide %>% filter(Homogenization=="Homogenized" & Suction==1.5),
+    homo_50 = relabund_wide %>% filter(Homogenization=="Homogenized" & Suction==50),
+    
+    permanova_fticr_1_5_intact = 
+      adonis(intact_1_5 %>% 
+          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+        data = intact_1_5),
+    
+    permanova_fticr_50_intact = 
+      adonis(intact_50 %>% 
+          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+        data = intact_50),
+
+    permanova_fticr_1_5_homo = 
+      adonis(homo_1_5 %>%  
+          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+        data = homo_1_5),
+
+    permanova_fticr_50_homo = 
+      adonis(homo_50 %>% 
+          select(aliphatic:other) ~  Amendments*Moisture*Wetting, 
+        data = homo_50),
+
     ## IIIb. PCA ---------------------------------------------------------------
     # make pca file
     relabund_pca=
@@ -456,22 +507,72 @@ fticr_plan =
       NULL,
     
     #### combined ----
-    
+    library(patchwork),
     gg_fticr_pca_intact_combined = gg_pca_1_intact + gg_pca_50_intact,
     gg_fticr_pca_homo_combined = gg_pca_1_homo + gg_pca_50_homo,
     
     
     
     # ----- ---------------------------------------------------------------------
+    # IV. others ------------------------------------------------------------------
+    ## IVa. NOSC ---------------------------------------------------------------
+    meta_nosc = 
+      meta %>% 
+      select(formula, NOSC),
+    
+    gg_nosc = 
+      data_key %>% 
+      left_join(meta_nosc, by = "formula") %>% 
+      ggplot(aes(x = Amendments, y = NOSC, fill = Amendments))+
+      geom_violin()+
+      geom_boxplot(width=0.2, coef=0, outlier.shape = NA, fill = "white")+
+      #   geom_dotplot(binaxis = "y", size=1)+
+      scale_fill_manual(values = pal)+
+      labs(x = "",
+           y = "NOSC")+
+      theme(legend.position = "none")+
+      facet_grid(Homogenization+Suction~Moisture+Wetting)+
+      NULL,
+    
+    ## IVb. elements -----------------------------------------------------------
+    meta_on = 
+      meta %>% select(formula, O, N),
+    
+    fticr_elements = 
+      data_key %>% 
+      filter(!Suction==15) %>% 
+      filter(Homogenization=="Intact") %>% 
+      left_join(meta_on, by = "formula"),
+    
+    gg_elements_n = 
+      fticr_elements %>% 
+      ggplot(aes(x = N, color = Amendments, fill = Amendments))+
+      geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
+      #geom_density(alpha = 0.2)+
+      facet_grid(Suction + Wetting ~ Moisture)+
+      ylim(0,1000),
+    
+    gg_elements_o = 
+      fticr_elements %>% 
+      ggplot(aes(x = O, color = Amendments, fill = Amendments))+
+      geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
+      #geom_density(alpha = 0.2)+
+      facet_grid(Suction + Wetting ~ Moisture)+
+      ylim(0,1000),
+    
+    # ----- ---------------------------------------------------------------------
     # report ------------------------------------------------------------------
     report = rmarkdown::render(
       knitr_in("code/drake_md_report.Rmd"),
-    #  output_file = file_out("drake_md_report.md"))
-    #      output_format = rmarkdown::html_document(toc = TRUE))
-    output_format = rmarkdown::github_document())
-
+      #  output_file = file_out("drake_md_report.md"))
+      #      output_format = rmarkdown::html_document(toc = TRUE))
+      output_format = rmarkdown::github_document())
+    
     # ----- ---------------------------------------------------------------------
   )
 
 # make plan ---------------------------------------------------------------
 make(fticr_plan)
+
+## peaks
+
