@@ -12,15 +12,22 @@ fticr_plan =
     pal = pnw_palette("Bay", 3),
     
     # 0b. load files --------------------------------------------------------------
+    fticr_key = read.csv(here("data/processed/fticr_key.csv")) %>% 
+      distinct(SampleAssignment, Moisture, Wetting, Amendments, Suction, Homogenization),
+    
     data_key = 
       read.csv(here("data/processed/fticr_long_key.csv.gz")) %>%
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
-             Amendments = factor(Amendments, levels = c("control", "C", "N"))),
+             Amendments = factor(Amendments, levels = c("control", "C", "N")),
+             Moisture = factor(Moisture, levels = c("fm", "drought")),
+             Wetting = factor(Wetting, levels = c("precip", "groundw"))),
     
     data_long_trt = 
       read.csv(here("data/processed/fticr_long_trt.csv.gz")) %>% 
       mutate(Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
-             Amendments = factor(Amendments, levels = c("control", "C", "N"))),
+             Amendments = factor(Amendments, levels = c("control", "C", "N")),
+             Moisture = factor(Moisture, levels = c("fm", "drought")),
+             Wetting = factor(Wetting, levels = c("precip", "groundw"))),
     
     meta = 
       read.csv(here("data/processed/fticr_meta.csv")),
@@ -179,23 +186,48 @@ fticr_plan =
     
     # ----- ---------------------------------------------------------------------
     # II. peaks ---------------------------------------------------------------------
-    peak_counts = 
+    peaks_distinct_core = 
       data_key %>% 
+      group_by(Core, SampleAssignment) %>% 
+      distinct(formula),
+    
+    peakcounts_core = 
+      peaks_distinct_core %>% 
       left_join(meta_classes, by = "formula") %>% 
-      group_by(Homogenization, Suction, Moisture, Wetting, Amendments, class) %>% 
-      dplyr::summarise(counts = n()) %>% 
+      group_by(Core, SampleAssignment, class) %>% 
+      summarize(n = n()) %>% 
       ungroup() %>% 
-      dplyr::mutate(
-        class = factor(class, levels = 
-                         c("aliphatic", "unsaturated/lignin",
-                           "aromatic","condensed_arom")),
-        Amendments = factor(Amendments, levels = c("control", "C", "N")),
-        Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
-        Moisture = factor(Moisture, levels = c("fm", "drought"))),
+      group_by(Core, SampleAssignment) %>% 
+      dplyr::mutate(total = sum(n)) %>% 
+      spread(class, n) %>% 
+      pivot_longer(-c(Core, SampleAssignment),
+                   names_to = "class",
+                   values_to = "counts") %>% 
+      ungroup() %>% 
+      left_join(fticr_key, by = "SampleAssignment") %>% 
+      mutate(Amendments = factor(Amendments, 
+                                 levels = c("control", "C", "N")),
+             Homogenization = factor(Homogenization, 
+                                     levels = c("Intact", "Homogenized")),
+             Moisture = factor(Moisture, 
+                               levels = c("fm", "drought")),
+             Wetting = factor(Wetting, 
+                              levels = c("precip", "groundw"))),
+    
+    peakcounts_trt = 
+      peakcounts_core %>% 
+      group_by(SampleAssignment, class) %>% 
+      filter(!class=="total") %>% 
+      summarize(peaks = as.integer(mean(counts))) %>% 
+      ungroup() %>% 
+      left_join(fticr_key, by = "SampleAssignment") %>% 
+      mutate(Amendments = factor(Amendments, 
+                                 levels = c("control", "C", "N")),
+             Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))),
     
     ## IIa. bar plots ------------------------------------------------------------------
-    gg_peaks_bar = peak_counts %>% 
-      ggplot(aes(x = Amendments, y = counts, fill = class))+
+    gg_peaks_bar = peakcounts_trt %>% 
+      ggplot(aes(x = Amendments, y = peaks, fill = class))+
       geom_bar(stat = "identity")+
       #scale_fill_viridis_d(option = "inferno")+
       scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
@@ -205,10 +237,69 @@ fticr_plan =
       NULL,
     
     # IIb. peak count tables --------------------------------------------------
+    peakcounts_table_total =
+      peakcounts_core %>% 
+      filter(class=="total") %>% 
+      group_by(SampleAssignment, class) %>% 
+      dplyr::summarize(peaks_mean = as.integer(mean(counts)),
+                       peaks_se = as.integer(sd(counts)/sqrt(n())),
+                       peaks = paste(peaks_mean, "\u00b1", peaks_se)) %>% 
+      #spread(name, peaks) %>% 
+      ungroup %>% 
+      left_join(fticr_key, by = "SampleAssignment") %>% 
+      mutate(Amendments = factor(Amendments, 
+                                 levels = c("control", "C", "N")),
+             Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+             # now create a new combined column for suction-amendments
+             var = paste0(Suction,"-",Amendments),
+             var = factor(var, levels = c("1.5-control", "1.5-C", "1.5-N",
+                                          "50-control", "50-C", "50-N"))
+      ) %>% 
+      dplyr::select(Homogenization, Moisture, Wetting, var, peaks) %>% 
+      spread(var, peaks), 
     
+    peakcounts_table_aromatic =
+      peakcounts_core %>% 
+      filter(class %in% c("unsaturated/lignin", "aromatic", "condensed_arom")) %>%
+      group_by(Core, SampleAssignment) %>% 
+      summarise(peaks=sum(counts))  %>% 
+      group_by(SampleAssignment) %>% 
+      dplyr::summarize(peaks_mean = as.integer(mean(peaks)),
+                       peaks_se = as.integer(sd(peaks)/sqrt(n())),
+                       peaks = paste(peaks_mean, "\u00b1", peaks_se)) %>% 
+      left_join(fticr_key, by = "SampleAssignment") %>% 
+      ungroup %>% 
+      mutate(Amendments = factor(Amendments, 
+                                 levels = c("control", "C", "N")),
+             Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+             # now create a new combined column for suction-amendments
+             var = paste0(Suction,"-",Amendments),
+             var = factor(var, levels = c("1.5-control", "1.5-C", "1.5-N",
+                                          "50-control", "50-C", "50-N"))
+      ) %>% 
+      dplyr::select(Homogenization, Moisture, Wetting, var, peaks) %>% 
+      spread(var, peaks), 
     
     # IIc. aliphatic:complex --------------------------------------------------
+    aliphatic_aromatic_counts = 
+      peakcounts_core %>% 
+      ungroup %>% 
+      filter(!class=="total") %>% 
+      mutate(new_class = if_else(grepl("aliphatic",class), "aliphatic", "complex")) %>% 
+      group_by(Core, Homogenization, Moisture, Wetting, Amendments, Suction, new_class) %>% 
+      dplyr::summarise(counts = sum(counts)) %>%
+      ungroup() %>% 
+      spread(new_class, counts) %>% 
+      mutate(arom_aliph_ratio = complex/aliphatic),
     
+    gg_aliph_aromatic = 
+      aliphatic_aromatic_counts %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot(aes(x = Amendments, y = arom_aliph_ratio, color = Amendments))+
+      geom_point()+
+      labs(y = "complex:simple")+
+      facet_grid(Homogenization+Suction ~ Moisture+Wetting)+
+      NULL,
     
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
@@ -244,7 +335,7 @@ fticr_plan =
            y = "relative abundance (%)")+
       facet_grid(Homogenization+Suction~Moisture+Wetting)+
       NULL,
-
+    
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
@@ -270,24 +361,24 @@ fticr_plan =
     
     permanova_fticr_1_5_intact = 
       adonis(intact_1_5 %>% 
-          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-        data = intact_1_5),
+               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
+             data = intact_1_5),
     
     permanova_fticr_50_intact = 
       adonis(intact_50 %>% 
-          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-        data = intact_50),
-
+               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
+             data = intact_50),
+    
     permanova_fticr_1_5_homo = 
       adonis(homo_1_5 %>%  
-          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-        data = homo_1_5),
-
+               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
+             data = homo_1_5),
+    
     permanova_fticr_50_homo = 
       adonis(homo_50 %>% 
-          select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-        data = homo_50),
-
+               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
+             data = homo_50),
+    
     ## IIIb. PCA ---------------------------------------------------------------
     # make pca file
     relabund_pca=
@@ -577,5 +668,3 @@ fticr_plan =
 
 # make plan ---------------------------------------------------------------
 make(fticr_plan)
-
-
