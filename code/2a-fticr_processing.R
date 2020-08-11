@@ -75,9 +75,9 @@ meta =
     
     class = case_when(AImod > 0.66 ~ "condensed_arom",
                       AImod <=0.66 & AImod >= 0.50 ~ "aromatic",
-                      AImod < 0.50 & HC < 1.5 ~ "unsaturated",
+                      AImod < 0.50 & HC < 1.5 ~ "unsaturated/lignin",
                       HC >= 1.5 & N==0 ~ "aliphatic",
-                      HC >= 1.5 & N>0 ~ "aliphatic+N",
+                      HC >= 1.5 & N>0 ~ "aliphatic",
                       HC > 2 ~ "aliphatic"),
     
     class = if_else(is.na(class)&!is.na(formula), "other", class)) %>% 

@@ -52,7 +52,8 @@ We selected only peaks seen in >1 of the 4 replicates (i.e. n = 2 or 3 or 4)
 
 ```{r domains, fig.height=4, fig.width=6}
 # domains ggplot
-gg_vankrev(meta, aes(x = OC, y = HC, color = class))
+gg_vankrev(meta, aes(x = OC, y = HC, color = class))+
+   scale_color_manual(values = PNWColors::pnw_palette("Sailboat"))
 
 classes = read.csv(here("data/fticr_meta_classes.csv"))
 
@@ -60,12 +61,10 @@ classes %>%
    #filter(!compounds == "unnamed") %>% 
    left_join(select(meta, Mass, HC, OC), by = "Mass") %>% 
    gg_vankrev(aes(x = OC, y = HC, color = compounds))
-
 ```
 
-**aromatic peaks**  
-
-```{r ai_domains, fig.height=4, fig.width=6}
+```{r ai_domains, fig.height=4, fig.width=6, eval=FALSE}
+#**aromatic peaks**  
 meta %>% 
    select(formula, class, HC, OC, AImod) %>% 
    mutate(AImod_abs = abs(AImod),
@@ -90,7 +89,6 @@ meta %>%
    guides(colour = guide_legend(override.aes = list(alpha=1)))
 ```
 
-
 ---
 
 ### van krevelens  
@@ -107,8 +105,6 @@ data %>%
    theme_kp()+
    NULL
 ```
-
-
 
 ```{r vk_pores, fig.width=10, fig.height=5}
 data %>%
@@ -141,7 +137,7 @@ data %>%
 ```{r}
 relabund_trt = read.csv(here("data/processed/fticr_relabund_trt.csv")) %>% 
    dplyr::mutate(class = factor(class, levels = 
-                          c("aliphatic", "aliphatic+N","unsaturated",
+                          c("aliphatic", "unsaturated/lignin",
                             "aromatic","condensed_arom", "other")),
                  Amendments = factor(Amendments, levels = c("control", "C", "N")),
                  Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
@@ -150,18 +146,19 @@ relabund_trt = read.csv(here("data/processed/fticr_relabund_trt.csv")) %>%
 ```
 
 
-```{r fticr_relabund, fig.height=5}
+```{r fticr_relabund, fig.height=7, fig.width=7}
 relabund_trt %>%  
    ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
    geom_bar(stat = "identity")+
-   scale_fill_viridis_d(option = "inferno")+
+   #scale_fill_viridis_d(option = "inferno")+
+   scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
    labs(x = "percent saturation",
         y = "relative abundance (%)")+
-   facet_grid(Suction+Homogenization~Moisture+Wetting)+
+   facet_grid(Homogenization+Suction~Moisture+Wetting)+
    NULL
 ```
 
-```{r NOSC, fig.height=6, fig.width=10}
+```{r NOSC, fig.height=8, fig.width=10}
 meta_nosc = 
    meta %>% 
    select(formula, NOSC)
@@ -176,7 +173,7 @@ data %>%
    labs(x = "",
         y = "NOSC")+
    theme(legend.position = "none")+
-   facet_grid(Suction~Homogenization+Moisture+Wetting)+
+   facet_grid(Homogenization+Suction~Moisture+Wetting)+
    NULL
 ```
 
@@ -214,7 +211,7 @@ fticr_peaks =
    mutate(Amendments = factor(Amendments, 
                               levels = c("control", "C", "N")),
           class = factor(class, levels = 
-                          c("aliphatic", "aliphatic+N","unsaturated","aromatic","condensed_arom", "other", "total")))
+                          c("aliphatic", "aliphatic+N","unsaturated/lignin","aromatic","condensed_arom", "other", "total")))
 ```
 
 
@@ -309,7 +306,7 @@ peakcounts =
    mutate(Amendments = factor(Amendments, 
                               levels = c("control", "C", "N")),
           class = factor(class, levels = 
-                          c("aliphatic", "aliphatic+N","unsaturated","aromatic","condensed_arom", "other", "total")))
+                          c("aliphatic", "aliphatic+N","unsaturated/lignin","aromatic","condensed_arom", "other", "total")))
 ```
 
 ```{r fticr_peaks_tables}
@@ -417,7 +414,7 @@ peakcounts %>%
 relabund_cores = 
    read.csv(here("data/processed/fticr_relabund_cores.csv")) %>% 
    dplyr::mutate(class = factor(class, levels = 
-                          c("aliphatic", "aliphatic+N","unsaturated","aromatic","condensed_arom", "other")),
+                          c("aliphatic", "aliphatic+N","unsaturated/lignin","aromatic","condensed_arom", "other")),
                  Amendments = factor(Amendments, levels = c("control", "C", "N")),
                  Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))) 
 ```
@@ -433,9 +430,10 @@ relabund_wide =
   replace(is.na(.),0)
 
 # create a matrix of all the group columns
-relabund_wide$DV = as.matrix(relabund_wide[,8:13])
+relabund_wide$DV = as.matrix(relabund_wide[,8:12])
 
-adonis2(relabund_wide$DV ~ Amendments*Moisture*Wetting*Suction*Homogenization, data = relabund_wide)
+adonis2(relabund_wide$DV ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^3, 
+        data = relabund_wide)
 ```
 
 **subsets**
@@ -721,7 +719,7 @@ gg_pca_50_intact+gg_pca_50_homo
 
 ## Elements
 
-```{r}
+```{r elements}
 meta_on = 
    meta %>% select(formula, O, N)
 
@@ -738,8 +736,12 @@ fticr_elements %>%
    facet_grid(Suction + Wetting ~ Moisture)+
    ylim(0,1000)
 
-
-
+fticr_elements %>% 
+   ggplot(aes(x = O, color = Amendments, fill = Amendments))+
+   geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
+   #geom_density(alpha = 0.2)+
+   facet_grid(Suction + Wetting ~ Moisture)+
+   ylim(0,1000)
 ```
 
 
