@@ -4,6 +4,9 @@ library(drake)
 library(rmarkdown)
 library(vegan)
 library(visNetwork)
+library(car)
+library(lme4)
+
 
 fticr_plan = 
   drake_plan(
@@ -236,7 +239,7 @@ fticr_plan =
       facet_grid(Homogenization+Suction~Moisture+Wetting)+
       NULL,
     
-    # IIb. peak count tables --------------------------------------------------
+    ## IIb. peak count tables --------------------------------------------------
     peakcounts_table_total =
       peakcounts_core %>% 
       filter(class=="total") %>% 
@@ -280,7 +283,7 @@ fticr_plan =
       dplyr::select(Homogenization, Moisture, Wetting, var, peaks) %>% 
       spread(var, peaks), 
     
-    # IIc. aliphatic:complex --------------------------------------------------
+    ## IIc. aliphatic:complex --------------------------------------------------
     aliphatic_aromatic_counts = 
       peakcounts_core %>% 
       ungroup %>% 
@@ -300,6 +303,47 @@ fticr_plan =
       labs(y = "complex:simple")+
       facet_grid(Homogenization+Suction ~ Moisture+Wetting)+
       NULL,
+    
+    gg_aliph_aromatic_intact_suction = 
+      aliphatic_aromatic_counts %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot(aes(x = Amendments, y = arom_aliph_ratio, color = Moisture, shape = Wetting))+
+      geom_boxplot(fill=NA, color = "grey", aes(group=Amendments))+
+      geom_point(size=3, position = position_dodge(width = 0.7))+
+      facet_grid(Homogenization~Suction)+
+      NULL,
+    
+
+    ## IId.  peaks -- stats ----------------------------------------------------------
+    ### -- arom-aliph-ratio
+    aov_arom_aliph_ratio_all = 
+    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+                 (1|Core), 
+               data = aliphatic_aromatic_counts),
+          type = "III"),
+    
+    aov_arom_aliph_ratio_intact = 
+    Anova(lm(arom_aliph_ratio ~ (Suction+Moisture+Wetting+Amendments)^2, 
+             data = aliphatic_aromatic_counts %>% 
+               filter(Homogenization=="Intact")),
+          type = "III"),
+    
+    ### -- total-peaks
+    peakcounts_total_core = 
+      peakcounts_core %>% 
+      filter(class=="total"),
+    
+    aov_total_peaks_all = 
+    Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+                 (1|Core), 
+               data = peakcounts_total_core),
+          type = "III"),
+    
+    aov_total_peaks_intact = 
+    Anova(lm(log(counts) ~ (Suction+Moisture+Wetting+Amendments)^2, 
+             data = peakcounts_total_core %>% 
+               filter(Homogenization=="Intact")),
+          type = "III"),
     
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
@@ -657,10 +701,14 @@ fticr_plan =
     
     # ----- ---------------------------------------------------------------------
     # report ------------------------------------------------------------------
-    report = rmarkdown::render(
-      knitr_in("code/drake_md_report.Rmd"),
+    report1 = rmarkdown::render(
+      knitr_in("reports/drake_md_report.Rmd"),
       #  output_file = file_out("drake_md_report.md"))
       #      output_format = rmarkdown::html_document(toc = TRUE))
+      output_format = rmarkdown::github_document()),
+    
+    report2 = rmarkdown::render(
+      knitr_in("reports/results.Rmd"),
       output_format = rmarkdown::github_document())
     
     # ----- ---------------------------------------------------------------------
@@ -668,3 +716,46 @@ fticr_plan =
 
 # make plan ---------------------------------------------------------------
 make(fticr_plan)
+
+
+loadd(aliphatic_aromatic_counts)
+
+
+
+
+
+
+
+
+
+
+
+aliphatic_aromatic_counts %>% 
+  ggplot(aes(x = Homogenization, y = arom_aliph_ratio))+
+  geom_boxplot()+
+  geom_jitter()+
+  NULL
+
+aliphatic_aromatic_counts %>% 
+  ggplot(aes(x = Moisture, y = arom_aliph_ratio))+
+  geom_boxplot()+
+  geom_jitter()+
+  NULL
+
+aliphatic_aromatic_counts %>% 
+  ggplot(aes(x = Amendments, y = arom_aliph_ratio))+
+  geom_boxplot()+
+  geom_jitter()+
+  NULL
+
+
+# total peaks
+loadd(peakcounts_core)
+
+
+
+peakcounts_total_core %>% 
+  ggplot(aes(x = as.character(Suction), y = counts))+
+  geom_boxplot()+
+  geom_jitter()+
+  NULL
