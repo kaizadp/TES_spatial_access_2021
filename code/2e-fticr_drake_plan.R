@@ -466,9 +466,10 @@ fticr_plan =
     # report ------------------------------------------------------------------
     report = rmarkdown::render(
       knitr_in("code/drake_md_report.Rmd"),
-      output_file = file_out("drake_md_report.md"))
+    #  output_file = file_out("drake_md_report.md"))
     #      output_format = rmarkdown::html_document(toc = TRUE))
-    
+    output_format = rmarkdown::github_document())
+
     # ----- ---------------------------------------------------------------------
   )
 
