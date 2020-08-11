@@ -1,0 +1,154 @@
+---
+title: "drake_md_report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = ("markdown/fticr2/"))
+
+#source("code/0-packages.R")
+library(drake)
+```
+
+---
+
+## HYPOTHESES
+
+- C amendments will increase diversity of SOM molecules
+- C amendments will cause a depletion of aromatic molecules, especially in fine pores
+- Homogenization will increase (a) total peaks, (b) diversity of peaks, (c) aromatic peaks
+
+
+We selected only peaks seen in >1 of the 4 replicates (i.e. n = 2 or 3 or 4)
+
+---
+
+### setup
+how many FTICR reps per treatment type?
+```{r reps, eval=FALSE}
+readd(reps) %>% 
+   arrange(reps) %>% 
+   knitr::kable()
+```
+
+**so we select formulae seen in at least 2 reps per treatment type**
+
+---
+
+## van krevelens  
+
+<details>
+  <summary>domains, baseline</summary>
+
+### fticr domains  
+
+```{r domains, fig.height=4, fig.width=6}
+readd(gg_fticr_domains)
+```
+
+```{r vk_baseline, fig.width=5, fig.height=5}
+readd(gg_fticr_baseline)
+```
+
+</details>
+
+<details>
+  <summary>VK by replication</summary>
+  
+  
+### VK by replication
+
+```{r vk_reps, fig.width=10, fig.height=8}
+readd(gg_fticr_reps_1_5_intact)
+readd(gg_fticr_reps_50_intact)
+readd(gg_fticr_reps_1_5_homo)
+readd(gg_fticr_reps_50_homo)
+```
+
+</details>
+
+
+<details>
+  <summary>VK by treatment</summary>
+  
+#### VK diagrams by treatment 
+```{r vk_pores, fig.width=10, fig.height=5}
+readd(gg_fticr_pores_1_5kPa)
+readd(gg_fticr_pores_50kPa)
+```
+
+</details>
+
+
+
+<details>
+  <summary>VK unique</summary>
+  
+#### VK unique
+unique to each amendment, in each incubation type
+
+```{r vk_unique, fig.width=10, fig.height=5}
+readd(gg_fticr_unique_int)
+readd(gg_fticr_unique_homo)
+```
+
+</details>
+
+---
+
+### relative abundances
+
+### STATS 
+
+#### PERMANOVA
+
+#### PCA 
+
+<details>
+  <summary>overall PCA</summary>
+  
+```{r fticr_pca_overall, fig.height=7, fig.width=15}
+readd(gg_fticr_pca_intact)
+readd(gg_fticr_pca_homo)
+```
+
+</details>
+
+
+<details>
+  <summary>PCA individual treatments</summary>
+  
+**individual cores**
+
+```{r fticr_pca_indiv, fig.height=7, fig.width=15}
+readd(gg_fticr_pca_intact_combined)
+readd(gg_fticr_pca_homo_combined)
+```
+
+</details>
+
+
+---
+
+
+
+## Session Info
+
+<details>   
+   <summary>click to expand</summary>
+
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>   
+
+
+
