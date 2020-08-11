@@ -123,6 +123,17 @@ complex:simple compounds
 readd(gg_aliph_aromatic)
 ```
 
+
+```{r}
+readd(aliphatic_aromatic_counts) %>% 
+  filter(Homogenization=="Intact") %>% 
+  ggplot(aes(x = Amendments, y = arom_aliph_ratio, color = Moisture, shape = Wetting))+
+  geom_boxplot(fill=NA, color = "grey", aes(group=Amendments))+
+  geom_point(size=3, position = position_dodge(width = 0.7))+
+  facet_grid(Homogenization~Suction)+
+  NULL
+```
+
 </details>
 
 

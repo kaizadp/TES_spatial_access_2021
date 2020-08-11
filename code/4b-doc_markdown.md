@@ -1,18 +1,43 @@
 Spatial Access – DOC
 ================
 
-![](markdown/doc/doc_graph-1.png)<!-- -->![](markdown/doc/doc_graph-2.png)<!-- -->
+![](markdown/doc/doc_graph-1.png)<!-- -->![](markdown/doc/doc_graph-2.png)<!-- -->![](markdown/doc/doc_graph-3.png)<!-- -->
 
 -----
 
 **what influenced DOC?**
 
+    #> Anova Table (Type III tests)
+    #> 
+    #> Response: (DOC_ng_g)
+    #>                            Sum Sq  Df F value    Pr(>F)    
+    #> (Intercept)                 27016   1  0.5540   0.45786    
+    #> Homogenization               2880   1  0.0591   0.80832    
+    #> Suction                     26023   1  0.5336   0.46622    
+    #> Moisture                   181596   1  3.7238   0.05553 .  
+    #> Wetting                      2463   1  0.0505   0.82250    
+    #> Amendments                4276677   2 43.8491 1.011e-15 ***
+    #> Homogenization:Suction     139077   1  2.8519   0.09334 .  
+    #> Homogenization:Moisture     88448   1  1.8137   0.18009    
+    #> Homogenization:Wetting      32370   1  0.6638   0.41652    
+    #> Homogenization:Amendments 4709620   2 48.2881 < 2.2e-16 ***
+    #> Suction:Moisture           127599   1  2.6166   0.10785    
+    #> Suction:Wetting             74563   1  1.5290   0.21820    
+    #> Suction:Amendments         224976   2  2.3067   0.10311    
+    #> Moisture:Wetting            37310   1  0.7651   0.38314    
+    #> Moisture:Amendments        423724   2  4.3445   0.01465 *  
+    #> Wetting:Amendments         330851   2  3.3922   0.03623 *  
+    #> Residuals                 7314884 150                      
+    #> ---
+    #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
 DOC in **intact** cores was influenced by:  
 1\. Amendments  
-2\. Wetting direction  
+2\. Moisture
+
 DOC in **homogenized** cores was influenced by:  
 1\. Amendments  
-2\. Wetting direction  
+2\. Moisture  
 3\. Suction
 
 <details>
@@ -20,51 +45,42 @@ DOC in **homogenized** cores was influenced by:
 <summary> </summary>
 
 ``` r
-summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+Anova(lm(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
               data = doc %>% filter(Homogenization=="Intact")))
-#>                                     Df Sum Sq Mean Sq F value   Pr(>F)    
-#> Amendments                           2 166582   83291  53.197 5.13e-14 ***
-#> Suction                              1   3806    3806   2.431   0.1242    
-#> Moisture                             1   8846    8846   5.650   0.0207 *  
-#> Wetting                              1   6167    6167   3.939   0.0518 .  
-#> Amendments:Suction                   2   6874    3437   2.195   0.1202    
-#> Amendments:Moisture                  2  15261    7630   4.873   0.0109 *  
-#> Suction:Moisture                     1   8447    8447   5.395   0.0236 *  
-#> Amendments:Wetting                   2  11541    5771   3.686   0.0309 *  
-#> Suction:Wetting                      1    734     734   0.469   0.4961    
-#> Moisture:Wetting                     1    183     183   0.117   0.7335    
-#> Amendments:Suction:Moisture          2  12978    6489   4.145   0.0206 *  
-#> Amendments:Suction:Wetting           2    998     499   0.319   0.7284    
-#> Amendments:Moisture:Wetting          2     79      40   0.025   0.9751    
-#> Suction:Moisture:Wetting             1     12      12   0.008   0.9313    
-#> Amendments:Suction:Moisture:Wetting  2     22      11   0.007   0.9932    
-#> Residuals                           60  93943    1566                     
+#> Anova Table (Type II tests)
+#> 
+#> Response: DOC_ng_g
+#>                      Sum Sq Df F value    Pr(>F)    
+#> Amendments          8587607  2 54.1738 7.175e-15 ***
+#> Suction              189598  1  2.3921  0.126524    
+#> Moisture             586255  1  7.3966  0.008260 ** 
+#> Wetting              272573  1  3.4390  0.067949 .  
+#> Amendments:Suction   315585  2  1.9908  0.144351    
+#> Amendments:Moisture  796557  2  5.0250  0.009177 ** 
+#> Amendments:Wetting   475696  2  3.0009  0.056277 .  
+#> Suction:Moisture     472656  1  5.9634  0.017173 *  
+#> Suction:Wetting       56533  1  0.7133  0.401282    
+#> Moisture:Wetting      20242  1  0.2554  0.614916    
+#> Residuals           5468924 69                      
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 12 observations deleted due to missingness
 
-summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+summary(aov(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
               data = doc %>% filter(Homogenization=="Homogenized")))
-#>                                     Df Sum Sq Mean Sq F value   Pr(>F)    
-#> Amendments                           2   1533   766.7   5.872 0.004555 ** 
-#> Suction                              1    629   629.2   4.819 0.031778 *  
-#> Moisture                             1    839   838.6   6.424 0.013719 *  
-#> Wetting                              1    118   118.1   0.905 0.345064    
-#> Amendments:Suction                   2    401   200.7   1.537 0.222840    
-#> Amendments:Moisture                  2   2727  1363.7  10.445 0.000119 ***
-#> Suction:Moisture                     1     64    64.1   0.491 0.486094    
-#> Amendments:Wetting                   2     93    46.7   0.358 0.700460    
-#> Suction:Wetting                      1     37    36.8   0.282 0.597487    
-#> Moisture:Wetting                     1      0     0.1   0.001 0.978661    
-#> Amendments:Suction:Moisture          2   1304   652.1   4.995 0.009645 ** 
-#> Amendments:Suction:Wetting           2     10     5.2   0.040 0.961277    
-#> Amendments:Moisture:Wetting          2    133    66.5   0.509 0.603432    
-#> Suction:Moisture:Wetting             1      4     3.9   0.030 0.863495    
-#> Amendments:Suction:Moisture:Wetting  1      3     2.6   0.020 0.887939    
-#> Residuals                           64   8355   130.6                     
+#>                     Df Sum Sq Mean Sq F value   Pr(>F)    
+#> Amendments           2  78110   39055   5.622 0.005384 ** 
+#> Suction              1  31703   31703   4.564 0.036051 *  
+#> Moisture             1  43263   43263   6.228 0.014865 *  
+#> Wetting              1   5883    5883   0.847 0.360514    
+#> Amendments:Suction   2  21349   10674   1.537 0.222060    
+#> Amendments:Moisture  2 136712   68356   9.841 0.000167 ***
+#> Amendments:Wetting   2   5523    2762   0.398 0.673421    
+#> Suction:Moisture     1   3179    3179   0.458 0.500888    
+#> Suction:Wetting      1   1834    1834   0.264 0.608931    
+#> Moisture:Wetting     1      1       1   0.000 0.989646    
+#> Residuals           72 500132    6946                     
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 7 observations deleted due to missingness
 ```
 
 </details>
@@ -80,34 +96,32 @@ N addition decreased DOC - *N stimulated consumption of DOC?*
 
 ``` r
 ## both C and N
-aov1 = aov(DOC_mg ~ Amendments, data = doc); summary(aov1)
-#>              Df Sum Sq Mean Sq F value  Pr(>F)    
-#> Amendments    2  91536   45768   25.87 1.6e-10 ***
-#> Residuals   168 297173    1769                    
+aov1 = aov(DOC_ng_g ~ Amendments, data = doc); summary(aov1)
+#>              Df   Sum Sq Mean Sq F value   Pr(>F)    
+#> Amendments    2  4700758 2350379   25.74 1.77e-10 ***
+#> Residuals   168 15339055   91304                     
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 19 observations deleted due to missingness
 h1 = agricolae::HSD.test(aov1, "Amendments"); h1$groups
-#>            DOC_mg groups
-#> C       51.584138      a
-#> control  5.647544      b
-#> N        0.183750      b
+#>           DOC_ng_g groups
+#> C       369.584138      a
+#> control  40.306491      b
+#> N         1.304821      b
 
 #DescTools::DunnettTest(DOC_mg ~ Amendments, data = doc, control="control")
 
 ## excluding C
-aov2 = aov(DOC_mg ~ Amendments, data = doc %>% filter(!Amendments=="C")); summary(aov2)
+aov2 = aov(DOC_ng_g ~ Amendments, data = doc %>% filter(!Amendments=="C")); summary(aov2)
 #>              Df Sum Sq Mean Sq F value Pr(>F)  
-#> Amendments    1    843   843.3   6.325 0.0133 *
-#> Residuals   111  14798   133.3                 
+#> Amendments    1  42969   42969   6.301 0.0135 *
+#> Residuals   111 756944    6819                 
 #> ---
 #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
-#> 15 observations deleted due to missingness
 h2 = agricolae::HSD.test(aov1, "Amendments"); h2$groups
-#>            DOC_mg groups
-#> C       51.584138      a
-#> control  5.647544      b
-#> N        0.183750      b
+#>           DOC_ng_g groups
+#> C       369.584138      a
+#> control  40.306491      b
+#> N         1.304821      b
 
 ##
 
@@ -127,15 +141,14 @@ h2 = agricolae::HSD.test(aov1, "Amendments"); h2$groups
 ``` r
 doc_control = doc %>% filter(Amendments=="control")
 
-summary(aov(DOC_mg ~ Suction*Moisture,
+summary(aov(DOC_ng_g ~ Suction*Moisture,
               data = doc_control %>% filter(Homogenization=="Intact")),
         na.action=na.omit)
-#>                  Df  Sum Sq  Mean Sq F value Pr(>F)
-#> Suction           1 0.00098 0.000985   0.125  0.727
-#> Moisture          1 0.00531 0.005314   0.676  0.420
-#> Suction:Moisture  1 0.00073 0.000730   0.093  0.763
-#> Residuals        22 0.17296 0.007862               
-#> 6 observations deleted due to missingness
+#>                  Df Sum Sq Mean Sq F value Pr(>F)
+#> Suction           1  0.026  0.0265   0.065  0.802
+#> Moisture          1  0.089  0.0894   0.218  0.645
+#> Suction:Moisture  1  0.004  0.0036   0.009  0.926
+#> Residuals        22  9.030  0.4105
 ```
 
 </details>
@@ -158,7 +171,7 @@ how much DOC was added as part of the amendment?
 
 <summary>click to expand</summary>
 
-Date run: 2020-07-28
+Date run: 2020-08-11
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -175,29 +188,33 @@ Date run: 2020-07-28
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0  
-    #>  [5] dplyr_1.0.0     purrr_0.3.4     readr_1.3.1     tidyr_1.1.0    
-    #>  [9] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0 here_0.1       
+    #>  [1] lme4_1.1-23     Matrix_1.2-18   car_3.0-8       carData_3.0-4  
+    #>  [5] ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0  
+    #>  [9] dplyr_1.0.1     purrr_0.3.4     readr_1.3.1     tidyr_1.1.1    
+    #> [13] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0 here_0.1       
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] httr_1.4.2       jsonlite_1.7.0   modelr_0.1.8     shiny_1.5.0     
-    #>  [5] assertthat_0.2.1 highr_0.8        blob_1.2.1       cellranger_1.1.0
-    #>  [9] yaml_2.2.1       lattice_0.20-41  pillar_1.4.6     backports_1.1.8 
-    #> [13] glue_1.4.1       digest_0.6.25    promises_1.1.1   rvest_0.3.5     
-    #> [17] colorspace_1.4-1 htmltools_0.5.0  httpuv_1.5.4     plyr_1.8.6      
-    #> [21] klaR_0.6-15      pkgconfig_2.0.3  labelled_2.5.0   broom_0.7.0     
-    #> [25] haven_2.3.1      questionr_0.7.1  xtable_1.8-4     scales_1.1.1    
-    #> [29] later_1.1.0.1    combinat_0.0-8   generics_0.0.2   farver_2.0.3    
-    #> [33] ellipsis_0.3.1   withr_2.2.0      agricolae_1.3-3  cli_2.0.2       
-    #> [37] magrittr_1.5     crayon_1.3.4     readxl_1.3.1     mime_0.9        
-    #> [41] evaluate_0.14    fs_1.4.2         fansi_0.4.1      nlme_3.1-148    
-    #> [45] MASS_7.3-51.6    xml2_1.3.2       tools_4.0.2      hms_0.5.3       
-    #> [49] lifecycle_0.2.0  munsell_0.5.0    reprex_0.3.0     cluster_2.1.0   
-    #> [53] compiler_4.0.2   rlang_0.4.7      grid_4.0.2       rstudioapi_0.11 
-    #> [57] miniUI_0.1.1.1   labeling_0.3     rmarkdown_2.3    gtable_0.3.0    
-    #> [61] DBI_1.1.0        AlgDesign_1.2.0  R6_2.4.1         lubridate_1.7.9 
-    #> [65] knitr_1.29       fastmap_1.0.1    rprojroot_1.3-2  stringi_1.4.6   
-    #> [69] Rcpp_1.0.5       vctrs_0.3.2      dbplyr_1.4.4     tidyselect_1.1.0
-    #> [73] xfun_0.15
+    #>  [1] nlme_3.1-148      fs_1.5.0          lubridate_1.7.9   httr_1.4.2       
+    #>  [5] rprojroot_1.3-2   tools_4.0.2       backports_1.1.8   R6_2.4.1         
+    #>  [9] AlgDesign_1.2.0   DBI_1.1.0         questionr_0.7.1   colorspace_1.4-1 
+    #> [13] withr_2.2.0       tidyselect_1.1.0  klaR_0.6-15       curl_4.3         
+    #> [17] compiler_4.0.2    cli_2.0.2         rvest_0.3.6       xml2_1.3.2       
+    #> [21] labeling_0.3      scales_1.1.1      digest_0.6.25     foreign_0.8-80   
+    #> [25] minqa_1.2.4       rmarkdown_2.3     rio_0.5.16        pkgconfig_2.0.3  
+    #> [29] htmltools_0.5.0   labelled_2.5.0    highr_0.8         fastmap_1.0.1    
+    #> [33] dbplyr_1.4.4      rlang_0.4.7       readxl_1.3.1      rstudioapi_0.11  
+    #> [37] shiny_1.5.0       farver_2.0.3      generics_0.0.2    combinat_0.0-8   
+    #> [41] jsonlite_1.7.0    zip_2.0.4         magrittr_1.5      Rcpp_1.0.5       
+    #> [45] munsell_0.5.0     fansi_0.4.1       abind_1.4-5       lifecycle_0.2.0  
+    #> [49] stringi_1.4.6     yaml_2.2.1        MASS_7.3-51.6     plyr_1.8.6       
+    #> [53] grid_4.0.2        blob_1.2.1        promises_1.1.1    crayon_1.3.4     
+    #> [57] miniUI_0.1.1.1    lattice_0.20-41   haven_2.3.1       splines_4.0.2    
+    #> [61] hms_0.5.3         knitr_1.29        pillar_1.4.6      boot_1.3-25      
+    #> [65] reprex_0.3.0      glue_1.4.1        evaluate_0.14     data.table_1.13.0
+    #> [69] agricolae_1.3-3   modelr_0.1.8      httpuv_1.5.4      vctrs_0.3.2      
+    #> [73] nloptr_1.2.2.2    cellranger_1.1.0  gtable_0.3.0      assertthat_0.2.1 
+    #> [77] xfun_0.16         openxlsx_4.1.5    mime_0.9          xtable_1.8-4     
+    #> [81] broom_0.7.0       later_1.1.0.1     cluster_2.1.0     statmod_1.4.34   
+    #> [85] ellipsis_0.3.1
 
 </details>

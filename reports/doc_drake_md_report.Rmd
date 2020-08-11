@@ -1,0 +1,103 @@
+---
+title: "doc_report"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = ("markdown/fticr2/"))
+
+#source("code/0-packages.R")
+library(drake)
+```
+
+```{r doc_plot1, fig.width=8}
+readd(gg_doc_allpanels)
+```
+
+```{r, doc_plot2, fig.width=7}
+readd(gg_doc_boxdotplot)
+```
+
+## what influenced DOC?
+
+DOC was influenced by:
+
+- Amendments
+- Homogenization:Amendments
+- Moisture:Amendments
+- Wetting: Amendments
+
+
+DOC in **intact** cores was influenced by:  
+1. Amendments  
+2. Moisture  
+
+
+DOC in **homogenized** cores was influenced by:  
+1. Amendments  
+2. Moisture  
+3. Suction  
+
+
+<details>
+  <summary>click for stats</summary>
+
+overall ANOVA
+
+```{r}
+readd(aov_doc_all)
+```
+
+  
+intact cores
+
+```{r}
+readd(aov_doc_intact)
+```
+
+homogenized cores
+
+```{r}
+readd(aov_doc_homo)
+```
+
+
+</details>
+
+
+**how did amendments influence DOC?**  
+
+C addition increased DOC  
+N addition decreased DOC - *N stimulated consumption of DOC?*  
+
+---
+
+how much DOC was added as part of the amendment?
+
+5 mL of 10.1 M acetate (CH3-COO-K)  
+1 mole acetate = 2 mole C
+
+10.1 M acetate = 20.2 M C = (20.2 * 12) g/L C  
+5 mL of 10.1 M acetate = 0.005 L * 20.2 * 12 g/L C = `r 0.005 * 20.2 * 12` g C
+
+---
+
+#### Session Info
+
+<details>
+  <summary>click to expand</summary>
+  
+  
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
+

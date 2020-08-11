@@ -32,31 +32,59 @@ doc %>%
   theme(legend.position = "none")
 
 doc %>% 
-  ggplot(aes(x = Amendments, y = DOC_mg, color = Amendments))+
+  ggplot(aes(x = Amendments, y = DOC_ng_g, color = Amendments))+
   geom_point()+
+  scale_y_continuous(trans = "log10", labels = scales::comma)+
   facet_grid(Homogenization+Suction~Moisture+Wetting, scales = "free_y")+
   theme(legend.position = "none")
+
+
+doc %>% 
+  #filter(Homogenization=="Intact") %>% 
+  ggplot(aes(x = Amendments, y = DOC_ng_g, color = Moisture, shape = Wetting))+
+  geom_boxplot(aes(group = Amendments), color = "grey")+
+  geom_point(size=3, position = position_dodge(width = 0.7))+
+  scale_y_continuous(trans = "log10", labels = scales::comma)+
+  facet_grid(Homogenization~Suction)+
+#  theme(legend.position = "none")+
+  NULL
 ```
 
 ---
 
 **what influenced DOC?**  
 
+```{r}
+library(car)
+library(lme4)
+doc = doc %>% mutate(CORE = as.character(CORE))
+Anova(lm((DOC_ng_g) ~ (Homogenization + Suction + Moisture + Wetting + Amendments)^2, 
+                     data = doc),
+                type = "III")
+
+```
+
+
+
+
+
 DOC in **intact** cores was influenced by:  
 1. Amendments  
-2. Wetting direction  
+2. Moisture  
+
+
 DOC in **homogenized** cores was influenced by:  
 1. Amendments  
-2. Wetting direction  
+2. Moisture  
 3. Suction  
 
 <details>
   <summary> </summary>
 ```{r echo=TRUE}
-summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+Anova(lm(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
               data = doc %>% filter(Homogenization=="Intact")))
 
-summary(aov(DOC_mg ~ Amendments*Suction*Moisture*Wetting,
+summary(aov(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
               data = doc %>% filter(Homogenization=="Homogenized")))
 
 ```
@@ -72,13 +100,13 @@ N addition decreased DOC - *N stimulated consumption of DOC?*
   <summary> </summary>
 ```{r echo=TRUE}
 ## both C and N
-aov1 = aov(DOC_mg ~ Amendments, data = doc); summary(aov1)
+aov1 = aov(DOC_ng_g ~ Amendments, data = doc); summary(aov1)
 h1 = agricolae::HSD.test(aov1, "Amendments"); h1$groups
 
 #DescTools::DunnettTest(DOC_mg ~ Amendments, data = doc, control="control")
 
 ## excluding C
-aov2 = aov(DOC_mg ~ Amendments, data = doc %>% filter(!Amendments=="C")); summary(aov2)
+aov2 = aov(DOC_ng_g ~ Amendments, data = doc %>% filter(!Amendments=="C")); summary(aov2)
 h2 = agricolae::HSD.test(aov1, "Amendments"); h2$groups
 
 ##
@@ -100,7 +128,7 @@ h2 = agricolae::HSD.test(aov1, "Amendments"); h2$groups
 ```{r echo=TRUE}
 doc_control = doc %>% filter(Amendments=="control")
 
-summary(aov(DOC_mg ~ Suction*Moisture,
+summary(aov(DOC_ng_g ~ Suction*Moisture,
               data = doc_control %>% filter(Homogenization=="Intact")),
         na.action=na.omit)
 
