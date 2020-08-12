@@ -1,0 +1,106 @@
+---
+title: "flux_drake_plan"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = "markdown/flux/")
+library(drake)
+```
+
+
+### HYPOTHESES
+
+- C amendments will increase CO2 flux  
+   - especially in cores wet from below  
+
+- post-rewetting CO2 flush: drought > fm for unamended soils, but drought < fm for C-amended soils
+
+- N amendments will increase CO2 flux when wet from above
+
+---
+
+## stats
+
+<details>
+  <summary>stats</summary>
+
+
+intact cores
+
+```{r}
+readd(aov_flux_intact)
+```
+
+homogenized cores
+
+```{r}
+readd(aov_flux_homo)
+```
+
+</details>
+
+
+Homogenization:  
+- interactive response with Amendment  
+- Homogenization increased respiration in the control soils  
+- Homogenization decreased respiration in the amended soils 
+
+
+For intact cores,  
+- respiration was influenced by Moisture:Amendments  
+- C-amendments increased respiration in FM soils  
+- N-amendments increased respiration only in FM-precip soils
+
+
+## graphs 
+```{r cum_flux_ggplot, fig.width=10, fig.height=6}
+readd(gg_flux_cum)
+```
+
+```{r meanflux_ts}
+readd(gg_flux_cum_ts)
+```
+
+
+<details>
+  <summary>time series by core</summary>
+  
+```{r}
+readd(gg_flux_ts_core_intact)
+
+readd(gg_flux_ts_core_homo)
+```
+
+</details>
+
+
+## summary table 
+
+```{r}
+readd(flux_summarytable) %>% 
+  dplyr::select(-Assignment) %>% 
+  spread(Amendments, cum_CO2C_mg) %>% 
+  knitr::kable(align = "c")
+```
+
+  
+
+---
+#### Session Info
+
+<details>
+  <summary>click to expand</summary>
+  
+Date run: `r Sys.Date()`
+
+```{r}
+sessionInfo()
+```
+
+</details>
