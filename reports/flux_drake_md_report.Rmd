@@ -33,13 +33,13 @@ library(drake)
 
 intact cores
 
-```{r}
+```{r aov_flux_intact}
 readd(aov_flux_intact)
 ```
 
 homogenized cores
 
-```{r}
+```{r aov_flux_homo}
 readd(aov_flux_homo)
 ```
 
@@ -63,7 +63,7 @@ For intact cores,
 readd(gg_flux_cum)
 ```
 
-```{r meanflux_ts}
+```{r meanflux_ts, fig.width=10, fig.height=6}
 readd(gg_flux_cum_ts)
 ```
 
@@ -71,7 +71,7 @@ readd(gg_flux_cum_ts)
 <details>
   <summary>time series by core</summary>
   
-```{r}
+```{r corewise_flux}
 readd(gg_flux_ts_core_intact)
 
 readd(gg_flux_ts_core_homo)
@@ -82,7 +82,7 @@ readd(gg_flux_ts_core_homo)
 
 ## summary table 
 
-```{r}
+```{r summarytable}
 readd(flux_summarytable) %>% 
   dplyr::select(-Assignment) %>% 
   spread(Amendments, cum_CO2C_mg) %>% 

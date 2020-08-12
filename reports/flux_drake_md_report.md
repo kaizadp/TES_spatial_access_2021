@@ -76,7 +76,7 @@ For intact cores,
 
 <summary>time series by core</summary>
 
-![](markdown/flux/unnamed-chunk-3-1.png)<!-- -->![](markdown/flux/unnamed-chunk-3-2.png)<!-- -->
+![](markdown/flux/corewise_flux-1.png)<!-- -->![](markdown/flux/corewise_flux-2.png)<!-- -->
 
 </details>
 
