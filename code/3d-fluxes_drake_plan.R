@@ -68,18 +68,43 @@ respiration_plan =
       theme_kp()+
       theme(panel.grid = element_blank()),
     
+    
+    flux_boxplotlabel = tribble(
+      ~x, ~y, ~Moisture, ~label,
+      1.5, 20, "fm", "p = 0.056",
+      1.5, 20, "drought", "p = 0.11",
+      1, 600, "fm", "a",
+      1.18, 500, "fm", "a",
+      0.82, 180, "fm", "b",
+      2, 430, "fm", "a",
+      2.18, 180, "fm", "b",
+      1.82, 180, "fm", "b"
+    ) %>% 
+      dplyr::mutate(Moisture = factor(Moisture, levels = c("fm", "drought"))),
+    
     gg_flux_cum_intact_boxplot = 
       flux_summary %>% 
       filter(Homogenization=="Intact") %>% 
       ggplot(aes(x = Wetting, y = cum_CO2C_mg))+
-      geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.9)+
+      geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.4)+
       geom_point(size=4, position = position_dodge(width = 0.5), aes(color = Amendments, shape = Amendments))+ 
       scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
       labs(title = "cumulative CO2-C evolved")+
-      annotate("text", label = "p = xx", x = 1.5, y = 20)+
+      #annotate("text", label = "p = xx", x = 1.5, y = 20)+
+      geom_text(data = flux_boxplotlabel, aes(x = x, y = y, label = label), size=5)+
       facet_grid(.~Moisture)+
       theme_kp()+
-      theme(panel.grid = element_blank()),      
+      theme(panel.grid = element_blank()),  
+    
+    
+    flux_subset = flux_summary %>% 
+      filter(Homogenization=="Intact" & Moisture=="drought"),
+    
+#    car::Anova(lm(log(cum_CO2C_mg) ~ Wetting * Amendments, data = flux_subset), type="III")
+    
+    
+    
+    
       
     ## IIb.  time-series ----------------------------------------------------------------
     gg_flux_cum_ts = 
