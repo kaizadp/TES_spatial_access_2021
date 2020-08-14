@@ -23,6 +23,12 @@ readd(gg_doc_allpanels)
 readd(gg_doc_boxdotplot)
 ```
 
+```{r doc_plot_boxplot2, fig.width=7, fig.height=10}
+readd(gg_doc_boxdotplot2)
+```
+
+
+
 ## what influenced DOC?
 
 DOC was influenced by:
