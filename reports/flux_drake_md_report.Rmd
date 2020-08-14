@@ -75,6 +75,16 @@ readd(gg_flux_cum_intact_boxplot)
 ```
 
 
+- drought increased respiration only in control soils
+  - microbes limited by substrate as well as N, which were released during drought?
+  - the C/N amendments alleviated these limitations, and therefore drought did not alter mineralization 
+- in the drought soils, precip had more min than groundw, but only in  control soils
+  - possibly because there was more C available in the top 3 cm, which stimulated respiration when rewet.
+  - but when we consider all the amendments, this effect of wetting direction is lost
+- fm soils, on the other hand, showed greater response to amendments
+  - possibly because less C was available, and therefore microbes were more limited
+  - N??
+ 
 
 ```{r cum_flux_ggplot, fig.width=10, fig.height=6}
 readd(gg_flux_cum)
