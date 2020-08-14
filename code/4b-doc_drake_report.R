@@ -41,7 +41,21 @@ doc_plan = drake_plan(
     geom_boxplot(aes(group = Wetting), fill = "grey90", alpha = 0.9, color = "grey60", width = 0.4)+
     geom_point(size=3, position = position_dodge(width = 0.7))+
     scale_y_continuous(trans = "log10", labels = scales::comma)+
-    facet_grid(Homogenization+Suction ~ Moisture)+
+    facet_grid(Homogenization ~ Moisture+Suction)+
+    theme_kp()+
+    #  theme(legend.position = "none")+
+    NULL,
+  
+  gg_doc_boxdotplot3 = 
+    doc %>% 
+    #filter(Homogenization=="Intact") %>% 
+    ggplot(aes(x = Moisture, y = DOC_ng_g, color = Amendments, shape = Amendments))+
+    geom_boxplot(aes(group = Moisture), fill = "grey90", alpha = 0.9, color = "grey60", width = 0.4)+
+    geom_point(size=3, position = position_dodge(width = 0.5))+
+    scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
+    scale_y_continuous(trans = "log10", labels = scales::comma)+
+    facet_grid(Homogenization ~ Suction)+
+    labs(title = "combined Wetting direction")+
     theme_kp()+
     #  theme(legend.position = "none")+
     NULL,
