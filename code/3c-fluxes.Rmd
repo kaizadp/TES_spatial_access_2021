@@ -58,9 +58,9 @@ flux %>%
   
 ```{r flux_aov, echo=TRUE}
 car::Anova(lme4::lmer(log(cum_CO2C_mg) ~ 
-                        (Homogenization + Moisture + Amendments + Wetting)^2 +
+                        (Homogenization + Moisture + Amendments + Wetting)^3 +
                         (1|CORE),
-                      REML = TRUE, data = flux_summary)
+                      REML = TRUE, data = flux_summary), type="III"
             )
 
 car::Anova(lm(log(cum_CO2C_mg) ~ 

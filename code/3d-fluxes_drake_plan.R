@@ -68,6 +68,19 @@ respiration_plan =
       theme_kp()+
       theme(panel.grid = element_blank()),
     
+    gg_flux_cum_intact_boxplot = 
+      flux_summary %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot(aes(x = Wetting, y = cum_CO2C_mg))+
+      geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.9)+
+      geom_point(size=4, position = position_dodge(width = 0.5), aes(color = Amendments, shape = Amendments))+ 
+      scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
+      labs(title = "cumulative CO2-C evolved")+
+      annotate("text", label = "p = xx", x = 1.5, y = 20)+
+      facet_grid(.~Moisture)+
+      theme_kp()+
+      theme(panel.grid = element_blank()),      
+      
     ## IIb.  time-series ----------------------------------------------------------------
     gg_flux_cum_ts = 
       ggplot()+
@@ -147,6 +160,16 @@ respiration_plan =
                       (Moisture + Amendments + Wetting)^2,
                     data = flux_summary %>% filter(Homogenization=="Homogenized")), 
                  type="III"),
+    
+     flux_interx_plot =  
+      flux_summary %>% 
+      filter(Homogenization=="Intact") %>% 
+      group_by(Amendments, Moisture) %>% 
+      dplyr::summarize(cum_CO2C_mg = mean(cum_CO2C_mg, na.rm = TRUE)) %>% 
+      ggplot(aes(x = Amendments, y = cum_CO2C_mg, color = Moisture))+
+      geom_point()+geom_path(aes(group = Moisture))+
+      NULL,
+      
     
     # ----- ---------------------------------------------------------------------
     # V. report ------------------------------------------------------------------

@@ -43,22 +43,39 @@ homogenized cores
 readd(aov_flux_homo)
 ```
 
+intact cores: interaction of Amendments and Moisture
+```{r flux_interx_plot}
+readd(flux_interx_plot)
+```
+
 </details>
 
 
 Homogenization:  
+
 - interactive response with Amendment  
 - Homogenization increased respiration in the control soils  
 - Homogenization decreased respiration in the amended soils 
 
 
 For intact cores,  
+
 - respiration was influenced by Moisture:Amendments  
+    - drought+rewetting increased flux for control soils only
+    - for +C/+N amended soils, drought did not have a strong effect
+    
 - C-amendments increased respiration in FM soils  
 - N-amendments increased respiration only in FM-precip soils
 
 
 ## graphs 
+
+```{r cum_flux_boxplot, fig.width=8, fig.height=5}
+readd(gg_flux_cum_intact_boxplot)
+```
+
+
+
 ```{r cum_flux_ggplot, fig.width=10, fig.height=6}
 readd(gg_flux_cum)
 ```
