@@ -1,5 +1,7 @@
 source(("code/0-packages.R"))
 library(drake)
+library(lme4)
+
 
 respiration_plan = 
   drake_plan(
@@ -78,7 +80,7 @@ respiration_plan =
       0.82, 180, "fm", "b",
       2, 430, "fm", "a",
       2.18, 180, "fm", "b",
-      1.82, 180, "fm", "b"
+      1.82, 180, "fm", "ab"
     ) %>% 
       dplyr::mutate(Moisture = factor(Moisture, levels = c("fm", "drought"))),
     
@@ -94,18 +96,31 @@ respiration_plan =
       geom_text(data = flux_boxplotlabel, aes(x = x, y = y, label = label), size=5)+
       facet_grid(.~Moisture)+
       theme_kp()+
-      theme(panel.grid = element_blank()),  
+      theme(panel.grid = element_blank()),
+    
+    gg_flux_cum_intact_boxplot2 = 
+      flux_summary %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot(aes(x = Wetting, y = cum_CO2C_mg))+
+      geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.4)+
+      geom_point(size=4, position = position_dodge(width = 0.5), 
+                 aes(fill = Amendments, shape = Amendments))+ 
+      scale_shape_manual(values = c(21,22,23))+
+      scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+      labs(title = "cumulative CO2-C evolved")+
+      #annotate("text", label = "p = xx", x = 1.5, y = 20)+
+      geom_text(data = flux_boxplotlabel, aes(x = x, y = y, label = label), size=5)+
+      facet_grid(.~Moisture)+
+      theme_kp()+
+      theme(panel.grid = element_blank())+
+      NULL,
     
     
     flux_subset = flux_summary %>% 
       filter(Homogenization=="Intact" & Moisture=="drought"),
     
-#    car::Anova(lm(log(cum_CO2C_mg) ~ Wetting * Amendments, data = flux_subset), type="III")
+    #    car::Anova(lm(log(cum_CO2C_mg) ~ Wetting * Amendments, data = flux_subset), type="III")
     
-    
-    
-    
-      
     ## IIb.  time-series ----------------------------------------------------------------
     gg_flux_cum_ts = 
       ggplot()+
@@ -151,6 +166,43 @@ respiration_plan =
       theme(legend.position = "none")+
       facet_wrap(~Assignment, ncol = 3),
     
+    
+    ## IId. cum-flux by homogenization -----------------------------------------
+    homo_labels = tribble(
+      ~x, ~y, ~ Amendments, ~label,
+      1.5, 10, "control", "p = 0.353",
+      1.5, 10, "C", "p = 0.019",
+      1.5, 10, "N", "p = 0.049",
+    ) %>% 
+      mutate(Amendments = factor(Amendments, levels = c("control", "C", "N"))),
+    
+    gg_cumflux_homo = 
+      flux_summary %>% 
+      ggplot(aes(x = Homogenization, y = cum_CO2C_mg))+
+      geom_boxplot(aes(group=Homogenization), width = 0.4)+
+      geom_point(size=4, position = position_dodge(width = 0.6), 
+                 aes(fill = Moisture, shape = Wetting, group = Wetting))+
+      scale_shape_manual(values = c(21,23))+
+      geom_text(data = homo_labels, aes(x = x, y = y, label = label))+
+      labs(title = "effect of homogenization")+
+      facet_grid(.~Amendments)+
+      theme_kp()+
+      NULL,
+    
+    gg_cumflux_homo2 = 
+      flux_summary %>% 
+      ggplot(aes(x = Homogenization, y = cum_CO2C_mg))+
+      geom_boxplot(aes(group = Homogenization), 
+                   fill = "grey90", alpha = 0.3, color = "grey60", width = 0.4)+      
+      geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
+                 aes(fill = Amendments, shape = Wetting, group = Amendments))+ 
+      scale_shape_manual(values = c(21,23))+
+      scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+      guides(fill=guide_legend(override.aes=list(shape=21)))+
+      labs(title = "effect of homogenization")+
+      theme_kp()+
+      NULL,
+    
     # ----- ---------------------------------------------------------------------
     # III. summary table -----------------------------------------------------------
     flux_summarytable =
@@ -164,16 +216,14 @@ respiration_plan =
     
     # ----- ---------------------------------------------------------------------
     # IV. stats -------------------------------------------------------------------
-    ## overall LME -- NOT WORKING
-    #    library(lme4),
-    #    lme_flux_all = 
-    #      lmer(cum_CO2C_mg ~ 
-    #                 (Homogenization + Moisture + Amendments + Wetting)^2 + 1|CORE, 
-    #                 data = flux_summary),
-    #    
+    ## overall LME -- NOT WORKING ----
     #    aov_flux_all = 
-    #      car::Anova(lme_flux_all, type = "III"),
+    #      car::Anova(lme4::lmer(cum_CO2C_mg ~ 
+    #                        (Homogenization + Moisture + Amendments + Wetting)^3 + (1|CORE),
+    #                        data = flux_summary), 
+    #                 type="III"),
     
+    ## intact and homogenized ----
     aov_flux_intact = 
       car::Anova(lm(log(cum_CO2C_mg) ~ 
                       (Moisture + Amendments + Wetting)^2,
@@ -186,25 +236,35 @@ respiration_plan =
                     data = flux_summary %>% filter(Homogenization=="Homogenized")), 
                  type="III"),
     
-     flux_interx_plot =  
+    ## homogenization:amendments ----
+    flux_interx_plot =  
       flux_summary %>% 
-      filter(Homogenization=="Intact") %>% 
-      group_by(Amendments, Moisture) %>% 
+      # filter(Homogenization=="Intact") %>% 
+      group_by(Amendments, Homogenization) %>% 
       dplyr::summarize(cum_CO2C_mg = mean(cum_CO2C_mg, na.rm = TRUE)) %>% 
-      ggplot(aes(x = Amendments, y = cum_CO2C_mg, color = Moisture))+
-      geom_point()+geom_path(aes(group = Moisture))+
+      ggplot(aes(x = Amendments, y = cum_CO2C_mg, color = Homogenization))+
+      geom_point()+geom_path(aes(group = Homogenization))+
       NULL,
-      
+    
+    aov_homo_c =     
+      car::Anova(lmer(log(cum_CO2C_mg) ~ Homogenization + (1|CORE), 
+                      data = flux_summary %>% filter(Amendments == "C")), 
+                 type = "III"),
+    
+    aov_homo_n =     
+      car::Anova(lmer(log(cum_CO2C_mg) ~ Homogenization + (1|CORE), 
+                      data = flux_summary %>% filter(Amendments == "N")), 
+                 type = "III"),
     
     # ----- ---------------------------------------------------------------------
     # V. report ------------------------------------------------------------------
     report1 = rmarkdown::render(
       knitr_in("reports/flux_drake_md_report.Rmd"),
-      output_format = rmarkdown::github_document()),
-    
-    report2 = rmarkdown::render(
-      knitr_in("reports/results.Rmd"),
       output_format = rmarkdown::github_document())
+    
+    #    report2 = rmarkdown::render(
+    #      knitr_in("reports/results.Rmd"),
+    #      output_format = rmarkdown::github_document())
     
     # ----- ---------------------------------------------------------------------
   )
