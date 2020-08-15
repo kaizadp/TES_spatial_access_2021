@@ -9,29 +9,39 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       message = FALSE,
                       comment = "#>",
-                      fig.path = ("markdown/fticr2/"))
+                      fig.path = ("markdown/doc/"))
 
 #source("code/0-packages.R")
 library(drake)
 ```
 
-```{r doc_plot1, fig.width=8}
+```{r doc_plot1, fig.width=8, eval=FALSE}
 readd(gg_doc_allpanels)
 ```
 
-```{r, doc_plot2, fig.width=7}
+```{r, doc_plot2, fig.width=7, eval=FALSE}
 readd(gg_doc_boxdotplot)
 ```
 
-```{r doc_plot_boxplot2, fig.width=10, fig.height=6}
+```{r doc_plot_boxplot2, fig.width=10, fig.height=6, eval=FALSE}
 readd(gg_doc_boxdotplot2)
 ```
 
 
-```{r doc_boxplot3, fig.width=7, fig.height=6}
+```{r doc_boxplot3, fig.width=7, fig.height=6, eval=FALSE}
 readd(gg_doc_boxdotplot3)
 ```
 
+```{r doc_boxplot4, fig.width=7, fig.height=6}
+readd(gg_doc_boxdotplot4_combined)
+```
+
+
+effect of homogenization
+
+```{r doc_boxplot_homo, fig.width=8, fig.height=5}
+readd(gg_doc_boxdot_homo)
+```
 
 
 ## what influenced DOC?
