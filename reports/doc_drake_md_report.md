@@ -140,10 +140,10 @@ Date run: 2020-08-15
     #> [7] base     
     #> 
     #> other attached packages:
-    #>  [1] lme4_1.1-23     Matrix_1.2-18   drake_7.12.4    ggbiplot_0.55  
-    #>  [5] PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0   dplyr_1.0.1    
-    #>  [9] purrr_0.3.4     readr_1.3.1     tidyr_1.1.1     tibble_3.0.3   
-    #> [13] ggplot2_3.3.2   tidyverse_1.3.0
+    #>  [1] patchwork_1.0.1 lme4_1.1-23     Matrix_1.2-18   drake_7.12.4   
+    #>  [5] ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0  
+    #>  [9] dplyr_1.0.1     purrr_0.3.4     readr_1.3.1     tidyr_1.1.1    
+    #> [13] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
     #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
