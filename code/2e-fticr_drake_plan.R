@@ -811,7 +811,7 @@ fticr_plan =
     # ----- ---------------------------------------------------------------------
     # report ------------------------------------------------------------------
     report1 = rmarkdown::render(
-      knitr_in("code/drake_md_report.Rmd"),
+      knitr_in("reports/fticr_drake_md_report.Rmd"),
       #  output_file = file_out("drake_md_report.md"))
       #      output_format = rmarkdown::html_document(toc = TRUE))
       output_format = rmarkdown::github_document()),
@@ -824,7 +824,7 @@ fticr_plan =
   )
 
 # make plan ---------------------------------------------------------------
-make(fticr_plan, cache = fticr_cache)
+make(fticr_plan, cache = fticr_cache, lock_cache = F)
 
 
 loadd(aliphatic_aromatic_counts)
