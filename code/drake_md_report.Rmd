@@ -117,6 +117,13 @@ readd(gg_fticr_unique_homo)
 readd(gg_peaks_bar)
 ```
 
+total peaks
+
+```{r fticr_totalpeaks_scatter, fig.height=5, fig.width=8}
+readd(gg_totalcounts)
+```
+
+
 complex:simple compounds
 
 ```{r fticr_peaks_aliph_arom, fig.width = 8}
@@ -125,13 +132,7 @@ readd(gg_aliph_aromatic)
 
 
 ```{r}
-readd(aliphatic_aromatic_counts) %>% 
-  filter(Homogenization=="Intact") %>% 
-  ggplot(aes(x = Amendments, y = arom_aliph_ratio, color = Moisture, shape = Wetting))+
-  geom_boxplot(fill=NA, color = "grey", aes(group=Amendments))+
-  geom_point(size=3, position = position_dodge(width = 0.7))+
-  facet_grid(Homogenization~Suction)+
-  NULL
+readd(gg_aliph_aromatic_intact_suction) 
 ```
 
 </details>
@@ -164,6 +165,11 @@ readd(peakcounts_table_aromatic) %>%
 readd(gg_fticr_relabund_barplots)
 ```
 
+relative abundance of complex peaks
+
+```{r fticr_relabund_complex, fig.height=5, fig.width=8}
+readd(gg_complex_relabund)
+```
 
 
 ### STATS 

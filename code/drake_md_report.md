@@ -137,9 +137,15 @@ unique to each amendment, in each incubation type
 
 ![](markdown/fticr2/fticr_peaks_bar-1.png)<!-- -->
 
+total peaks
+
+![](markdown/fticr2/fticr_totalpeaks_scatter-1.png)<!-- -->
+
 complex:simple compounds
 
 ![](markdown/fticr2/fticr_peaks_aliph_arom-1.png)<!-- -->
+
+![](markdown/fticr2/unnamed-chunk-1-1.png)<!-- -->
 
 </details>
 
@@ -181,6 +187,10 @@ tables – complex peaks
 
 ![](markdown/fticr2/fticr_relabund-1.png)<!-- -->
 
+relative abundance of complex peaks
+
+![](markdown/fticr2/fticr_relabund_complex-1.png)<!-- -->
+
 ### STATS
 
 <details>
@@ -200,34 +210,62 @@ tables – complex peaks
     #> 
     #> Terms added sequentially (first to last)
     #> 
-    #>                                     Df SumsOfSqs MeanSqs F.Model      R2 Pr(>F)    
-    #> Amendments                           2   0.14437 0.07219   7.811 0.04766  0.001 ***
-    #> Moisture                             1   0.21505 0.21505  23.270 0.07099  0.001 ***
-    #> Wetting                              1   0.00916 0.00916   0.991 0.00302  0.368    
-    #> Suction                              1   0.38447 0.38447  41.602 0.12691  0.001 ***
-    #> Homogenization                       1   0.17475 0.17475  18.909 0.05768  0.001 ***
-    #> Amendments:Moisture                  2   0.04268 0.02134   2.309 0.01409  0.052 .  
-    #> Amendments:Wetting                   2   0.05754 0.02877   3.113 0.01899  0.017 *  
-    #> Amendments:Suction                   2   0.02715 0.01357   1.469 0.00896  0.191    
-    #> Amendments:Homogenization            2   0.13898 0.06949   7.519 0.04588  0.001 ***
-    #> Moisture:Wetting                     1   0.01834 0.01834   1.985 0.00606  0.159    
-    #> Moisture:Suction                     1   0.05683 0.05683   6.149 0.01876  0.004 ** 
-    #> Moisture:Homogenization              1   0.00560 0.00560   0.606 0.00185  0.586    
-    #> Wetting:Suction                      1   0.04302 0.04302   4.655 0.01420  0.015 *  
-    #> Wetting:Homogenization               1   0.05849 0.05849   6.329 0.01931  0.005 ** 
-    #> Suction:Homogenization               1   0.02368 0.02368   2.562 0.00782  0.073 .  
-    #> Amendments:Moisture:Wetting          2   0.08926 0.04463   4.829 0.02946  0.001 ***
-    #> Amendments:Moisture:Suction          2   0.03187 0.01593   1.724 0.01052  0.145    
-    #> Amendments:Moisture:Homogenization   2   0.04422 0.02211   2.392 0.01460  0.058 .  
-    #> Amendments:Wetting:Suction           2   0.03512 0.01756   1.900 0.01159  0.096 .  
-    #> Amendments:Wetting:Homogenization    2   0.02055 0.01027   1.112 0.00678  0.347    
-    #> Amendments:Suction:Homogenization    2   0.08361 0.04181   4.524 0.02760  0.004 ** 
-    #> Moisture:Wetting:Suction             1   0.02044 0.02044   2.212 0.00675  0.124    
-    #> Moisture:Wetting:Homogenization      1   0.00995 0.00995   1.077 0.00328  0.329    
-    #> Moisture:Suction:Homogenization      1   0.02605 0.02605   2.819 0.00860  0.079 .  
-    #> Wetting:Suction:Homogenization       1   0.01140 0.01140   1.233 0.00376  0.294    
-    #> Residuals                          136   1.25687 0.00924         0.41488           
-    #> Total                              172   3.02945                 1.00000           
+    #>                                     Df SumsOfSqs MeanSqs
+    #> Amendments                           2   0.14437 0.07219
+    #> Moisture                             1   0.21505 0.21505
+    #> Wetting                              1   0.00916 0.00916
+    #> Suction                              1   0.38447 0.38447
+    #> Homogenization                       1   0.17475 0.17475
+    #> Amendments:Moisture                  2   0.04268 0.02134
+    #> Amendments:Wetting                   2   0.05754 0.02877
+    #> Amendments:Suction                   2   0.02715 0.01357
+    #> Amendments:Homogenization            2   0.13898 0.06949
+    #> Moisture:Wetting                     1   0.01834 0.01834
+    #> Moisture:Suction                     1   0.05683 0.05683
+    #> Moisture:Homogenization              1   0.00560 0.00560
+    #> Wetting:Suction                      1   0.04302 0.04302
+    #> Wetting:Homogenization               1   0.05849 0.05849
+    #> Suction:Homogenization               1   0.02368 0.02368
+    #> Amendments:Moisture:Wetting          2   0.08926 0.04463
+    #> Amendments:Moisture:Suction          2   0.03187 0.01593
+    #> Amendments:Moisture:Homogenization   2   0.04422 0.02211
+    #> Amendments:Wetting:Suction           2   0.03512 0.01756
+    #> Amendments:Wetting:Homogenization    2   0.02055 0.01027
+    #> Amendments:Suction:Homogenization    2   0.08361 0.04181
+    #> Moisture:Wetting:Suction             1   0.02044 0.02044
+    #> Moisture:Wetting:Homogenization      1   0.00995 0.00995
+    #> Moisture:Suction:Homogenization      1   0.02605 0.02605
+    #> Wetting:Suction:Homogenization       1   0.01140 0.01140
+    #> Residuals                          136   1.25687 0.00924
+    #> Total                              172   3.02945        
+    #>                                    F.Model      R2 Pr(>F)    
+    #> Amendments                           7.811 0.04766  0.001 ***
+    #> Moisture                            23.270 0.07099  0.001 ***
+    #> Wetting                              0.991 0.00302  0.368    
+    #> Suction                             41.602 0.12691  0.001 ***
+    #> Homogenization                      18.909 0.05768  0.001 ***
+    #> Amendments:Moisture                  2.309 0.01409  0.052 .  
+    #> Amendments:Wetting                   3.113 0.01899  0.017 *  
+    #> Amendments:Suction                   1.469 0.00896  0.191    
+    #> Amendments:Homogenization            7.519 0.04588  0.001 ***
+    #> Moisture:Wetting                     1.985 0.00606  0.159    
+    #> Moisture:Suction                     6.149 0.01876  0.004 ** 
+    #> Moisture:Homogenization              0.606 0.00185  0.586    
+    #> Wetting:Suction                      4.655 0.01420  0.015 *  
+    #> Wetting:Homogenization               6.329 0.01931  0.005 ** 
+    #> Suction:Homogenization               2.562 0.00782  0.073 .  
+    #> Amendments:Moisture:Wetting          4.829 0.02946  0.001 ***
+    #> Amendments:Moisture:Suction          1.724 0.01052  0.145    
+    #> Amendments:Moisture:Homogenization   2.392 0.01460  0.058 .  
+    #> Amendments:Wetting:Suction           1.900 0.01159  0.096 .  
+    #> Amendments:Wetting:Homogenization    1.112 0.00678  0.347    
+    #> Amendments:Suction:Homogenization    4.524 0.02760  0.004 ** 
+    #> Moisture:Wetting:Suction             2.212 0.00675  0.124    
+    #> Moisture:Wetting:Homogenization      1.077 0.00328  0.329    
+    #> Moisture:Suction:Homogenization      2.819 0.00860  0.079 .  
+    #> Wetting:Suction:Homogenization       1.233 0.00376  0.294    
+    #> Residuals                                  0.41488           
+    #> Total                                      1.00000           
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -244,16 +282,26 @@ tables – complex peaks
     #> 
     #> Terms added sequentially (first to last)
     #> 
-    #>                             Df SumsOfSqs  MeanSqs F.Model      R2 Pr(>F)    
-    #> Amendments                   2   0.00603 0.003014  0.4995 0.01288  0.754    
-    #> Moisture                     1   0.07530 0.075298 12.4784 0.16088  0.001 ***
-    #> Wetting                      1   0.05498 0.054976  9.1107 0.11746  0.001 ***
-    #> Amendments:Moisture          2   0.02583 0.012913  2.1399 0.05518  0.079 .  
-    #> Amendments:Wetting           2   0.04222 0.021109  3.4981 0.09020  0.017 *  
-    #> Moisture:Wetting             1   0.01142 0.011423  1.8931 0.02441  0.136    
-    #> Amendments:Moisture:Wetting  2   0.05315 0.026576  4.4042 0.11356  0.006 ** 
-    #> Residuals                   33   0.19913 0.006034         0.42545           
-    #> Total                       44   0.46805                  1.00000           
+    #>                             Df SumsOfSqs  MeanSqs F.Model
+    #> Amendments                   2   0.00603 0.003014  0.4995
+    #> Moisture                     1   0.07530 0.075298 12.4784
+    #> Wetting                      1   0.05498 0.054976  9.1107
+    #> Amendments:Moisture          2   0.02583 0.012913  2.1399
+    #> Amendments:Wetting           2   0.04222 0.021109  3.4981
+    #> Moisture:Wetting             1   0.01142 0.011423  1.8931
+    #> Amendments:Moisture:Wetting  2   0.05315 0.026576  4.4042
+    #> Residuals                   33   0.19913 0.006034        
+    #> Total                       44   0.46805                 
+    #>                                  R2 Pr(>F)    
+    #> Amendments                  0.01288  0.754    
+    #> Moisture                    0.16088  0.001 ***
+    #> Wetting                     0.11746  0.001 ***
+    #> Amendments:Moisture         0.05518  0.079 .  
+    #> Amendments:Wetting          0.09020  0.017 *  
+    #> Moisture:Wetting            0.02441  0.136    
+    #> Amendments:Moisture:Wetting 0.11356  0.006 ** 
+    #> Residuals                   0.42545           
+    #> Total                       1.00000           
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -268,16 +316,26 @@ tables – complex peaks
     #> 
     #> Terms added sequentially (first to last)
     #> 
-    #>                             Df SumsOfSqs  MeanSqs F.Model      R2 Pr(>F)    
-    #> Amendments                   2   0.08850 0.044252  5.8702 0.19694  0.001 ***
-    #> Moisture                     1   0.01117 0.011168  1.4815 0.02485  0.237    
-    #> Wetting                      1   0.01314 0.013136  1.7426 0.02923  0.181    
-    #> Amendments:Moisture          2   0.03599 0.017997  2.3875 0.08010  0.058 .  
-    #> Amendments:Wetting           2   0.02278 0.011392  1.5112 0.05070  0.222    
-    #> Moisture:Wetting             1   0.02859 0.028587  3.7923 0.06361  0.029 *  
-    #> Amendments:Moisture:Wetting  2   0.02308 0.011538  1.5305 0.05135  0.225    
-    #> Residuals                   30   0.22615 0.007538         0.50323           
-    #> Total                       41   0.44940                  1.00000           
+    #>                             Df SumsOfSqs  MeanSqs F.Model
+    #> Amendments                   2   0.08850 0.044252  5.8702
+    #> Moisture                     1   0.01117 0.011168  1.4815
+    #> Wetting                      1   0.01314 0.013136  1.7426
+    #> Amendments:Moisture          2   0.03599 0.017997  2.3875
+    #> Amendments:Wetting           2   0.02278 0.011392  1.5112
+    #> Moisture:Wetting             1   0.02859 0.028587  3.7923
+    #> Amendments:Moisture:Wetting  2   0.02308 0.011538  1.5305
+    #> Residuals                   30   0.22615 0.007538        
+    #> Total                       41   0.44940                 
+    #>                                  R2 Pr(>F)    
+    #> Amendments                  0.19694  0.001 ***
+    #> Moisture                    0.02485  0.237    
+    #> Wetting                     0.02923  0.181    
+    #> Amendments:Moisture         0.08010  0.058 .  
+    #> Amendments:Wetting          0.05070  0.222    
+    #> Moisture:Wetting            0.06361  0.029 *  
+    #> Amendments:Moisture:Wetting 0.05135  0.225    
+    #> Residuals                   0.50323           
+    #> Total                       1.00000           
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -292,16 +350,26 @@ tables – complex peaks
     #> 
     #> Terms added sequentially (first to last)
     #> 
-    #>                             Df SumsOfSqs  MeanSqs F.Model      R2 Pr(>F)    
-    #> Amendments                   2   0.11805 0.059026  7.9299 0.16791  0.001 ***
-    #> Moisture                     1   0.20467 0.204672 27.4967 0.29111  0.001 ***
-    #> Wetting                      1   0.01808 0.018077  2.4286 0.02571  0.078 .  
-    #> Amendments:Moisture          2   0.02850 0.014249  1.9143 0.04053  0.112    
-    #> Amendments:Wetting           2   0.03984 0.019918  2.6758 0.05666  0.046 *  
-    #> Moisture:Wetting             1   0.01283 0.012831  1.7238 0.01825  0.164    
-    #> Amendments:Moisture:Wetting  2   0.05037 0.025186  3.3836 0.07164  0.021 *  
-    #> Residuals                   31   0.23075 0.007443         0.32819           
-    #> Total                       42   0.70308                  1.00000           
+    #>                             Df SumsOfSqs  MeanSqs F.Model
+    #> Amendments                   2   0.11805 0.059026  7.9299
+    #> Moisture                     1   0.20467 0.204672 27.4967
+    #> Wetting                      1   0.01808 0.018077  2.4286
+    #> Amendments:Moisture          2   0.02850 0.014249  1.9143
+    #> Amendments:Wetting           2   0.03984 0.019918  2.6758
+    #> Moisture:Wetting             1   0.01283 0.012831  1.7238
+    #> Amendments:Moisture:Wetting  2   0.05037 0.025186  3.3836
+    #> Residuals                   31   0.23075 0.007443        
+    #> Total                       42   0.70308                 
+    #>                                  R2 Pr(>F)    
+    #> Amendments                  0.16791  0.001 ***
+    #> Moisture                    0.29111  0.001 ***
+    #> Wetting                     0.02571  0.078 .  
+    #> Amendments:Moisture         0.04053  0.112    
+    #> Amendments:Wetting          0.05666  0.046 *  
+    #> Moisture:Wetting            0.01825  0.164    
+    #> Amendments:Moisture:Wetting 0.07164  0.021 *  
+    #> Residuals                   0.32819           
+    #> Total                       1.00000           
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -316,16 +384,26 @@ tables – complex peaks
     #> 
     #> Terms added sequentially (first to last)
     #> 
-    #>                             Df SumsOfSqs  MeanSqs F.Model      R2 Pr(>F)    
-    #> Amendments                   2   0.19013 0.095065  6.7194 0.22768  0.001 ***
-    #> Moisture                     1   0.00599 0.005993  0.4236 0.00718  0.670    
-    #> Wetting                      1   0.03243 0.032430  2.2922 0.03884  0.128    
-    #> Amendments:Moisture          2   0.07244 0.036221  2.5602 0.08675  0.047 *  
-    #> Amendments:Wetting           2   0.03066 0.015328  1.0835 0.03671  0.401    
-    #> Moisture:Wetting             1   0.00933 0.009327  0.6593 0.01117  0.534    
-    #> Amendments:Moisture:Wetting  2   0.05551 0.027754  1.9617 0.06647  0.099 .  
-    #> Residuals                   31   0.43858 0.014148         0.52520           
-    #> Total                       42   0.83506                  1.00000           
+    #>                             Df SumsOfSqs  MeanSqs F.Model
+    #> Amendments                   2   0.19013 0.095065  6.7194
+    #> Moisture                     1   0.00599 0.005993  0.4236
+    #> Wetting                      1   0.03243 0.032430  2.2922
+    #> Amendments:Moisture          2   0.07244 0.036221  2.5602
+    #> Amendments:Wetting           2   0.03066 0.015328  1.0835
+    #> Moisture:Wetting             1   0.00933 0.009327  0.6593
+    #> Amendments:Moisture:Wetting  2   0.05551 0.027754  1.9617
+    #> Residuals                   31   0.43858 0.014148        
+    #> Total                       42   0.83506                 
+    #>                                  R2 Pr(>F)    
+    #> Amendments                  0.22768  0.001 ***
+    #> Moisture                    0.00718  0.670    
+    #> Wetting                     0.03884  0.128    
+    #> Amendments:Moisture         0.08675  0.047 *  
+    #> Amendments:Wetting          0.03671  0.401    
+    #> Moisture:Wetting            0.01117  0.534    
+    #> Amendments:Moisture:Wetting 0.06647  0.099 .  
+    #> Residuals                   0.52520           
+    #> Total                       1.00000           
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -375,7 +453,7 @@ tables – complex peaks
 
 <summary>click to expand</summary>
 
-Date run: 2020-08-11
+Date run: 2020-08-17
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -389,26 +467,51 @@ Date run: 2020-08-11
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets  methods   base     
+    #> [1] stats     graphics  grDevices utils     datasets 
+    #> [6] methods   base     
     #> 
     #> other attached packages:
-    #>  [1] patchwork_1.0.1  visNetwork_2.0.9 vegan_2.5-6      lattice_0.20-41  permute_0.9-5    rmarkdown_2.3   
-    #>  [7] drake_7.12.4     ggbiplot_0.55    PNWColors_0.1.0  forcats_0.5.0    stringr_1.4.0    dplyr_1.0.1     
-    #> [13] purrr_0.3.4      readr_1.3.1      tidyr_1.1.1      tibble_3.0.3     ggplot2_3.3.2    tidyverse_1.3.0 
-    #> [19] here_0.1        
+    #>  [1] patchwork_1.0.1  lme4_1.1-23      Matrix_1.2-18   
+    #>  [4] car_3.0-9        carData_3.0-4    visNetwork_2.0.9
+    #>  [7] vegan_2.5-6      lattice_0.20-41  permute_0.9-5   
+    #> [10] rmarkdown_2.3    drake_7.12.4     ggbiplot_0.55   
+    #> [13] PNWColors_0.1.0  forcats_0.5.0    stringr_1.4.0   
+    #> [16] dplyr_1.0.1      purrr_0.3.4      readr_1.3.1     
+    #> [19] tidyr_1.1.1      tibble_3.0.3     ggplot2_3.3.2   
+    #> [22] tidyverse_1.3.0  here_0.1        
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] httr_1.4.2        jsonlite_1.7.0    splines_4.0.2     modelr_0.1.8      assertthat_0.2.1  highr_0.8        
-    #>  [7] base64url_1.4     blob_1.2.1        cellranger_1.1.0  yaml_2.2.1        progress_1.2.2    pillar_1.4.6     
-    #> [13] backports_1.1.8   glue_1.4.1        digest_0.6.25     rvest_0.3.6       colorspace_1.4-1  htmltools_0.5.0  
-    #> [19] Matrix_1.2-18     plyr_1.8.6        pkgconfig_2.0.3   broom_0.7.0       haven_2.3.1       scales_1.1.1     
-    #> [25] mgcv_1.8-31       txtq_0.2.3        generics_0.0.2    farver_2.0.3      ellipsis_0.3.1    withr_2.2.0      
-    #> [31] cli_2.0.2         magrittr_1.5      crayon_1.3.4      readxl_1.3.1      evaluate_0.14     storr_1.2.1      
-    #> [37] fs_1.5.0          fansi_0.4.1       nlme_3.1-148      MASS_7.3-51.6     xml2_1.3.2        tools_4.0.2      
-    #> [43] prettyunits_1.1.1 hms_0.5.3         lifecycle_0.2.0   munsell_0.5.0     reprex_0.3.0      cluster_2.1.0    
-    #> [49] compiler_4.0.2    rlang_0.4.7       grid_4.0.2        rstudioapi_0.11   htmlwidgets_1.5.1 igraph_1.2.5     
-    #> [55] labeling_0.3      gtable_0.3.0      DBI_1.1.0         R6_2.4.1          lubridate_1.7.9   knitr_1.29       
-    #> [61] utf8_1.1.4        filelock_1.0.2    rprojroot_1.3-2   stringi_1.4.6     parallel_4.0.2    Rcpp_1.0.5       
-    #> [67] vctrs_0.3.2       dbplyr_1.4.4      tidyselect_1.1.0  xfun_0.16
+    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
+    #>  [4] rio_0.5.16         rprojroot_1.3-2    fs_1.5.0          
+    #>  [7] rstudioapi_0.11    farver_2.0.3       soilpalettes_0.1.0
+    #> [10] fansi_0.4.1        lubridate_1.7.9    xml2_1.3.2        
+    #> [13] splines_4.0.2      knitr_1.29         jsonlite_1.7.0    
+    #> [16] nloptr_1.2.2.2     packrat_0.5.0      broom_0.7.0       
+    #> [19] cluster_2.1.0      dbplyr_1.4.4       shiny_1.5.0       
+    #> [22] compiler_4.0.2     httr_1.4.2         backports_1.1.8   
+    #> [25] fastmap_1.0.1      assertthat_0.2.1   cli_2.0.2         
+    #> [28] later_1.1.0.1      htmltools_0.5.0    prettyunits_1.1.1 
+    #> [31] tools_4.0.2        igraph_1.2.5       gtable_0.3.0      
+    #> [34] agricolae_1.3-3    glue_1.4.1         Rcpp_1.0.5        
+    #> [37] cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
+    #> [40] xfun_0.16          openxlsx_4.1.5     rvest_0.3.6       
+    #> [43] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   
+    #> [46] statmod_1.4.34     MASS_7.3-51.6      scales_1.1.1      
+    #> [49] hms_0.5.3          promises_1.1.1     parallel_4.0.2    
+    #> [52] yaml_2.2.1         curl_4.3           labelled_2.5.0    
+    #> [55] stringi_1.4.6      AlgDesign_1.2.0    highr_0.8         
+    #> [58] klaR_0.6-15        filelock_1.0.2     boot_1.3-25       
+    #> [61] zip_2.1.0          storr_1.2.1        rlang_0.4.7       
+    #> [64] pkgconfig_2.0.3    evaluate_0.14      htmlwidgets_1.5.1 
+    #> [67] labeling_0.3       tidyselect_1.1.0   plyr_1.8.6        
+    #> [70] magrittr_1.5       R6_2.4.1           generics_0.0.2    
+    #> [73] base64url_1.4      combinat_0.0-8     txtq_0.2.3        
+    #> [76] DBI_1.1.0          pillar_1.4.6       haven_2.3.1       
+    #> [79] foreign_0.8-80     withr_2.2.0        mgcv_1.8-31       
+    #> [82] abind_1.4-5        modelr_0.1.8       crayon_1.3.4      
+    #> [85] questionr_0.7.1    utf8_1.1.4         progress_1.2.2    
+    #> [88] grid_4.0.2         readxl_1.3.1       data.table_1.13.0 
+    #> [91] blob_1.2.1         reprex_0.3.0       digest_0.6.25     
+    #> [94] xtable_1.8-4       httpuv_1.5.4       munsell_0.5.0
 
 </details>

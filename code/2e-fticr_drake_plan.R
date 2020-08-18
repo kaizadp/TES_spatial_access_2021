@@ -7,6 +7,7 @@ library(visNetwork)
 library(car)
 library(lme4)
 
+fticr_cache <- drake_cache(path = "reports/cache/fticr")
 
 fticr_plan = 
   drake_plan(
@@ -307,43 +308,94 @@ fticr_plan =
     gg_aliph_aromatic_intact_suction = 
       aliphatic_aromatic_counts %>% 
       filter(Homogenization=="Intact") %>% 
-      ggplot(aes(x = Amendments, y = arom_aliph_ratio, color = Moisture, shape = Wetting))+
-      geom_boxplot(fill=NA, color = "grey", aes(group=Amendments))+
-      geom_point(size=3, position = position_dodge(width = 0.7))+
+      ggplot(aes(x = Moisture, y = arom_aliph_ratio, fill = Amendments, shape = Wetting))+
+      geom_boxplot(fill=NA, color = "grey", aes(group=Moisture))+
+      geom_point(size=4, stroke=1, position = position_dodge(width = 0.4), aes(group = Amendments))+
+      scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll", 5)))+
+      scale_shape_manual(values = c(21,23))+
+      guides(fill=guide_legend(override.aes=list(shape=21)))+
       facet_grid(Homogenization~Suction)+
+      theme_kp()+
       NULL,
     
-
+    
+    ## IId.  total peak count -- scatter ----------------------------------------------------------
+    
+    fit_hsd_totalpeaks <- function(dat) {
+      a <-aov(log(counts) ~ Amendments, data = dat)
+      h <-agricolae::HSD.test(a,"Amendments")
+      #create a tibble with one column for each treatment
+      #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+      tibble(`control` = h$groups["control",2], 
+             `C` = h$groups["C",2],
+             `N` = h$groups["N",2])
+    },
+    
+    fticr_hsd_totalpeaks = 
+      peakcounts_core %>% 
+      filter(class=="total") %>% 
+      mutate(Suction = as.character(Suction)) %>% 
+      group_by(Suction, Homogenization, Moisture) %>% 
+      do(fit_hsd_totalpeaks(.)),
+    
+    totalcounts_label = tribble(
+        ~x, ~y, ~Suction, ~Homogenization, ~label,
+        1.87, 2000, 1.5, "Intact", "b",
+        2, 3000, 1.5, "Intact", "a",
+        2.13, 2000, 1.5, "Intact", "ab"
+        ),  
+    
+  
+    gg_totalcounts = 
+      peakcounts_core %>% 
+      filter(class=="total") %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot()+
+      geom_point(aes(x = Moisture, y = counts, 
+                     fill = Amendments, shape = Wetting, group = Amendments),
+                 size=4, stroke=1, position = position_dodge(width = 0.4))+
+      geom_text(data = totalcounts_label, aes(x = x, y = y, label = label), size=4)+
+      scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+      scale_shape_manual(values = c(21,23))+
+      guides(fill=guide_legend(override.aes=list(shape=21)))+
+      labs(title = "total peak counts",
+           y = "count")+
+      facet_grid(Homogenization~Suction)+
+      theme_kp()+
+      NULL,
+    
+    
+    
     ## IId.  peaks -- stats ----------------------------------------------------------
     ### -- arom-aliph-ratio
-    aov_arom_aliph_ratio_all = 
-    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
-                 (1|Core), 
-               data = aliphatic_aromatic_counts),
-          type = "III"),
+  #  aov_arom_aliph_ratio_all = 
+  #    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+  #                 (1|Core), 
+  #               data = aliphatic_aromatic_counts),
+  #          type = "III"),
     
     aov_arom_aliph_ratio_intact = 
-    Anova(lm(arom_aliph_ratio ~ (Suction+Moisture+Wetting+Amendments)^2, 
-             data = aliphatic_aromatic_counts %>% 
-               filter(Homogenization=="Intact")),
-          type = "III"),
+      Anova(lm(arom_aliph_ratio ~ (Suction+Moisture+Wetting+Amendments)^2, 
+               data = aliphatic_aromatic_counts %>% 
+                 filter(Homogenization=="Intact")),
+            type = "III"),
     
     ### -- total-peaks
     peakcounts_total_core = 
       peakcounts_core %>% 
       filter(class=="total"),
     
-    aov_total_peaks_all = 
-    Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
-                 (1|Core), 
-               data = peakcounts_total_core),
-          type = "III"),
+ #   aov_total_peaks_all = 
+ #     Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+ #                  (1|Core), 
+ #                data = peakcounts_total_core),
+ #           type = "III"),
     
     aov_total_peaks_intact = 
-    Anova(lm(log(counts) ~ (Suction+Moisture+Wetting+Amendments)^2, 
-             data = peakcounts_total_core %>% 
-               filter(Homogenization=="Intact")),
-          type = "III"),
+      Anova(lm(log(counts) ~ (Suction+Moisture+Wetting+Amendments)^2, 
+               data = peakcounts_total_core %>% 
+                 filter(Homogenization=="Intact")),
+            type = "III"),
     
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
@@ -366,7 +418,8 @@ fticr_plan =
         class = factor(class, levels = 
                          c("aliphatic","unsaturated/lignin","aromatic","condensed_arom")),
         Amendments = factor(Amendments, levels = c("control", "C", "N")),
-        Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized"))), 
+        Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+        Moisture = factor(Moisture, levels = c("fm", "drought"))), 
     
     # IIb. bar plots ----------------------------------------------------------
     gg_fticr_relabund_barplots =     
@@ -380,6 +433,62 @@ fticr_plan =
       facet_grid(Homogenization+Suction~Moisture+Wetting)+
       NULL,
     
+    # IIc. complex peaks ----------------------------------------------------------
+    ## fit hsd
+    relabund_cores_complex = 
+      relabund_cores %>% 
+      filter(!class=="aliphatic") %>% 
+      group_by(Core, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
+      dplyr::summarise(relabund = sum(relabund)) %>% 
+      ungroup(),
+    
+    
+    fit_hsd_complex <- function(dat) {
+      a <-aov(log(relabund) ~ Amendments, data = dat)
+      h <-agricolae::HSD.test(a,"Amendments")
+      #create a tibble with one column for each treatment
+      #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+      tibble(`control` = h$groups["control",2], 
+             `C` = h$groups["C",2],
+             `N` = h$groups["N",2])
+    },
+    
+    fticr_hsd_complex = 
+      relabund_cores_complex %>% 
+      mutate(Suction = as.character(Suction)) %>% 
+      group_by(Suction, Homogenization, Moisture) %>% 
+      do(fit_hsd_complex(.)),
+    
+    
+    complex_label = tribble(
+      ~x, ~y, ~Suction, ~Homogenization, ~label,
+      0.87, 90, 50, "Intact", "a",
+      1, 85, 50, "Intact", "b",
+      1.13, 85, 50, "Intact", "ab",
+      
+      1.87, 92, 50, "Intact", "a",
+      2, 85, 50, "Intact", "b",
+      2.13, 85, 50, "Intact", "b"
+    ),
+    
+    gg_complex_relabund = 
+      relabund_cores_complex %>% 
+      filter(Homogenization=="Intact") %>% 
+      ggplot() +
+      geom_point(aes(x = Moisture, y = relabund, fill = Amendments, shape = Wetting, group = Amendments),
+                 size = 4, stroke = 1,
+                 position = position_dodge(width = 0.4)) + 
+      geom_text(data = complex_label, aes(x = x, y = y, label = label))+
+      
+      scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+      scale_shape_manual(values = c(21,23))+
+      guides(fill=guide_legend(override.aes=list(shape=21)))+
+      labs(title = "% contribution of complex peaks",
+           y = "% contribution")+
+      facet_grid(Homogenization~ Suction)+
+      theme_kp()+
+      NULL,
+  
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
@@ -702,7 +811,7 @@ fticr_plan =
     # ----- ---------------------------------------------------------------------
     # report ------------------------------------------------------------------
     report1 = rmarkdown::render(
-      knitr_in("reports/drake_md_report.Rmd"),
+      knitr_in("code/drake_md_report.Rmd"),
       #  output_file = file_out("drake_md_report.md"))
       #      output_format = rmarkdown::html_document(toc = TRUE))
       output_format = rmarkdown::github_document()),
@@ -715,7 +824,7 @@ fticr_plan =
   )
 
 # make plan ---------------------------------------------------------------
-make(fticr_plan)
+make(fticr_plan, cache = fticr_cache)
 
 
 loadd(aliphatic_aromatic_counts)
