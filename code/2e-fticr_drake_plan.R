@@ -6,14 +6,43 @@ library(vegan)
 library(visNetwork)
 library(car)
 library(lme4)
+library(patchwork)
 
+# Setup (from here from plan)
+theme_set(theme_bw())
+pal <- pnw_palette("Bay", 3)
+
+
+# ----- Functions extracted from the drake plan
+# BBL: I would suggest moving them to another file, e.g. "fit_functions.R"
+
+fit_hsd_totalpeaks <- function(dat) {
+  a <-aov(log(counts) ~ Amendments, data = dat)
+  h <-agricolae::HSD.test(a,"Amendments")
+  #create a tibble with one column for each treatment
+  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+  tibble(`control` = h$groups["control",2], 
+         `C` = h$groups["C",2],
+         `N` = h$groups["N",2])
+}
+
+fit_hsd_complex <- function(dat) {
+  a <-aov(log(relabund) ~ Amendments, data = dat)
+  h <-agricolae::HSD.test(a,"Amendments")
+  #create a tibble with one column for each treatment
+  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+  tibble(`control` = h$groups["control",2], 
+         `C` = h$groups["C",2],
+         `N` = h$groups["N",2])
+}
+
+
+# BBL: Why are you getting cache this way? Should not be necessary
 fticr_cache <- drake_cache(path = "reports/cache/fticr")
 
-fticr_plan = 
+fticr_plan <- 
   drake_plan(
     # 0a. setup -------------------------------------------------------------------
-    theme_set(theme_bw()),
-    pal = pnw_palette("Bay", 3),
     
     # 0b. load files --------------------------------------------------------------
     fticr_key = read.csv(file_in("data/processed/fticr_key.csv")) %>% 
@@ -48,7 +77,7 @@ fticr_plan =
     # 0c. reps ----------------------------------------------------------------
     reps = 
       data_key %>% 
-      filter(!Suction==15) %>% 
+      filter(Suction != 15) %>% 
       ungroup() %>% 
       distinct(Core, SampleAssignment) %>% 
       group_by(SampleAssignment) %>% 
@@ -199,7 +228,7 @@ fticr_plan =
       peaks_distinct_core %>% 
       left_join(meta_classes, by = "formula") %>% 
       group_by(Core, SampleAssignment, class) %>% 
-      summarize(n = n()) %>% 
+      dplyr::summarize(n = n()) %>% 
       ungroup() %>% 
       group_by(Core, SampleAssignment) %>% 
       dplyr::mutate(total = sum(n)) %>% 
@@ -221,7 +250,7 @@ fticr_plan =
     peakcounts_trt = 
       peakcounts_core %>% 
       group_by(SampleAssignment, class) %>% 
-      filter(!class=="total") %>% 
+      filter(class != "total") %>% 
       summarize(peaks = as.integer(mean(counts))) %>% 
       ungroup() %>% 
       left_join(fticr_key, by = "SampleAssignment") %>% 
@@ -320,16 +349,6 @@ fticr_plan =
     
     
     ## IId.  total peak count -- scatter ----------------------------------------------------------
-    
-    fit_hsd_totalpeaks <- function(dat) {
-      a <-aov(log(counts) ~ Amendments, data = dat)
-      h <-agricolae::HSD.test(a,"Amendments")
-      #create a tibble with one column for each treatment
-      #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-      tibble(`control` = h$groups["control",2], 
-             `C` = h$groups["C",2],
-             `N` = h$groups["N",2])
-    },
     
     fticr_hsd_totalpeaks = 
       peakcounts_core %>% 
@@ -441,17 +460,6 @@ fticr_plan =
       group_by(Core, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
       dplyr::summarise(relabund = sum(relabund)) %>% 
       ungroup(),
-    
-    
-    fit_hsd_complex <- function(dat) {
-      a <-aov(log(relabund) ~ Amendments, data = dat)
-      h <-agricolae::HSD.test(a,"Amendments")
-      #create a tibble with one column for each treatment
-      #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-      tibble(`control` = h$groups["control",2], 
-             `C` = h$groups["C",2],
-             `N` = h$groups["N",2])
-    },
     
     fticr_hsd_complex = 
       relabund_cores_complex %>% 
@@ -755,7 +763,6 @@ fticr_plan =
       NULL,
     
     #### combined ----
-    library(patchwork),
     gg_fticr_pca_intact_combined = gg_pca_1_intact + gg_pca_50_intact,
     gg_fticr_pca_homo_combined = gg_pca_1_homo + gg_pca_50_homo,
     
