@@ -11,6 +11,8 @@ library(patchwork)
 # Pipeline functions
 source("code/pipeline_plotting.R")
 source("code/pipeline_tables.R")
+source("code/pipeline_compute.R")
+source("code/pipeline_reading.R")
 
 # Setup (from here from plan)
 theme_set(theme_bw())
