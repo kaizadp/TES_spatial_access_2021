@@ -7,6 +7,16 @@ effect of homogenization
 
 ![](markdown/doc/doc_boxplot_homo-1.png)<!-- -->
 
+-----
+
+## combined porewaters for full core
+
+![](markdown/doc/doc_fullcore_combined-1.png)<!-- -->
+
+![](markdown/doc/doc_fullcore_combined_homo-1.png)<!-- -->
+
+-----
+
 ## what influenced DOC?
 
 DOC was influenced by:
@@ -122,7 +132,7 @@ how much DOC was added as part of the amendment?
 
 <summary>click to expand</summary>
 
-Date run: 2020-08-15
+Date run: 2020-08-19
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -136,48 +146,29 @@ Date run: 2020-08-15
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets  methods  
-    #> [7] base     
+    #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] patchwork_1.0.1 lme4_1.1-23     Matrix_1.2-18   drake_7.12.4   
-    #>  [5] ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0   stringr_1.4.0  
-    #>  [9] dplyr_1.0.1     purrr_0.3.4     readr_1.3.1     tidyr_1.1.1    
-    #> [13] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
+    #>  [1] patchwork_1.0.1 drake_7.12.4    ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0  
+    #>  [6] stringr_1.4.0   dplyr_1.0.1     purrr_0.3.4     readr_1.3.1     tidyr_1.1.1    
+    #> [11] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
-    #>  [4] rio_0.5.16         fs_1.5.0           rstudioapi_0.11   
-    #>  [7] farver_2.0.3       soilpalettes_0.1.0 fansi_0.4.1       
-    #> [10] lubridate_1.7.9    xml2_1.3.2         splines_4.0.2     
-    #> [13] knitr_1.29         jsonlite_1.7.0     nloptr_1.2.2.2    
-    #> [16] broom_0.7.0        cluster_2.1.0      dbplyr_1.4.4      
-    #> [19] shiny_1.5.0        compiler_4.0.2     httr_1.4.2        
-    #> [22] backports_1.1.8    assertthat_0.2.1   fastmap_1.0.1     
-    #> [25] cli_2.0.2          later_1.1.0.1      htmltools_0.5.0   
-    #> [28] prettyunits_1.1.1  tools_4.0.2        igraph_1.2.5      
-    #> [31] gtable_0.3.0       agricolae_1.3-3    glue_1.4.1        
-    #> [34] tinytex_0.25       Rcpp_1.0.5         carData_3.0-4     
-    #> [37] cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
-    #> [40] xfun_0.16          openxlsx_4.1.5     rvest_0.3.6       
-    #> [43] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   
-    #> [46] statmod_1.4.34     MASS_7.3-51.6      scales_1.1.1      
-    #> [49] hms_0.5.3          promises_1.1.1     parallel_4.0.2    
-    #> [52] yaml_2.2.1         curl_4.3           labelled_2.5.0    
-    #> [55] stringi_1.4.6      highr_0.8          klaR_0.6-15       
-    #> [58] AlgDesign_1.2.0    filelock_1.0.2     boot_1.3-25       
-    #> [61] zip_2.1.0          storr_1.2.1        rlang_0.4.7       
-    #> [64] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41   
-    #> [67] labeling_0.3       tidyselect_1.1.0   plyr_1.8.6        
-    #> [70] magrittr_1.5       R6_2.4.1           generics_0.0.2    
-    #> [73] base64url_1.4      combinat_0.0-8     txtq_0.2.3        
-    #> [76] DBI_1.1.0          mgcv_1.8-31        pillar_1.4.6      
-    #> [79] haven_2.3.1        foreign_0.8-80     withr_2.2.0       
-    #> [82] abind_1.4-5        modelr_0.1.8       crayon_1.3.4      
-    #> [85] car_3.0-9          questionr_0.7.1    rmarkdown_2.3     
-    #> [88] progress_1.2.2     grid_4.0.2         readxl_1.3.1      
-    #> [91] data.table_1.13.0  blob_1.2.1         reprex_0.3.0      
-    #> [94] digest_0.6.25      xtable_1.8-4       httpuv_1.5.4      
-    #> [97] munsell_0.5.0
+    #>  [1] Rcpp_1.0.5         lubridate_1.7.9    txtq_0.2.3         prettyunits_1.1.1 
+    #>  [5] assertthat_0.2.1   digest_0.6.25      packrat_0.5.0      R6_2.4.1          
+    #>  [9] cellranger_1.1.0   plyr_1.8.6         backports_1.1.8    reprex_0.3.0      
+    #> [13] evaluate_0.14      httr_1.4.2         pillar_1.4.6       soilpalettes_0.1.0
+    #> [17] rlang_0.4.7        progress_1.2.2     readxl_1.3.1       rstudioapi_0.11   
+    #> [21] blob_1.2.1         rmarkdown_2.3      labeling_0.3       igraph_1.2.5      
+    #> [25] munsell_0.5.0      broom_0.7.0        compiler_4.0.2     modelr_0.1.8      
+    #> [29] xfun_0.16          pkgconfig_2.0.3    htmltools_0.5.0    tidyselect_1.1.0  
+    #> [33] fansi_0.4.1        crayon_1.3.4       dbplyr_1.4.4       withr_2.2.0       
+    #> [37] grid_4.0.2         jsonlite_1.7.0     gtable_0.3.0       lifecycle_0.2.0   
+    #> [41] DBI_1.1.0          magrittr_1.5       storr_1.2.1        scales_1.1.1      
+    #> [45] cli_2.0.2          stringi_1.4.6      farver_2.0.3       fs_1.5.0          
+    #> [49] xml2_1.3.2         ellipsis_0.3.1     filelock_1.0.2     generics_0.0.2    
+    #> [53] vctrs_0.3.2        tools_4.0.2        glue_1.4.1         hms_0.5.3         
+    #> [57] yaml_2.2.1         parallel_4.0.2     colorspace_1.4-1   base64url_1.4     
+    #> [61] rvest_0.3.6        knitr_1.29         haven_2.3.1
 
 </details>

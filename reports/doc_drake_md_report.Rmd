@@ -27,7 +27,6 @@ readd(gg_doc_boxdotplot)
 readd(gg_doc_boxdotplot2)
 ```
 
-
 ```{r doc_boxplot3, fig.width=7, fig.height=6, eval=FALSE}
 readd(gg_doc_boxdotplot3)
 ```
@@ -43,6 +42,20 @@ effect of homogenization
 readd(gg_doc_boxdot_homo)
 ```
 
+---
+
+## combined porewaters for full core
+
+```{r doc_fullcore_combined, fig.width=7, fig.height=6}
+readd(gg_doc_fullcore_combined)
+```
+
+```{r doc_fullcore_combined_homo, fig.width=10, fig.height=4}
+readd(gg_doc_fullcore_combined_homo)
+```
+
+
+---
 
 ## what influenced DOC?
 

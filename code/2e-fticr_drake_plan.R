@@ -339,13 +339,13 @@ fticr_plan =
       do(fit_hsd_totalpeaks(.)),
     
     totalcounts_label = tribble(
-        ~x, ~y, ~Suction, ~Homogenization, ~label,
-        1.87, 2000, 1.5, "Intact", "b",
-        2, 3000, 1.5, "Intact", "a",
-        2.13, 2000, 1.5, "Intact", "ab"
-        ),  
+      ~x, ~y, ~Suction, ~Homogenization, ~label,
+      1.87, 2000, 1.5, "Intact", "b",
+      2, 3000, 1.5, "Intact", "a",
+      2.13, 2000, 1.5, "Intact", "ab"
+    ),  
     
-  
+    
     gg_totalcounts = 
       peakcounts_core %>% 
       filter(class=="total") %>% 
@@ -368,11 +368,11 @@ fticr_plan =
     
     ## IId.  peaks -- stats ----------------------------------------------------------
     ### -- arom-aliph-ratio
-  #  aov_arom_aliph_ratio_all = 
-  #    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
-  #                 (1|Core), 
-  #               data = aliphatic_aromatic_counts),
-  #          type = "III"),
+    #  aov_arom_aliph_ratio_all = 
+    #    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+    #                 (1|Core), 
+    #               data = aliphatic_aromatic_counts),
+    #          type = "III"),
     
     aov_arom_aliph_ratio_intact = 
       Anova(lm(arom_aliph_ratio ~ (Suction+Moisture+Wetting+Amendments)^2, 
@@ -385,11 +385,11 @@ fticr_plan =
       peakcounts_core %>% 
       filter(class=="total"),
     
- #   aov_total_peaks_all = 
- #     Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
- #                  (1|Core), 
- #                data = peakcounts_total_core),
- #           type = "III"),
+    #   aov_total_peaks_all = 
+    #     Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
+    #                  (1|Core), 
+    #                data = peakcounts_total_core),
+    #           type = "III"),
     
     aov_total_peaks_intact = 
       Anova(lm(log(counts) ~ (Suction+Moisture+Wetting+Amendments)^2, 
@@ -488,7 +488,7 @@ fticr_plan =
       facet_grid(Homogenization~ Suction)+
       theme_kp()+
       NULL,
-  
+    
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
@@ -666,6 +666,21 @@ fticr_plan =
            title = "50 kPa INTACT")+
       NULL,
     
+    gg_pca_50_intact_moisture =
+      ggbiplot(pca_1, obs.scale = 1, var.scale = 1, 
+               groups = relabund_pca_grp_50_intact$Moisture, ellipse = TRUE, circle = F,
+               var.axes = TRUE)+
+      geom_point(size=5,stroke=1, 
+                 aes(color = groups, 
+                     #shape = interaction(as.factor(relabund_pca_grp_50_intact$Moisture),
+                     #                    as.factor(relabund_pca_grp_50_intact$Wetting)),
+                     shape = relabund_pca_grp_50_intact$Amendments))+
+      #scale_shape_manual(values = c(1, 2, 19, 17))+
+      #scale_color_manual(values = pal)+
+      labs(shape="",
+           title = "50 kPa INTACT")+
+      NULL,
+    
     
     #### (3) 1.5 & intact ----
     relabund_pca_num_1_intact = 
@@ -824,18 +839,7 @@ fticr_plan =
   )
 
 # make plan ---------------------------------------------------------------
-make(fticr_plan, cache = fticr_cache, lock_cache = F)
-
-
-loadd(aliphatic_aromatic_counts)
-
-
-
-
-
-
-
-
+make(fticr_plan, cache = fticr_cache, force = F)
 
 
 
@@ -867,4 +871,19 @@ peakcounts_total_core %>%
   ggplot(aes(x = as.character(Suction), y = counts))+
   geom_boxplot()+
   geom_jitter()+
+  NULL
+
+
+ggbiplot(pca_1, obs.scale = 1, var.scale = 1, 
+         groups = relabund_pca_grp_50_intact$Moisture, ellipse = TRUE, circle = F,
+         var.axes = TRUE)+
+  geom_point(size=5,stroke=1, 
+             aes(color = groups, 
+                 #shape = interaction(as.factor(relabund_pca_grp_50_intact$Moisture),
+                 #                    as.factor(relabund_pca_grp_50_intact$Wetting)),
+                 shape = relabund_pca_grp_50_intact$Amendments))+
+  #scale_shape_manual(values = c(1, 2, 19, 17))+
+  #scale_color_manual(values = pal)+
+  labs(shape="",
+       title = "50 kPa INTACT")+
   NULL

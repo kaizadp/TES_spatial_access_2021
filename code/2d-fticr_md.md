@@ -92,6 +92,8 @@ how many FTICR reps per treatment type?
 unique to each amendment, in each incubation type
 ![](markdown/fticr/vk_unique-1.png)<!-- -->![](markdown/fticr/vk_unique-2.png)<!-- -->
 
+![](markdown/fticr/unique2-1.png)<!-- -->![](markdown/fticr/unique2-2.png)<!-- -->
+
 -----
 
 ### relative abundances
@@ -118,55 +120,22 @@ distinct peaks seen in each treatment type
 | drought  | groundw | unsaturated/lignin |     466 | 1014 |  553 |
 | drought  | groundw | aromatic           |      90 |  281 |  138 |
 | drought  | groundw | condensed\_arom    |     285 |  176 |  140 |
-| drought  | groundw | other              |       2 |    2 |    2 |
-| drought  | groundw | total              |    1144 | 2020 | 1307 |
+| drought  | groundw | total              |    1142 | 2018 | 1305 |
 | drought  | precip  | aliphatic          |     401 |  825 |  471 |
 | drought  | precip  | unsaturated/lignin |     812 | 1080 |  872 |
 | drought  | precip  | aromatic           |     106 |  236 |  211 |
 | drought  | precip  | condensed\_arom    |     189 |  356 |  267 |
-| drought  | precip  | other              |       2 |    2 |    2 |
-| drought  | precip  | total              |    1510 | 2499 | 1823 |
+| drought  | precip  | total              |    1508 | 2497 | 1821 |
 | fm       | groundw | aliphatic          |     431 |  426 |  679 |
 | fm       | groundw | unsaturated/lignin |     586 |  410 |  449 |
 | fm       | groundw | aromatic           |      82 |   78 |  118 |
 | fm       | groundw | condensed\_arom    |     241 |  242 |  197 |
-| fm       | groundw | other              |       2 |    4 |    3 |
-| fm       | groundw | total              |    1342 | 1160 | 1446 |
+| fm       | groundw | total              |    1340 | 1156 | 1443 |
 | fm       | precip  | aliphatic          |     309 |  227 |  213 |
 | fm       | precip  | unsaturated/lignin |     383 |  394 |  332 |
 | fm       | precip  | aromatic           |      78 |   23 |   51 |
 | fm       | precip  | condensed\_arom    |     131 |  149 |  139 |
-| fm       | precip  | other              |       4 |    4 |    3 |
-| fm       | precip  | total              |     905 |  797 |  738 |
-
-    #> [1] "15 kPa -- INTACT"
-
-| Moisture | Wetting | class              | control |    C |    N |
-| :------- | :------ | :----------------- | ------: | ---: | ---: |
-| drought  | groundw | aliphatic          |    1247 | 1141 |  421 |
-| drought  | groundw | unsaturated/lignin |    1932 | 1491 |  522 |
-| drought  | groundw | aromatic           |     699 |  440 |   51 |
-| drought  | groundw | condensed\_arom    |     317 |  226 |  269 |
-| drought  | groundw | other              |      NA |    2 |    2 |
-| drought  | groundw | total              |    4195 | 3300 | 1265 |
-| drought  | precip  | aliphatic          |     270 |  772 |  476 |
-| drought  | precip  | unsaturated/lignin |     685 | 1526 |  846 |
-| drought  | precip  | aromatic           |      71 |  541 |  213 |
-| drought  | precip  | condensed\_arom    |     137 |  337 |  158 |
-| drought  | precip  | other              |       2 |    3 |    4 |
-| drought  | precip  | total              |    1165 | 3179 | 1697 |
-| fm       | groundw | aliphatic          |     504 |  751 |  281 |
-| fm       | groundw | unsaturated/lignin |     853 | 1103 |  442 |
-| fm       | groundw | aromatic           |     255 |  270 |   85 |
-| fm       | groundw | condensed\_arom    |     249 |  247 |  128 |
-| fm       | groundw | other              |       4 |    2 |    2 |
-| fm       | groundw | total              |    1865 | 2373 |  938 |
-| fm       | precip  | aliphatic          |     312 | 1131 |  394 |
-| fm       | precip  | unsaturated/lignin |     803 | 2022 |  762 |
-| fm       | precip  | aromatic           |     210 |  541 |  172 |
-| fm       | precip  | condensed\_arom    |     170 |  354 |  244 |
-| fm       | precip  | other              |       2 |    4 |    2 |
-| fm       | precip  | total              |    1497 | 4052 | 1574 |
+| fm       | precip  | total              |     901 |  793 |  735 |
 
     #> [1] "50 kPa -- INTACT"
 
@@ -176,26 +145,22 @@ distinct peaks seen in each treatment type
 | drought  | groundw | unsaturated/lignin |     506 | 1552 |  509 |
 | drought  | groundw | aromatic           |      80 |  580 |   83 |
 | drought  | groundw | condensed\_arom    |     192 |  318 |  152 |
-| drought  | groundw | other              |       2 |    4 |    1 |
-| drought  | groundw | total              |     886 | 3282 |  995 |
+| drought  | groundw | total              |     884 | 3278 |  994 |
 | drought  | precip  | aliphatic          |     424 |  714 |  603 |
 | drought  | precip  | unsaturated/lignin |    1251 | 1519 | 1103 |
 | drought  | precip  | aromatic           |     456 |  349 |  240 |
 | drought  | precip  | condensed\_arom    |     295 |  241 |  277 |
-| drought  | precip  | other              |       4 |    2 |    4 |
-| drought  | precip  | total              |    2430 | 2825 | 2227 |
+| drought  | precip  | total              |    2426 | 2823 | 2223 |
 | fm       | groundw | aliphatic          |     307 |  509 |  399 |
 | fm       | groundw | unsaturated/lignin |     791 |  721 |  724 |
 | fm       | groundw | aromatic           |     248 |   70 |  204 |
 | fm       | groundw | condensed\_arom    |     113 |  113 |  230 |
-| fm       | groundw | other              |       3 |    4 |    4 |
-| fm       | groundw | total              |    1462 | 1417 | 1561 |
+| fm       | groundw | total              |    1459 | 1413 | 1557 |
 | fm       | precip  | aliphatic          |     432 | 1059 |  517 |
 | fm       | precip  | unsaturated/lignin |     849 | 2003 |  870 |
 | fm       | precip  | aromatic           |     280 |  546 |  183 |
 | fm       | precip  | condensed\_arom    |     301 |  398 |  329 |
-| fm       | precip  | other              |       2 |    4 |    2 |
-| fm       | precip  | total              |    1864 | 4010 | 1901 |
+| fm       | precip  | total              |    1862 | 4006 | 1899 |
 
     #> [1] "1.5 kPa -- HOMOGENIZED"
 
@@ -205,55 +170,22 @@ distinct peaks seen in each treatment type
 | drought  | groundw | unsaturated/lignin |    1337 | 1081 | 1004 |
 | drought  | groundw | aromatic           |     638 |  462 |  264 |
 | drought  | groundw | condensed\_arom    |     531 |  434 |  259 |
-| drought  | groundw | other              |       4 |    1 |    3 |
-| drought  | groundw | total              |    2795 | 2373 | 2063 |
+| drought  | groundw | total              |    2791 | 2372 | 2060 |
 | drought  | precip  | aliphatic          |     379 |  313 |  295 |
 | drought  | precip  | unsaturated/lignin |    1012 |  506 |  746 |
 | drought  | precip  | aromatic           |     267 |  165 |  250 |
 | drought  | precip  | condensed\_arom    |     208 |  379 |  245 |
-| drought  | precip  | other              |       3 |    3 |    2 |
-| drought  | precip  | total              |    1869 | 1366 | 1538 |
+| drought  | precip  | total              |    1866 | 1363 | 1536 |
 | fm       | groundw | aliphatic          |     377 |  483 |  256 |
 | fm       | groundw | unsaturated/lignin |     657 |  552 |  329 |
 | fm       | groundw | aromatic           |     123 |  127 |   57 |
 | fm       | groundw | condensed\_arom    |     235 |  227 |  190 |
-| fm       | groundw | other              |       2 |    4 |    3 |
-| fm       | groundw | total              |    1394 | 1393 |  835 |
+| fm       | groundw | total              |    1392 | 1389 |  832 |
 | fm       | precip  | aliphatic          |     715 |  352 |  310 |
 | fm       | precip  | unsaturated/lignin |     866 |  394 |  523 |
 | fm       | precip  | aromatic           |     259 |   96 |   40 |
 | fm       | precip  | condensed\_arom    |     316 |  170 |  188 |
-| fm       | precip  | other              |       4 |    4 |    2 |
-| fm       | precip  | total              |    2160 | 1016 | 1063 |
-
-    #> [1] "15 kPa -- HOMOGENIZED"
-
-| Moisture | Wetting | class              | control |    C |    N |
-| :------- | :------ | :----------------- | ------: | ---: | ---: |
-| drought  | groundw | aliphatic          |     349 |  669 |  328 |
-| drought  | groundw | unsaturated/lignin |     560 | 1766 |  939 |
-| drought  | groundw | aromatic           |     197 |  762 |  214 |
-| drought  | groundw | condensed\_arom    |      99 |  664 |  225 |
-| drought  | groundw | other              |       1 |   NA |    2 |
-| drought  | groundw | total              |    1206 | 3861 | 1708 |
-| drought  | precip  | aliphatic          |     294 |  296 |  500 |
-| drought  | precip  | unsaturated/lignin |    1702 |  783 | 1597 |
-| drought  | precip  | aromatic           |     829 |  460 |  709 |
-| drought  | precip  | condensed\_arom    |     484 |  631 |  525 |
-| drought  | precip  | other              |       2 |   NA |    1 |
-| drought  | precip  | total              |    3311 | 2170 | 3332 |
-| fm       | groundw | aliphatic          |     379 |  274 |  448 |
-| fm       | groundw | unsaturated/lignin |    1117 |  247 | 1145 |
-| fm       | groundw | aromatic           |     472 |   44 |  389 |
-| fm       | groundw | condensed\_arom    |     353 |  198 |  268 |
-| fm       | groundw | other              |       5 |    2 |    3 |
-| fm       | groundw | total              |    2326 |  765 | 2253 |
-| fm       | precip  | aliphatic          |     702 |  167 |  441 |
-| fm       | precip  | unsaturated/lignin |     945 |  593 | 1094 |
-| fm       | precip  | aromatic           |     218 |  266 |  466 |
-| fm       | precip  | condensed\_arom    |     355 |  183 |  250 |
-| fm       | precip  | other              |       4 |    1 |    4 |
-| fm       | precip  | total              |    2224 | 1210 | 2255 |
+| fm       | precip  | total              |    2156 | 1012 | 1061 |
 
     #> [1] "50 kPa -- HOMOGENIZED"
 
@@ -263,26 +195,22 @@ distinct peaks seen in each treatment type
 | drought  | groundw | unsaturated/lignin |    1434 | 1798 |  841 |
 | drought  | groundw | aromatic           |     522 |  875 |  186 |
 | drought  | groundw | condensed\_arom    |     248 |  763 |  188 |
-| drought  | groundw | other              |      NA |   NA |    2 |
-| drought  | groundw | total              |    2675 | 4056 | 1529 |
+| drought  | groundw | total              |    2675 | 4056 | 1527 |
 | drought  | precip  | aliphatic          |     259 |  284 |  510 |
 | drought  | precip  | unsaturated/lignin |     865 | 1232 | 1398 |
 | drought  | precip  | aromatic           |     264 |  734 |  654 |
 | drought  | precip  | condensed\_arom    |     148 |  718 |  438 |
-| drought  | precip  | other              |       2 |    1 |    1 |
-| drought  | precip  | total              |    1538 | 2969 | 3001 |
+| drought  | precip  | total              |    1536 | 2968 | 3000 |
 | fm       | groundw | aliphatic          |     516 |  465 |  187 |
 | fm       | groundw | unsaturated/lignin |    1602 |  875 |  390 |
 | fm       | groundw | aromatic           |     780 |  335 |   29 |
 | fm       | groundw | condensed\_arom    |     596 |  337 |  113 |
-| fm       | groundw | other              |       3 |    2 |    1 |
-| fm       | groundw | total              |    3497 | 2014 |  720 |
+| fm       | groundw | total              |    3494 | 2012 |  719 |
 | fm       | precip  | aliphatic          |     712 |  599 |  206 |
 | fm       | precip  | unsaturated/lignin |    1077 | 2020 |  706 |
 | fm       | precip  | aromatic           |     409 |  981 |  128 |
 | fm       | precip  | condensed\_arom    |     395 | 1029 |  146 |
-| fm       | precip  | other              |       2 |   NA |    2 |
-| fm       | precip  | total              |    2595 | 4629 | 1188 |
+| fm       | precip  | total              |    2593 | 4629 | 1186 |
 
 </details>
 
@@ -294,7 +222,7 @@ distinct peaks seen in each treatment type
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#azotecgdgn .gt_table {
+#nkkamjokyn .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -319,7 +247,7 @@ distinct peaks seen in each treatment type
   border-left-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_heading {
+#nkkamjokyn .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -331,7 +259,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_title {
+#nkkamjokyn .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -341,7 +269,7 @@ distinct peaks seen in each treatment type
   border-bottom-width: 0;
 }
 
-#azotecgdgn .gt_subtitle {
+#nkkamjokyn .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -351,13 +279,13 @@ distinct peaks seen in each treatment type
   border-top-width: 0;
 }
 
-#azotecgdgn .gt_bottom_border {
+#nkkamjokyn .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_col_headings {
+#nkkamjokyn .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -372,7 +300,7 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_col_heading {
+#nkkamjokyn .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -392,7 +320,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#azotecgdgn .gt_column_spanner_outer {
+#nkkamjokyn .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -404,15 +332,15 @@ distinct peaks seen in each treatment type
   padding-right: 4px;
 }
 
-#azotecgdgn .gt_column_spanner_outer:first-child {
+#nkkamjokyn .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#azotecgdgn .gt_column_spanner_outer:last-child {
+#nkkamjokyn .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#azotecgdgn .gt_column_spanner {
+#nkkamjokyn .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -424,7 +352,7 @@ distinct peaks seen in each treatment type
   width: 100%;
 }
 
-#azotecgdgn .gt_group_heading {
+#nkkamjokyn .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -446,7 +374,7 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#azotecgdgn .gt_empty_group_heading {
+#nkkamjokyn .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -461,15 +389,15 @@ distinct peaks seen in each treatment type
   vertical-align: middle;
 }
 
-#azotecgdgn .gt_from_md > :first-child {
+#nkkamjokyn .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#azotecgdgn .gt_from_md > :last-child {
+#nkkamjokyn .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#azotecgdgn .gt_row {
+#nkkamjokyn .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -488,7 +416,7 @@ distinct peaks seen in each treatment type
   overflow-x: hidden;
 }
 
-#azotecgdgn .gt_stub {
+#nkkamjokyn .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -500,7 +428,7 @@ distinct peaks seen in each treatment type
   padding-left: 12px;
 }
 
-#azotecgdgn .gt_summary_row {
+#nkkamjokyn .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -510,7 +438,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#azotecgdgn .gt_first_summary_row {
+#nkkamjokyn .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -520,7 +448,7 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_grand_summary_row {
+#nkkamjokyn .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -530,7 +458,7 @@ distinct peaks seen in each treatment type
   padding-right: 5px;
 }
 
-#azotecgdgn .gt_first_grand_summary_row {
+#nkkamjokyn .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -540,11 +468,11 @@ distinct peaks seen in each treatment type
   border-top-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_striped {
+#nkkamjokyn .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#azotecgdgn .gt_table_body {
+#nkkamjokyn .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -553,7 +481,7 @@ distinct peaks seen in each treatment type
   border-bottom-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_footnotes {
+#nkkamjokyn .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -567,13 +495,13 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_footnote {
+#nkkamjokyn .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#azotecgdgn .gt_sourcenotes {
+#nkkamjokyn .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -587,47 +515,47 @@ distinct peaks seen in each treatment type
   border-right-color: #D3D3D3;
 }
 
-#azotecgdgn .gt_sourcenote {
+#nkkamjokyn .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#azotecgdgn .gt_left {
+#nkkamjokyn .gt_left {
   text-align: left;
 }
 
-#azotecgdgn .gt_center {
+#nkkamjokyn .gt_center {
   text-align: center;
 }
 
-#azotecgdgn .gt_right {
+#nkkamjokyn .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#azotecgdgn .gt_font_normal {
+#nkkamjokyn .gt_font_normal {
   font-weight: normal;
 }
 
-#azotecgdgn .gt_font_bold {
+#nkkamjokyn .gt_font_bold {
   font-weight: bold;
 }
 
-#azotecgdgn .gt_font_italic {
+#nkkamjokyn .gt_font_italic {
   font-style: italic;
 }
 
-#azotecgdgn .gt_super {
+#nkkamjokyn .gt_super {
   font-size: 65%;
 }
 
-#azotecgdgn .gt_footnote_marks {
+#nkkamjokyn .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="azotecgdgn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="nkkamjokyn" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -753,37 +681,37 @@ groundw
 
 <td class="gt_row gt_center">
 
-1144
+1142
 
 </td>
 
 <td class="gt_row gt_center">
 
-2020
+2018
 
 </td>
 
 <td class="gt_row gt_center">
 
-1307
+1305
 
 </td>
 
 <td class="gt_row gt_center">
 
-886
+884
 
 </td>
 
 <td class="gt_row gt_center">
 
-3282
+3278
 
 </td>
 
 <td class="gt_row gt_center">
 
-995
+994
 
 </td>
 
@@ -805,37 +733,37 @@ precip
 
 <td class="gt_row gt_center">
 
-1510
+1508
 
 </td>
 
 <td class="gt_row gt_center">
 
-2499
+2497
 
 </td>
 
 <td class="gt_row gt_center">
 
-1823
+1821
 
 </td>
 
 <td class="gt_row gt_center">
 
-2430
+2426
 
 </td>
 
 <td class="gt_row gt_center">
 
-2825
+2823
 
 </td>
 
 <td class="gt_row gt_center">
 
-2227
+2223
 
 </td>
 
@@ -857,37 +785,37 @@ groundw
 
 <td class="gt_row gt_center">
 
-1342
+1340
 
 </td>
 
 <td class="gt_row gt_center">
 
-1160
+1156
 
 </td>
 
 <td class="gt_row gt_center">
 
-1446
+1443
 
 </td>
 
 <td class="gt_row gt_center">
 
-1462
+1459
 
 </td>
 
 <td class="gt_row gt_center">
 
-1417
+1413
 
 </td>
 
 <td class="gt_row gt_center">
 
-1561
+1557
 
 </td>
 
@@ -909,37 +837,37 @@ precip
 
 <td class="gt_row gt_center">
 
-905
+901
 
 </td>
 
 <td class="gt_row gt_center">
 
-797
+793
 
 </td>
 
 <td class="gt_row gt_center">
 
-738
+735
 
 </td>
 
 <td class="gt_row gt_center">
 
-1864
+1862
 
 </td>
 
 <td class="gt_row gt_center">
 
-4010
+4006
 
 </td>
 
 <td class="gt_row gt_center">
 
-1901
+1899
 
 </td>
 
@@ -971,19 +899,19 @@ groundw
 
 <td class="gt_row gt_center">
 
-2795
+2791
 
 </td>
 
 <td class="gt_row gt_center">
 
-2373
+2372
 
 </td>
 
 <td class="gt_row gt_center">
 
-2063
+2060
 
 </td>
 
@@ -1001,7 +929,7 @@ groundw
 
 <td class="gt_row gt_center">
 
-1529
+1527
 
 </td>
 
@@ -1023,37 +951,37 @@ precip
 
 <td class="gt_row gt_center">
 
-1869
+1866
 
 </td>
 
 <td class="gt_row gt_center">
 
-1366
+1363
 
 </td>
 
 <td class="gt_row gt_center">
 
-1538
+1536
 
 </td>
 
 <td class="gt_row gt_center">
 
-1538
+1536
 
 </td>
 
 <td class="gt_row gt_center">
 
-2969
+2968
 
 </td>
 
 <td class="gt_row gt_center">
 
-3001
+3000
 
 </td>
 
@@ -1075,37 +1003,37 @@ groundw
 
 <td class="gt_row gt_center">
 
-1394
+1392
 
 </td>
 
 <td class="gt_row gt_center">
 
-1393
+1389
 
 </td>
 
 <td class="gt_row gt_center">
 
-835
+832
 
 </td>
 
 <td class="gt_row gt_center">
 
-3497
+3494
 
 </td>
 
 <td class="gt_row gt_center">
 
-2014
+2012
 
 </td>
 
 <td class="gt_row gt_center">
 
-720
+719
 
 </td>
 
@@ -1127,25 +1055,25 @@ precip
 
 <td class="gt_row gt_center">
 
-2160
+2156
 
 </td>
 
 <td class="gt_row gt_center">
 
-1016
+1012
 
 </td>
 
 <td class="gt_row gt_center">
 
-1063
+1061
 
 </td>
 
 <td class="gt_row gt_center">
 
-2595
+2593
 
 </td>
 
@@ -1157,7 +1085,7 @@ precip
 
 <td class="gt_row gt_center">
 
-1188
+1186
 
 </td>
 
@@ -1177,7 +1105,7 @@ precip
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#pybxkktqea .gt_table {
+#qulwapzzvo .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1202,7 +1130,7 @@ precip
   border-left-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_heading {
+#qulwapzzvo .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1214,7 +1142,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_title {
+#qulwapzzvo .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1224,7 +1152,7 @@ precip
   border-bottom-width: 0;
 }
 
-#pybxkktqea .gt_subtitle {
+#qulwapzzvo .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1234,13 +1162,13 @@ precip
   border-top-width: 0;
 }
 
-#pybxkktqea .gt_bottom_border {
+#qulwapzzvo .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_col_headings {
+#qulwapzzvo .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1255,7 +1183,7 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_col_heading {
+#qulwapzzvo .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1275,7 +1203,7 @@ precip
   overflow-x: hidden;
 }
 
-#pybxkktqea .gt_column_spanner_outer {
+#qulwapzzvo .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1287,15 +1215,15 @@ precip
   padding-right: 4px;
 }
 
-#pybxkktqea .gt_column_spanner_outer:first-child {
+#qulwapzzvo .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pybxkktqea .gt_column_spanner_outer:last-child {
+#qulwapzzvo .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pybxkktqea .gt_column_spanner {
+#qulwapzzvo .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1307,7 +1235,7 @@ precip
   width: 100%;
 }
 
-#pybxkktqea .gt_group_heading {
+#qulwapzzvo .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1329,7 +1257,7 @@ precip
   vertical-align: middle;
 }
 
-#pybxkktqea .gt_empty_group_heading {
+#qulwapzzvo .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1344,15 +1272,15 @@ precip
   vertical-align: middle;
 }
 
-#pybxkktqea .gt_from_md > :first-child {
+#qulwapzzvo .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pybxkktqea .gt_from_md > :last-child {
+#qulwapzzvo .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pybxkktqea .gt_row {
+#qulwapzzvo .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1371,7 +1299,7 @@ precip
   overflow-x: hidden;
 }
 
-#pybxkktqea .gt_stub {
+#qulwapzzvo .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1383,7 +1311,7 @@ precip
   padding-left: 12px;
 }
 
-#pybxkktqea .gt_summary_row {
+#qulwapzzvo .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1393,7 +1321,7 @@ precip
   padding-right: 5px;
 }
 
-#pybxkktqea .gt_first_summary_row {
+#qulwapzzvo .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1403,7 +1331,7 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_grand_summary_row {
+#qulwapzzvo .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1413,7 +1341,7 @@ precip
   padding-right: 5px;
 }
 
-#pybxkktqea .gt_first_grand_summary_row {
+#qulwapzzvo .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1423,11 +1351,11 @@ precip
   border-top-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_striped {
+#qulwapzzvo .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pybxkktqea .gt_table_body {
+#qulwapzzvo .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1436,7 +1364,7 @@ precip
   border-bottom-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_footnotes {
+#qulwapzzvo .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1450,13 +1378,13 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_footnote {
+#qulwapzzvo .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#pybxkktqea .gt_sourcenotes {
+#qulwapzzvo .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1470,47 +1398,47 @@ precip
   border-right-color: #D3D3D3;
 }
 
-#pybxkktqea .gt_sourcenote {
+#qulwapzzvo .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#pybxkktqea .gt_left {
+#qulwapzzvo .gt_left {
   text-align: left;
 }
 
-#pybxkktqea .gt_center {
+#qulwapzzvo .gt_center {
   text-align: center;
 }
 
-#pybxkktqea .gt_right {
+#qulwapzzvo .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pybxkktqea .gt_font_normal {
+#qulwapzzvo .gt_font_normal {
   font-weight: normal;
 }
 
-#pybxkktqea .gt_font_bold {
+#qulwapzzvo .gt_font_bold {
   font-weight: bold;
 }
 
-#pybxkktqea .gt_font_italic {
+#qulwapzzvo .gt_font_italic {
   font-style: italic;
 }
 
-#pybxkktqea .gt_super {
+#qulwapzzvo .gt_super {
   font-size: 65%;
 }
 
-#pybxkktqea .gt_footnote_marks {
+#qulwapzzvo .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
 
-<div id="pybxkktqea" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="qulwapzzvo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 
 <table class="gt_table">
 
@@ -2067,33 +1995,33 @@ precip
     #> 
     #> adonis2(formula = relabund_wide$DV ~ (Amendments + Moisture + Wetting + Suction + Homogenization)^3, data = relabund_wide)
     #>                                     Df SumOfSqs      R2       F Pr(>F)    
-    #> Amendments                           2   0.2037 0.04500  9.0710  0.001 ***
-    #> Moisture                             1   0.2220 0.04904 19.7706  0.001 ***
-    #> Wetting                              1   0.0496 0.01095  4.4137  0.008 ** 
-    #> Suction                              1   0.3233 0.07143 28.7938  0.001 ***
-    #> Homogenization                       1   0.2968 0.06557 26.4324  0.001 ***
-    #> Amendments:Moisture                  2   0.0336 0.00742  1.4959  0.197    
-    #> Amendments:Wetting                   2   0.0376 0.00831  1.6755  0.156    
-    #> Amendments:Suction                   2   0.0370 0.00818  1.6482  0.148    
-    #> Amendments:Homogenization            2   0.2123 0.04691  9.4547  0.001 ***
-    #> Moisture:Wetting                     1   0.0131 0.00290  1.1709  0.321    
-    #> Moisture:Suction                     1   0.0376 0.00830  3.3470  0.037 *  
-    #> Moisture:Homogenization              1   0.0382 0.00843  3.3997  0.040 *  
-    #> Wetting:Suction                      1   0.0417 0.00921  3.7126  0.031 *  
-    #> Wetting:Homogenization               1   0.0753 0.01664  6.7062  0.005 ** 
-    #> Suction:Homogenization               1   0.0198 0.00437  1.7611  0.168    
-    #> Amendments:Moisture:Wetting          2   0.1517 0.03351  6.7538  0.001 ***
-    #> Amendments:Moisture:Suction          2   0.0336 0.00742  1.4953  0.201    
-    #> Amendments:Moisture:Homogenization   2   0.0348 0.00769  1.5510  0.205    
-    #> Amendments:Wetting:Suction           2   0.0275 0.00607  1.2243  0.283    
-    #> Amendments:Wetting:Homogenization    2   0.0002 0.00004  0.0081  0.995    
-    #> Amendments:Suction:Homogenization    2   0.0851 0.01879  3.7877  0.008 ** 
-    #> Moisture:Wetting:Suction             1   0.0272 0.00601  2.4218  0.065 .  
-    #> Moisture:Wetting:Homogenization      1   0.0120 0.00265  1.0682  0.357    
-    #> Moisture:Suction:Homogenization      1   0.0335 0.00740  2.9829  0.045 *  
-    #> Wetting:Suction:Homogenization       1   0.0090 0.00199  0.8002  0.445    
-    #> Residual                           220   2.4701 0.54575                   
-    #> Total                              256   4.5260 1.00000                   
+    #> Amendments                           2  0.14437 0.04766  7.8109  0.001 ***
+    #> Moisture                             1  0.21505 0.07099 23.2697  0.001 ***
+    #> Wetting                              1  0.00916 0.00302  0.9908  0.366    
+    #> Suction                              1  0.38447 0.12691 41.6021  0.001 ***
+    #> Homogenization                       1  0.17475 0.05768 18.9089  0.001 ***
+    #> Amendments:Moisture                  2  0.04268 0.01409  2.3090  0.056 .  
+    #> Amendments:Wetting                   2  0.05754 0.01899  3.1133  0.018 *  
+    #> Amendments:Suction                   2  0.02715 0.00896  1.4688  0.227    
+    #> Amendments:Homogenization            2  0.13898 0.04588  7.5190  0.001 ***
+    #> Moisture:Wetting                     1  0.01834 0.00606  1.9850  0.128    
+    #> Moisture:Suction                     1  0.05683 0.01876  6.1493  0.005 ** 
+    #> Moisture:Homogenization              1  0.00560 0.00185  0.6056  0.567    
+    #> Wetting:Suction                      1  0.04302 0.01420  4.6549  0.009 ** 
+    #> Wetting:Homogenization               1  0.05849 0.01931  6.3290  0.008 ** 
+    #> Suction:Homogenization               1  0.02368 0.00782  2.5619  0.079 .  
+    #> Amendments:Moisture:Wetting          2  0.08926 0.02946  4.8293  0.001 ***
+    #> Amendments:Moisture:Suction          2  0.03187 0.01052  1.7241  0.163    
+    #> Amendments:Moisture:Homogenization   2  0.04422 0.01460  2.3922  0.057 .  
+    #> Amendments:Wetting:Suction           2  0.03512 0.01159  1.9002  0.105    
+    #> Amendments:Wetting:Homogenization    2  0.02055 0.00678  1.1117  0.321    
+    #> Amendments:Suction:Homogenization    2  0.08361 0.02760  4.5237  0.005 ** 
+    #> Moisture:Wetting:Suction             1  0.02044 0.00675  2.2122  0.110    
+    #> Moisture:Wetting:Homogenization      1  0.00995 0.00328  1.0768  0.341    
+    #> Moisture:Suction:Homogenization      1  0.02605 0.00860  2.8190  0.075 .  
+    #> Wetting:Suction:Homogenization       1  0.01140 0.00376  1.2332  0.314    
+    #> Residual                           136  1.25687 0.41488                   
+    #> Total                              172  3.02945 1.00000                   
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2107,15 +2035,15 @@ precip
     #> 
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 1.5))
     #>                             Df SumOfSqs      R2       F Pr(>F)    
-    #> Amendments                   2  0.00598 0.01265  0.4876  0.777    
-    #> Moisture                     1  0.07655 0.16179 12.4747  0.001 ***
-    #> Wetting                      1  0.05513 0.11653  8.9847  0.001 ***
-    #> Amendments:Moisture          2  0.02610 0.05517  2.1268  0.073 .  
-    #> Amendments:Wetting           2  0.04201 0.08880  3.4232  0.012 *  
-    #> Moisture:Wetting             1  0.01159 0.02450  1.8888  0.145    
-    #> Amendments:Moisture:Wetting  2  0.05326 0.11257  4.3398  0.003 ** 
-    #> Residual                    33  0.20249 0.42800                   
-    #> Total                       44  0.47311 1.00000                   
+    #> Amendments                   2  0.00603 0.01288  0.4995  0.754    
+    #> Moisture                     1  0.07530 0.16088 12.4784  0.001 ***
+    #> Wetting                      1  0.05498 0.11746  9.1107  0.003 ** 
+    #> Amendments:Moisture          2  0.02583 0.05518  2.1399  0.079 .  
+    #> Amendments:Wetting           2  0.04222 0.09020  3.4981  0.012 *  
+    #> Moisture:Wetting             1  0.01142 0.02441  1.8931  0.144    
+    #> Amendments:Moisture:Wetting  2  0.05315 0.11356  4.4042  0.004 ** 
+    #> Residual                    33  0.19913 0.42545                   
+    #> Total                       44  0.46805 1.00000                   
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     #> [1] "Intact-50 kPa"
@@ -2126,15 +2054,15 @@ precip
     #> 
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Intact" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
-    #> Amendments                   2  0.08911 0.19613 5.8120  0.001 ***
-    #> Moisture                     1  0.01105 0.02432 1.4416  0.232    
-    #> Wetting                      1  0.01364 0.03003 1.7798  0.153    
-    #> Amendments:Moisture          2  0.03580 0.07880 2.3352  0.065 .  
-    #> Amendments:Wetting           2  0.02310 0.05084 1.5064  0.201    
-    #> Moisture:Wetting             1  0.02864 0.06303 3.7355  0.028 *  
-    #> Amendments:Moisture:Wetting  2  0.02301 0.05065 1.5008  0.207    
-    #> Residual                    30  0.22999 0.50620                  
-    #> Total                       41  0.45436 1.00000                  
+    #> Amendments                   2  0.08850 0.19694 5.8702  0.001 ***
+    #> Moisture                     1  0.01117 0.02485 1.4815  0.220    
+    #> Wetting                      1  0.01314 0.02923 1.7426  0.185    
+    #> Amendments:Moisture          2  0.03599 0.08010 2.3875  0.063 .  
+    #> Amendments:Wetting           2  0.02278 0.05070 1.5112  0.234    
+    #> Moisture:Wetting             1  0.02859 0.06361 3.7923  0.023 *  
+    #> Amendments:Moisture:Wetting  2  0.02308 0.05135 1.5305  0.168    
+    #> Residual                    30  0.22615 0.50323                  
+    #> Total                       41  0.44940 1.00000                  
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     #> [1] "Homogenized-1.5 kPa"
@@ -2145,15 +2073,15 @@ precip
     #> 
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 1.5) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 1.5))
     #>                             Df SumOfSqs      R2       F Pr(>F)    
-    #> Amendments                   2  0.11836 0.16732  7.8805  0.001 ***
-    #> Moisture                     1  0.20554 0.29057 27.3701  0.001 ***
-    #> Wetting                      1  0.01826 0.02581  2.4313  0.085 .  
-    #> Amendments:Moisture          2  0.02901 0.04102  1.9317  0.128    
-    #> Amendments:Wetting           2  0.04013 0.05673  2.6719  0.049 *  
-    #> Moisture:Wetting             1  0.01276 0.01804  1.6995  0.185    
-    #> Amendments:Moisture:Wetting  2  0.05051 0.07140  3.3630  0.025 *  
-    #> Residual                    31  0.23280 0.32910                   
-    #> Total                       42  0.70737 1.00000                   
+    #> Amendments                   2  0.11805 0.16791  7.9299  0.001 ***
+    #> Moisture                     1  0.20467 0.29111 27.4967  0.001 ***
+    #> Wetting                      1  0.01808 0.02571  2.4286  0.104    
+    #> Amendments:Moisture          2  0.02850 0.04053  1.9143  0.129    
+    #> Amendments:Wetting           2  0.03984 0.05666  2.6758  0.035 *  
+    #> Moisture:Wetting             1  0.01283 0.01825  1.7238  0.172    
+    #> Amendments:Moisture:Wetting  2  0.05037 0.07164  3.3836  0.021 *  
+    #> Residual                    31  0.23075 0.32819                   
+    #> Total                       42  0.70308 1.00000                   
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     #> [1] "Homogenized-50 kPa"
@@ -2164,15 +2092,15 @@ precip
     #> 
     #> adonis2(formula = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50) %>% select(DV) ~ Amendments * Moisture * Wetting, data = relabund_wide %>% filter(Homogenization == "Homogenized" & Suction == 50))
     #>                             Df SumOfSqs      R2      F Pr(>F)    
-    #> Amendments                   2  0.19043 0.22699 6.6889  0.001 ***
-    #> Moisture                     1  0.00609 0.00726 0.4277  0.676    
-    #> Wetting                      1  0.03251 0.03875 2.2839  0.112    
-    #> Amendments:Moisture          2  0.07283 0.08681 2.5582  0.044 *  
-    #> Amendments:Wetting           2  0.03047 0.03632 1.0703  0.406    
-    #> Moisture:Wetting             1  0.00969 0.01155 0.6805  0.551    
-    #> Amendments:Moisture:Wetting  2  0.05565 0.06634 1.9548  0.107    
-    #> Residual                    31  0.44127 0.52599                  
-    #> Total                       42  0.83893 1.00000                  
+    #> Amendments                   2  0.19013 0.22768 6.7194  0.001 ***
+    #> Moisture                     1  0.00599 0.00718 0.4236  0.704    
+    #> Wetting                      1  0.03243 0.03884 2.2922  0.117    
+    #> Amendments:Moisture          2  0.07244 0.08675 2.5602  0.043 *  
+    #> Amendments:Wetting           2  0.03066 0.03671 1.0835  0.384    
+    #> Moisture:Wetting             1  0.00933 0.01117 0.6593  0.551    
+    #> Amendments:Moisture:Wetting  2  0.05551 0.06647 1.9617  0.098 .  
+    #> Residual                    31  0.43858 0.52520                  
+    #> Total                       42  0.83506 1.00000                  
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -2200,7 +2128,7 @@ precip
 
 <summary>click to expand</summary>
 
-Date run: 2020-08-10
+Date run: 2020-08-21
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)

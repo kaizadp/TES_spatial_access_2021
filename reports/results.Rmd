@@ -4,7 +4,16 @@ output: github_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE,
+                      collapse = TRUE,
+                      warning = FALSE,
+                      message = FALSE,
+                      comment = "#>",
+                      fig.path = "markdown/results/")
+library(drake)
+
+#source("code/3d-fluxes_drake_plan.R")
+#source("code/4b-doc_drake_report.R")
 ```
 
 # HYPOTHESES:
@@ -22,6 +31,61 @@ We hypothesized that:
 - H2. Homogenization would increase the diversity and the aromaticity of pore-water DOC, and this effect would be comparable across all treatments (i.e., non-amended vs. C or N amended), regardless of resource availability.
 
 ---
+
+We used linear mixed models to determine how our response variables responded to the treatments. Homogenization, Moisture, Wetting, Amendments, Suction were used as fixed effects in an exploratory analysis.   
+Because homogenization and suction both played an important role in the amount and types of C detected, we analyzed those separately.  
+Because Wetting direction did not have a significant effect, we removed it as a fixed variable throughout, and instead used it as a random variable.   
+
+---
+
+# RESPIRATION (core-scale results)
+
+1. **Amendments**
+    - 
+
+
+1. **Homogenization** 
+    - for CONTROL cores, fluxes did not differ in intact vs. homogenized
+    - for C and N amended cores, fluxes were significantly lower in homogenized cores 
+
+```{r cum_flux_boxplot, fig.width=8, fig.height=5}
+readd(gg_flux_cum_intact_boxplot)
+```
+
+```{r cum_flux_homo, fig.width=12, fig.height=5}
+readd(gg_cumflux_homo)+
+  scale_color_manual(values = soilpalettes::soil_palette("rendoll",2))
+```
+
+
+
+
+
+---
+
+
+# DOC
+
+
+```{r doc_boxplot4, fig.width=7, fig.height=6}
+readd(gg_doc_boxdotplot4_combined)
+```
+
+
+effect of homogenization
+
+```{r doc_boxplot_homo, fig.width=8, fig.height=5}
+readd(gg_doc_boxdot_homo)
+```
+
+
+
+---
+
+
+
+
+
 
 # FT-ICR-MS
 
@@ -74,12 +138,4 @@ For intact soils, Amendment effects were greater in fine pores than in coarse po
 ```{r}
 readd(gg_aliph_aromatic_intact_suction)
 ```
-
-
-
-
-
-# DOC
-
-# RESPIRATION
 

@@ -13,7 +13,17 @@ doc_plan = drake_plan(
            Moisture = factor(Moisture, levels = c("fm", "drought")),
            Wetting = factor(Wetting, levels = c("precip", "groundw"))),
   
+  doc_all = read.csv(file_in("data/processed/doc.csv"))  %>% 
+    mutate(Amendments = factor(Amendments, levels = c("control", "C", "N")),
+           Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")),
+           Moisture = factor(Moisture, levels = c("fm", "drought")),
+           Wetting = factor(Wetting, levels = c("precip", "groundw"))),
+  
+  
+  
   # II. plots -------------------------------------------------------------------
+  ## 1.5 and 50 kPa -------------------------------------------------------------------------
+  
   gg_doc_allpanels = 
     doc %>% 
     ggplot(aes(x = Amendments, y = DOC_ng_g, color = Amendments))+
@@ -21,6 +31,8 @@ doc_plan = drake_plan(
     scale_y_continuous(trans = "log10", labels = scales::comma)+
     facet_grid(Homogenization+Suction~Moisture+Wetting, scales = "free_y")+
     theme(legend.position = "none"),
+  
+  
   
   gg_doc_boxdotplot = 
     doc %>% 
@@ -102,7 +114,7 @@ doc_plan = drake_plan(
     theme(legend.position = "top"),
   
   
-  ## homogenization ----
+  ### homogenization ----
   gg_doc_boxdot_homo = 
     doc %>% 
     ggplot(aes(x = Homogenization, y = DOC_ng_g))+
@@ -117,6 +129,74 @@ doc_plan = drake_plan(
     theme_kp()+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
     theme(axis.title.x = element_blank())+
+    NULL,
+  
+  
+  ## all 3 suctions -----------------------------------------------------------------------
+  gg_doc_3suctions_scatter = 
+    doc_all %>% 
+    ggplot()+
+    geom_point(aes(x = Moisture, y = DOC_ng_g, 
+                   fill = Amendments, shape = Wetting, group = Amendments),
+               position = position_dodge(width = 0.4))+
+    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    facet_grid(Homogenization ~ Suction)+
+    NULL,
+  
+  gg_doc_fullcore_scatter = 
+    doc_all %>% 
+    filter(Homogenization=="Intact") %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g)) %>% 
+    ggplot()+
+    geom_point(aes(x = Wetting, y = DOC_ng_g, 
+                   fill = Amendments, shape = Wetting, group = Amendments),
+               size=3, stroke=1,
+               position = position_dodge(width = 0.4))+
+    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    facet_grid(Homogenization ~ Moisture)+
+    labs(title = "DOC full core")+
+    theme_kp()+
+    NULL,
+  
+  gg_doc_fullcore_scatter_low = 
+    gg_doc_fullcore_scatter +
+    ylim(0,15)+
+    labs(title = "",
+         subtitle = "0-15 ng/g zoomed",
+         y = "",
+         x = "")+
+    NULL,
+  
+  library(patchwork),
+  gg_doc_fullcore_combined = 
+  gg_doc_fullcore_scatter / gg_doc_fullcore_scatter_low +
+    plot_layout(guides = "collect",
+                heights = c(2,1)) & 
+    theme(legend.position = "top"),
+  
+  ## Homogenization
+  
+  gg_doc_fullcore_combined_homo = 
+    doc_all %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g)) %>% 
+    ggplot()+
+    geom_point(aes(x = Homogenization, y = DOC_ng_g, 
+                   fill = Moisture, shape = Wetting, group = Moisture),
+               size=3, stroke=1,
+               position = position_dodge(width = 0.4), alpha = 0.8)+
+    #ylim(0,20)+
+    scale_shape_manual(values = c(21,23))+
+    scale_fill_manual(values = rev(soilpalettes::soil_palette("redox",2)))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(x = "")+
+    facet_grid(.~Amendments)+
+    theme_kp()+
     NULL,
   
   
@@ -147,11 +227,13 @@ doc_plan = drake_plan(
     #      output_format = rmarkdown::html_document(toc = TRUE))
     output_format = rmarkdown::github_document()),
   
-#  report2 = rmarkdown::render(
-#    knitr_in("reports/results.Rmd"),
-#    output_format = rmarkdown::github_document())
+  #  report2 = rmarkdown::render(
+  #    knitr_in("reports/results.Rmd"),
+  #    output_format = rmarkdown::github_document())
   
   # ----- ---------------------------------------------------------------------
 )
 
+
+#drake::drake_cache("/Users/pate212/GitHub/tes_spatial_access/.drake")$unlock()
 make(doc_plan)
