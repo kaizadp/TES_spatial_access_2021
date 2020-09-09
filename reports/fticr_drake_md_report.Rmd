@@ -29,6 +29,16 @@ library(drake)
 
 We selected only peaks seen in >2/3 of the replicates
 
+
+---
+
+**Color Palette:**  
+[SoilPalettes:redox2](https://github.com/kaizadp/soilpalettes)  
+
+control: #FFE733 (yellow)  
+C: #96001B (red)  
+N: #2E5894 (blue)  
+
 ---
 
 ### setup
@@ -88,7 +98,7 @@ readd(vk_reps)
   <summary>VK by treatment</summary>
   
 #### VK diagrams by treatment 
-```{r vk_pores, fig.width=10, fig.height=5}
+```{r vk_pores, fig.width=12, fig.height=7}
 
 readd(vk_pores)
 # readd(gg_fticr_pores_1_5kPa)
@@ -105,7 +115,11 @@ readd(vk_pores)
 #### VK unique
 unique to each amendment, in each incubation type
 
-```{r vk_unique, fig.width=10, fig.height=5}
+
+Yellow peaks are peaks seen in control soils (all peaks)  
+Blue and red are unique peaks in their respective treatments  
+
+```{r vk_unique, fig.width=10, fig.height=7}
 readd(vk_unique)
 
 # readd(gg_fticr_unique_int)

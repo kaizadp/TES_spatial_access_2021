@@ -1,4 +1,10 @@
 # Plots for various pipeline targets
+# pal2 = c("grey20", "#00496f", "#edd746")
+# pal3 = rev(soilpalettes::soil_palette("rendoll",5))
+# pal3 = rev(soilpalettes::soil_palette("redox2",3))
+pal3 = c("#2E5894", "#96001B", "#FFE733") #soil_palette("redox2")
+
+
 
 # I. van krevelens -----------------------------------------------------------
 ## reps --------------------------------------------------------------------
@@ -59,22 +65,39 @@ do_vk_reps <- function(data_key, meta_hcoc) {
 
 ## vk pores ----------------------------------------------------------------
 
-do_vk_pores <- function(data_key, meta_hcoc) {
+do_vk_pores <- function(data_long_trt) {
+ # (gg_fticr_pores_1_5kPa <-  
+ #   data_long_trt %>%
+ #   filter(Suction=="1.5") %>% 
+ #   gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+ #   stat_ellipse()+
+ #   scale_color_manual(values = pal3)+
+ #   # scale_alpha_manual(values = c(0.1, 0.3, 0.3))+
+ #   facet_grid(Homogenization~Moisture+Wetting)+
+ #   labs(title = "1.5 kPa")+
+ #   NULL)
+  
+  
   gg_fticr_pores_1_5kPa <-  
-    data_key %>%
-    left_join(meta_hcoc, by = "formula") %>%
+    data_long_trt %>%
     filter(Suction=="1.5") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
-    stat_ellipse()+
-    scale_color_manual(values = pal)+
+    ggplot(aes(x = OC, y = HC, color = Amendments))+
+    geom_point(size=0.7, alpha = 0.8)+
+    #  scale_color_manual(values = (pnw_palette("Bay",3)))+
+    scale_color_manual(values = rev(pal3))+
     facet_grid(Homogenization~Moisture+Wetting)+
-    labs(title = "1.5 kPa")+
-    #theme(legend.position = "none")+
+    labs(title = "1.5 kPa",
+         y = "H/C",
+         x = "O/C") +
+    xlim(0,1.25) +
+    ylim(0,2.5) +
+    theme_kp()+
+    guides(colour = guide_legend(override.aes = list(alpha=1, size=2)))+
     NULL
   
+  
   gg_fticr_pores_50kPa <-  
-    data_key %>%
-    left_join(meta_hcoc, by = "formula") %>%
+    data_long_trt %>%
     filter(Suction=="50") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
     stat_ellipse()+
@@ -92,39 +115,77 @@ do_vk_pores <- function(data_key, meta_hcoc) {
 
 ## vk unique ----------------------------------------------------------------
 
-do_vk_unique <- function(data_key, meta_hcoc) {
+do_vk_unique <- function(data_long_trt) {
   ## IId. vk unique ---------------------------------------------------------------
   data_unique <-  
-    data_key %>% 
-    group_by(formula, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(n = n()) %>% 
+    data_long_trt %>% 
+    #group_by(formula, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
+    #dplyr::summarise(n = n()) %>% 
     group_by(formula, Suction, Homogenization, Moisture, Wetting) %>% 
     dplyr::mutate(n = n()) %>% 
-    filter(n==1)
+    filter(n==1) %>% 
+    filter(Amendments != "control")
   
-  gg_fticr_unique_int  <- 
-    data_unique %>% 
-    left_join(meta_hcoc, by = "formula") %>%
-    filter(Homogenization=="Intact") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
-    #stat_ellipse()+
-    scale_color_manual(values = pal)+
+  gg_control <- 
+    data_long_trt %>% 
+    filter(Amendments =="control") %>%
+    ggplot(aes(x = OC, y = HC))+
+    #geom_point(size=2, color = "grey50", alpha = 0.1)+
+    geom_point(size=0.5, color = "#FFE733", alpha = 0.2)+
+    labs(y = "H/C",
+         x = "O/C") +
+    xlim(0,1.25) +
+    ylim(0,2.5) +
+    geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 0.7, xend = 1.2, yend = 0.4,color="black",linetype="longdash") +
+    geom_segment(x = 0.0, y = 1.06, xend = 1.2, yend = 0.51,color="black",linetype="longdash")
+  
+  gg_fticr_unique_int <-
+    gg_control +
+    geom_point(data = data_unique %>% filter(Homogenization=="Intact"), aes(color = Amendments),
+               size = 0.5, alpha = 0.8)+
+#    scale_color_manual(values = pnw_palette("Bay",3))+
+      scale_color_manual(values = c("#2E5894", "#96001B"))+
     facet_grid(Suction~Moisture+Wetting)+
     labs(title = "intact cores")+
-    #theme(legend.position = "none")+
+    theme_kp()+
+    guides(colour = guide_legend(override.aes = list(alpha=1, size=2)))+
     NULL
+    
+  gg_fticr_unique_homo <-
+      gg_control +
+      geom_point(data = data_unique %>% filter(Homogenization=="Homogenized"), aes(color = Amendments),
+                 size = 2, alpha = 0.4)+
+      scale_color_manual(values = pal)+
+      facet_grid(Suction~Moisture+Wetting)+
+      labs(title = "homogenized cores")+
+      theme_kp()+
+      guides(colour = guide_legend(override.aes = list(alpha=1)))+
+      NULL
   
-  gg_fticr_unique_homo <- 
-    data_unique %>% 
-    left_join(meta_hcoc, by = "formula") %>%
-    filter(Homogenization=="Homogenized") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
-    #stat_ellipse()+
-    scale_color_manual(values = pal)+
-    facet_grid(Suction~Moisture+Wetting)+
-    labs(title = "homogenized cores")+
-    #theme(legend.position = "none")+
-    NULL
+#  gg_fticr_unique_int  <- 
+#    data_unique %>% 
+#    #left_join(meta_hcoc, by = "formula") %>%
+#    filter(Homogenization=="Intact") %>% 
+#    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+#    #stat_ellipse()+
+#    scale_color_manual(values = pal)+
+#    facet_grid(Suction~Moisture+Wetting)+
+#    labs(title = "intact cores")+
+#    #theme(legend.position = "none")+
+#    NULL
+#  
+#  gg_fticr_unique_homo <- 
+#    data_unique %>% 
+#    left_join(meta_hcoc, by = "formula") %>%
+#    filter(Homogenization=="Homogenized") %>% 
+#    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+#    #stat_ellipse()+
+#    scale_color_manual(values = pal)+
+#    facet_grid(Suction~Moisture+Wetting)+
+#    labs(title = "homogenized cores")+
+#    #theme(legend.position = "none")+
+#    NULL
   
   list(
     gg_fticr_unique_int = gg_fticr_unique_int,
@@ -322,8 +383,8 @@ do_gg_pca_intact_plots <- function(pca_int, relabund_pca_grp_intact) {
          subtitle = "grouped by amendment")+
     NULL
   
-  list(gg_pca_intact_suction = gg_pca_intact_suction,
-       gg_pca_intact_amend = gg_pca_intact_amend,
+  list(#gg_pca_intact_suction = gg_pca_intact_suction,
+       #gg_pca_intact_amend = gg_pca_intact_amend,
        gg_fticr_pca_intact = gg_pca_intact_suction + gg_pca_intact_amend
   )
 }
@@ -361,8 +422,8 @@ do_gg_pca_home_plots <- function(pca_homo, relabund_pca_grp_Homogenized) {
          subtitle = "grouped by suction")+
     NULL
   
-  list(gg_pca_homo_amend = gg_pca_homo_amend,
-       gg_pca_homo_suction = gg_pca_homo_suction,
+  list(#gg_pca_homo_amend = gg_pca_homo_amend,
+       #gg_pca_homo_suction = gg_pca_homo_suction,
        gg_fticr_pca_homo = gg_pca_homo_suction + gg_pca_homo_amend)
 }
 

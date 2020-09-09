@@ -27,13 +27,13 @@ fticr_plan <-
     # 0a. setup -------------------------------------------------------------------
     
     # 0b. load files --------------------------------------------------------------
-    fticr_key = read_fticr_key("data/processed/fticr_key.csv"),
-    data_key = read_fticr_file("data/processed/fticr_long_key.csv.gz"),
-    data_long_trt = read_fticr_file("data/processed/fticr_long_trt.csv.gz"),
     meta = read.csv(file_in("data/processed/fticr_meta.csv")),
-    
     meta_hcoc = select(meta, formula, HC, OC),    
     meta_classes = select(meta, formula, class),
+    
+    fticr_key = read_fticr_key("data/processed/fticr_key.csv"),
+    data_key = read_fticr_file("data/processed/fticr_long_key.csv.gz"),
+    data_long_trt = read_fticr_file("data/processed/fticr_long_trt.csv.gz") %>% left_join(meta_hcoc, by = "formula"),
     
     # 0c. reps ----------------------------------------------------------------
     reps = compute_reps(data_key),
@@ -56,7 +56,6 @@ fticr_plan <-
       data_long_trt %>%
       filter(Moisture=="fm" & Wetting == "groundw" & Amendments=="control" & 
                Homogenization=="Intact") %>% 
-      left_join(meta_hcoc, by = "formula") %>%
       gg_vankrev(aes(x = OC, y = HC, color = as.character(Suction)))+
       stat_ellipse()+
       scale_color_manual(values = PNWColors::pnw_palette("Bay",3))+
@@ -69,10 +68,10 @@ fticr_plan <-
     vk_reps = do_vk_reps(data_key, meta_hcoc),
     
     ## Id. vk -- pores ------------------------------------------------------------
-    vk_pores = do_vk_pores(data_key, meta_hcoc),
+    vk_pores = do_vk_pores(data_long_trt),
     
     ## Ie. vk -- unique ---------------------------------------------------------------
-    vk_unique = do_vk_unique(data_key, meta_hcoc),
+    vk_unique = do_vk_unique(data_long_trt),
 
     # ----- ---------------------------------------------------------------------
     # II. peaks ---------------------------------------------------------------------
