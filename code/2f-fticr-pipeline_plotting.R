@@ -81,16 +81,12 @@ do_vk_pores <- function(data_long_trt) {
   gg_fticr_pores_1_5kPa <-  
     data_long_trt %>%
     filter(Suction=="1.5") %>% 
-    ggplot(aes(x = OC, y = HC, color = Amendments))+
+    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
     geom_point(size=0.7, alpha = 0.8)+
     #  scale_color_manual(values = (pnw_palette("Bay",3)))+
-    scale_color_manual(values = (pal3))+
+    scale_color_manual(values = pal3)+
     facet_grid(Homogenization~Moisture+Wetting)+
-    labs(title = "1.5 kPa",
-         y = "H/C",
-         x = "O/C") +
-    xlim(0,1.25) +
-    ylim(0,2.5) +
+    labs(title = "1.5 kPa")+
     theme_kp()+
     NULL
   
