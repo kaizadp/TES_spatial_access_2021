@@ -13,6 +13,9 @@ knitr::opts_chunk$set(echo = FALSE,
 
 #source("code/0-packages.R")
 library(drake)
+# source("code/2e-fticr_drake_plan.R")
+# make(fticr_plan, lock_cache = F)
+
 ```
 
 ---
@@ -24,7 +27,7 @@ library(drake)
 - Homogenization will increase (a) total peaks, (b) diversity of peaks, (c) aromatic peaks
 
 
-We selected only peaks seen in >1 of the 4 replicates (i.e. n = 2 or 3 or 4)
+We selected only peaks seen in >2/3 of the replicates
 
 ---
 
@@ -52,9 +55,9 @@ readd(reps) %>%
 <details>
   <summary>domains, baseline</summary>
 
-### fticr domains  
+#### fticr domains  
 
-```{r domains, fig.height=4, fig.width=6}
+```{r domains, fig.height=4, fig.width=7}
 readd(gg_fticr_domains)
 ```
 
@@ -68,13 +71,14 @@ readd(gg_fticr_baseline)
   <summary>VK by replication</summary>
   
   
-### VK by replication
+#### VK by replication
 
 ```{r vk_reps, fig.width=10, fig.height=8}
-readd(gg_fticr_reps_1_5_intact)
-readd(gg_fticr_reps_50_intact)
-readd(gg_fticr_reps_1_5_homo)
-readd(gg_fticr_reps_50_homo)
+readd(vk_reps)
+
+# readd(gg_fticr_reps_50_intact)
+# readd(gg_fticr_reps_1_5_homo)
+# readd(gg_fticr_reps_50_homo)
 ```
 
 </details>
@@ -85,8 +89,10 @@ readd(gg_fticr_reps_50_homo)
   
 #### VK diagrams by treatment 
 ```{r vk_pores, fig.width=10, fig.height=5}
-readd(gg_fticr_pores_1_5kPa)
-readd(gg_fticr_pores_50kPa)
+
+readd(vk_pores)
+# readd(gg_fticr_pores_1_5kPa)
+# readd(gg_fticr_pores_50kPa)
 ```
 
 </details>
@@ -100,15 +106,17 @@ readd(gg_fticr_pores_50kPa)
 unique to each amendment, in each incubation type
 
 ```{r vk_unique, fig.width=10, fig.height=5}
-readd(gg_fticr_unique_int)
-readd(gg_fticr_unique_homo)
+readd(vk_unique)
+
+# readd(gg_fticr_unique_int)
+# readd(gg_fticr_unique_homo)
 ```
 
 </details>
 
 ---
 
-### peaks
+## peaks
 
 <details>
   <summary>graphs</summary>
@@ -127,12 +135,15 @@ readd(gg_totalcounts)
 complex:simple compounds
 
 ```{r fticr_peaks_aliph_arom, fig.width = 8}
-readd(gg_aliph_aromatic)
+
+readd(aliph_plots)
+
+# readd(gg_aliph_aromatic)
 ```
 
 
 ```{r}
-readd(gg_aliph_aromatic_intact_suction) 
+#readd(gg_aliph_aromatic_intact_suction) 
 ```
 
 </details>
@@ -144,14 +155,17 @@ readd(gg_aliph_aromatic_intact_suction)
 tables -- total peaks
 
 ```{r}
-readd(peakcounts_table_total) %>% 
-  knitr::kable()
+loadd(peakcount_tables)
+
+
+# readd(peakcounts_table_total) %>% 
+#   knitr::kable()
 ```
 
 tables -- complex peaks
 ```{r}
-readd(peakcounts_table_aromatic) %>% 
-  knitr::kable()
+# readd(peakcounts_table_aromatic) %>% 
+#   knitr::kable()
 ```
 
 </details>
@@ -162,13 +176,17 @@ readd(peakcounts_table_aromatic) %>%
 ### relative abundances
 
 ```{r fticr_relabund, fig.height=8, fig.width=8}
-readd(gg_fticr_relabund_barplots)
+# readd(gg_fticr_relabund_barplots)
+
+readd(relabund_barplots)
 ```
 
 relative abundance of complex peaks
 
 ```{r fticr_relabund_complex, fig.height=5, fig.width=8}
-readd(gg_complex_relabund)
+# readd(gg_complex_relabund)
+
+readd(relabund_scatterplots)
 ```
 
 
@@ -220,8 +238,12 @@ readd(permanova_fticr_50_homo)
   <summary>overall PCA</summary>
   
 ```{r fticr_pca_overall, fig.height=7, fig.width=15}
-readd(gg_fticr_pca_intact)
-readd(gg_fticr_pca_homo)
+# readd(gg_fticr_pca_intact)
+# readd(gg_fticr_pca_homo)
+
+
+readd(gg_pca_intact_plots)
+readd(gg_pca_homo_plots)
 ```
 
 </details>
@@ -258,9 +280,10 @@ readd(gg_nosc)
 
 #### elements
 ```{r elements}
-readd(gg_elements_n)
-readd(gg_elements_o)
+# readd(gg_elements_n)
+# readd(gg_elements_o)
 
+readd(gg_element_plots)
 ```
 
 </details>

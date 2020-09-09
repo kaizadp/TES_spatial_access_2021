@@ -1,20 +1,10 @@
 # Plots for various pipeline targets
 
 # I. van krevelens -----------------------------------------------------------
-do_van_krevelens <- function(data_long_trt, data_key) {
-  
-  ## Ia. domains --------------------------------------------------------------
-  gg_fticr_domains <- 
-    data_long_trt %>% 
-    distinct(formula) %>% 
-    left_join(dplyr::select(meta, formula, class, HC, OC), by = "formula") %>% 
-    gg_vankrev(aes(x = OC, y = HC, color = class))+
-    scale_color_manual(values = PNWColors::pnw_palette("Sailboat"))+
-    theme_kp()+
-    theme(legend.position = "right")+
-    NULL
-  
-  ## Ib. replication -------------------------------------------------------
+## reps --------------------------------------------------------------------
+
+
+do_vk_reps <- function(data_key, meta_hcoc) {
   gg_fticr_reps_1_5_intact <- 
     data_key %>%
     filter(Homogenization == "Intact" & Suction == 1.5) %>% 
@@ -59,7 +49,7 @@ do_van_krevelens <- function(data_long_trt, data_key) {
     theme_kp()+
     NULL
   
-  list(gg_fticr_domains = gg_fticr_domains, 
+  list(
        gg_fticr_reps_1_5_intact = gg_fticr_reps_1_5_intact, 
        gg_fticr_reps_50_intact = gg_fticr_reps_50_intact,
        gg_fticr_reps_1_5_homo = gg_fticr_reps_1_5_homo, 
@@ -67,22 +57,9 @@ do_van_krevelens <- function(data_long_trt, data_key) {
 }
 
 
-do_fticrs <- function(data_long_trt, data_key, meta_hcoc) {
-  
-  gg_fticr_baseline <-      
-    data_long_trt %>%
-    filter(Moisture=="fm" & Wetting == "groundw" & Amendments=="control" & 
-             Homogenization=="Intact") %>% 
-    left_join(meta_hcoc, by = "formula") %>%
-    gg_vankrev(aes(x = OC, y = HC, color = as.character(Suction)))+
-    stat_ellipse()+
-    scale_color_manual(values = PNWColors::pnw_palette("Bay",3))+
-    labs(title = "baseline (fm, groundw, non-amended)")+
-    theme_kp()+
-    NULL
-  
-  ## IIc. vk pores ----------------------------------------------------------------
-  
+## vk pores ----------------------------------------------------------------
+
+do_vk_pores <- function(data_key, meta_hcoc) {
   gg_fticr_pores_1_5kPa <-  
     data_key %>%
     left_join(meta_hcoc, by = "formula") %>%
@@ -107,7 +84,15 @@ do_fticrs <- function(data_long_trt, data_key, meta_hcoc) {
     #theme(legend.position = "none")+
     NULL 
   
-  
+  list(
+    gg_fticr_pores_1_5kPa = gg_fticr_pores_1_5kPa,
+    gg_fticr_pores_50kPa = gg_fticr_pores_50kPa)
+}
+
+
+## vk unique ----------------------------------------------------------------
+
+do_vk_unique <- function(data_key, meta_hcoc) {
   ## IId. vk unique ---------------------------------------------------------------
   data_unique <-  
     data_key %>% 
@@ -141,12 +126,86 @@ do_fticrs <- function(data_long_trt, data_key, meta_hcoc) {
     #theme(legend.position = "none")+
     NULL
   
-  list(gg_fticr_baseline = gg_fticr_baseline,
-       gg_fticr_pores_1_5kPa = gg_fticr_pores_1_5kPa,
-       gg_fticr_pores_50kPa = gg_fticr_pores_50kPa,
-       gg_fticr_unique_int = gg_fticr_unique_int,
-       gg_fticr_unique_homo = gg_fticr_unique_homo)
+  list(
+    gg_fticr_unique_int = gg_fticr_unique_int,
+    gg_fticr_unique_homo = gg_fticr_unique_homo)
 }
+
+
+
+
+# ---- -------------------------------------------------------------------------
+
+
+#  ## Ia. domains
+          #  gg_fticr_domains <- 
+          #    data_long_trt %>% 
+          #    distinct(formula) %>% 
+          #    left_join(dplyr::select(meta, formula, class, HC, OC), by = "formula") %>% 
+          #    gg_vankrev(aes(x = OC, y = HC, color = class))+
+          #    scale_color_manual(values = PNWColors::pnw_palette("Sailboat"))+
+          #    theme_kp()+
+          #    theme(legend.position = "right")+
+          #    NULL
+          
+          # do_fticrs <- function(data_long_trt, data_key, meta_hcoc) {
+                     # gg_fticr_baseline <-      
+           #   data_long_trt %>%
+           #   filter(Moisture=="fm" & Wetting == "groundw" & Amendments=="control" & 
+           #            Homogenization=="Intact") %>% 
+           #   left_join(meta_hcoc, by = "formula") %>%
+           #   gg_vankrev(aes(x = OC, y = HC, color = as.character(Suction)))+
+           #   stat_ellipse()+
+           #   scale_color_manual(values = PNWColors::pnw_palette("Bay",3))+
+           #   labs(title = "baseline (fm, groundw, non-amended)")+
+           #   theme_kp()+
+           #   NULL
+  
+
+# ---- -------------------------------------------------------------------------
+
+# II. peak counts ---------------------------------------------------------
+
+## all peaks -------------------------------------------------------------
+
+do_gg_peaks_bar <- function(peakcounts_trt) {
+    peakcounts_trt %>% 
+      ggplot(aes(x = Amendments, y = peaks, fill = class))+
+      geom_bar(stat = "identity")+
+      labs(x = "",
+           y = "peaks")+
+      facet_grid(Homogenization+Suction~Moisture+Wetting)+
+      NULL
+}
+
+do_gg_totalcounts <- function(peakcounts_core) {
+  totalcounts_label = tribble(
+    ~x, ~y, ~Suction, ~Homogenization, ~label,
+    1.87, 2000, 1.5, "Intact", "b",
+    2, 3000, 1.5, "Intact", "a",
+    2.13, 2000, 1.5, "Intact", "ab"
+  )
+  
+  peakcounts_core %>% 
+    filter(class=="total") %>% 
+    filter(Homogenization=="Intact") %>% 
+    ggplot()+
+    geom_point(aes(x = Moisture, y = counts, 
+                   fill = Amendments, shape = Wetting, group = Amendments),
+               size=4, stroke=1, position = position_dodge(width = 0.4))+
+    geom_text(data = totalcounts_label, aes(x = x, y = y, label = label), size=4)+
+    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "total peak counts",
+         y = "count")+
+    facet_grid(Homogenization~Suction)+
+    theme_kp()+
+    NULL
+}
+
+
+## simple:complex ----------------------------------------------------------
 
 do_aliph_plots <- function(aliphatic_aromatic_counts) {
   gg_aliph_aromatic <- 
@@ -175,27 +234,11 @@ do_aliph_plots <- function(aliphatic_aromatic_counts) {
        gg_aliph_aromatic_intact_suction = gg_aliph_aromatic_intact_suction)
 }
 
-do_gg_totalcounts <- function(peakcounts_core) {
-  
-  peakcounts_core %>% 
-    filter(class=="total") %>% 
-    filter(Homogenization=="Intact") %>% 
-    ggplot()+
-    geom_point(aes(x = Moisture, y = counts, 
-                   fill = Amendments, shape = Wetting, group = Amendments),
-               size=4, stroke=1, position = position_dodge(width = 0.4))+
-    geom_text(data = totalcounts_label, aes(x = x, y = y, label = label), size=4)+
-    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
-    scale_shape_manual(values = c(21,23))+
-    guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "total peak counts",
-         y = "count")+
-    facet_grid(Homogenization~Suction)+
-    theme_kp()+
-    NULL
-}
+# ---- -------------------------------------------------------------------------
 
-do_relabund_plots <- function(relabund_trt, relabund_cores_complex) {
+# III. relative abundance ------------------------------------------------------
+
+do_relabund_barplots <- function(relabund_trt, relabund_cores_complex) {
   gg_fticr_relabund_barplots <-     
     relabund_trt %>%  
     ggplot(aes(x = Amendments, y = rel_abund, fill = class))+
@@ -207,7 +250,23 @@ do_relabund_plots <- function(relabund_trt, relabund_cores_complex) {
     facet_grid(Homogenization+Suction~Moisture+Wetting)+
     NULL
   
-  gg_complex_relabund <- 
+  list(gg_fticr_relabund_barplots = gg_fticr_relabund_barplots)
+}
+
+do_relabund_scatterplots <- function(relabund_trt, relabund_cores_complex) {
+  
+  complex_label = tribble(
+    ~x, ~y, ~Suction, ~Homogenization, ~label,
+    0.87, 90, 50, "Intact", "a",
+    1, 85, 50, "Intact", "b",
+    1.13, 85, 50, "Intact", "ab",
+    
+    1.87, 92, 50, "Intact", "a",
+    2, 85, 50, "Intact", "b",
+    2.13, 85, 50, "Intact", "b"
+  )
+  
+  gg_complex_relabund_intact <- 
     relabund_cores_complex %>% 
     filter(Homogenization=="Intact") %>% 
     ggplot() +
@@ -225,21 +284,12 @@ do_relabund_plots <- function(relabund_trt, relabund_cores_complex) {
     theme_kp()+
     NULL
   
-  list(gg_fticr_relabund_barplots = gg_fticr_relabund_barplots,
-       gg_complex_relabund = gg_complex_relabund)
+  list(gg_complex_relabund = gg_complex_relabund_intact)
 }
 
-do_gg_peaks_bar <- function(peakcounts_trt) {
-  peakcounts_trt %>% 
-    ggplot(aes(x = Amendments, y = peaks, fill = class))+
-    geom_bar(stat = "identity")+
-    #scale_fill_viridis_d(option = "inferno")+
-    scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
-    labs(x = "",
-         y = "peaks")+
-    facet_grid(Homogenization+Suction~Moisture+Wetting)+
-    NULL
-}
+
+# IV. PCA ---------------------------------------------------------------------
+
 
 do_gg_pca_intact_plots <- function(pca_int, relabund_pca_grp_intact) {
   gg_pca_intact_suction <- 
@@ -274,7 +324,7 @@ do_gg_pca_intact_plots <- function(pca_int, relabund_pca_grp_intact) {
   
   list(gg_pca_intact_suction = gg_pca_intact_suction,
        gg_pca_intact_amend = gg_pca_intact_amend,
-       gg_fticr_pca_intact = gg_pca_intact_suction + gg_pca_intact_amend,
+       gg_fticr_pca_intact = gg_pca_intact_suction + gg_pca_intact_amend
   )
 }
 

@@ -1,6 +1,7 @@
 # Tables for various pipeline targets
 
 do_peakcount_tables <- function(peakcounts_core, fticr_key) {
+  # 1. total counts ----
   peakcounts_table_total =
     peakcounts_core %>% 
     filter(class=="total") %>% 
@@ -22,6 +23,7 @@ do_peakcount_tables <- function(peakcounts_core, fticr_key) {
     dplyr::select(Homogenization, Moisture, Wetting, var, peaks) %>% 
     spread(var, peaks)
   
+  # 2. complex peak counts ----
   peakcounts_table_aromatic <- 
     peakcounts_core %>% 
     filter(class %in% c("unsaturated/lignin", "aromatic", "condensed_arom")) %>%
@@ -44,7 +46,7 @@ do_peakcount_tables <- function(peakcounts_core, fticr_key) {
     dplyr::select(Homogenization, Moisture, Wetting, var, peaks) %>% 
     spread(var, peaks)
   
-  ## IIc. aliphatic:complex --------------------------------------------------
+  # 3. simple:complex peak counts ----
   aliphatic_aromatic_counts <-  
     peakcounts_core %>% 
     ungroup %>% 
@@ -56,6 +58,7 @@ do_peakcount_tables <- function(peakcounts_core, fticr_key) {
     spread(new_class, counts) %>% 
     mutate(arom_aliph_ratio = complex/aliphatic)
   
+  # 4. list ----
   list(peakcounts_table_total = peakcounts_table_total,
        peakcounts_table_aromatic = peakcounts_table_aromatic,
        aliphatic_aromatic_counts = aliphatic_aromatic_counts)

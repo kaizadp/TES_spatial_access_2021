@@ -19,32 +19,8 @@ theme_set(theme_bw())
 pal <- pnw_palette("Bay", 3)
 
 
-# ----- Functions extracted from the drake plan
-# BBL: I would suggest moving them to another file, e.g. "fit_functions.R"
-
-fit_hsd_totalpeaks <- function(dat) {
-  a <-aov(log(counts) ~ Amendments, data = dat)
-  h <-agricolae::HSD.test(a,"Amendments")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}
-
-fit_hsd_complex <- function(dat) {
-  a <-aov(log(relabund) ~ Amendments, data = dat)
-  h <-agricolae::HSD.test(a,"Amendments")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}
-
-
 # BBL: Why are you getting cache this way? Should not be necessary
-fticr_cache <- drake_cache(path = "reports/cache/fticr")
+#fticr_cache <- drake_cache(path = "reports/cache/fticr")
 
 fticr_plan <- 
   drake_plan(
@@ -52,8 +28,8 @@ fticr_plan <-
     
     # 0b. load files --------------------------------------------------------------
     fticr_key = read_fticr_key("data/processed/fticr_key.csv"),
-    data_key = read_data_key("data/processed/fticr_long_key.csv.gz"),
-    data_long_trt = read_data_long_trt("data/processed/fticr_long_trt.csv.gz"),
+    data_key = read_fticr_file("data/processed/fticr_long_key.csv.gz"),
+    data_long_trt = read_fticr_file("data/processed/fticr_long_trt.csv.gz"),
     meta = read.csv(file_in("data/processed/fticr_meta.csv")),
     
     meta_hcoc = select(meta, formula, HC, OC),    
@@ -65,27 +41,69 @@ fticr_plan <-
     # ----- ---------------------------------------------------------------------
     # I. van krevelens -----------------------------------------------------------
     ## Ia. domains --------------------------------------------------------------
-    van_krevelen_plots = do_van_krevelens(data_long_trt, data_key),
+    gg_fticr_domains = 
+      data_long_trt %>% 
+      distinct(formula) %>% 
+      left_join(dplyr::select(meta, formula, class, HC, OC), by = "formula") %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = class))+
+      scale_color_manual(values = PNWColors::pnw_palette("Sailboat"))+
+      theme_kp()+
+      theme(legend.position = "right")+
+      NULL,
     
-    ## IIb. fticr baseline -----------------------------------------------------
-    fticr_plots = do_fticrs(data_long_trt, data_key, meta_hcoc),
+    ## Ib. fticr baseline -----------------------------------------------------
+    gg_fticr_baseline =      
+      data_long_trt %>%
+      filter(Moisture=="fm" & Wetting == "groundw" & Amendments=="control" & 
+               Homogenization=="Intact") %>% 
+      left_join(meta_hcoc, by = "formula") %>%
+      gg_vankrev(aes(x = OC, y = HC, color = as.character(Suction)))+
+      stat_ellipse()+
+      scale_color_manual(values = PNWColors::pnw_palette("Bay",3))+
+      labs(title = "baseline (fm, groundw, non-amended)")+
+      theme_kp()+
+      NULL,
     
+    
+    ## Ic. vk -- replication ---------------------------------------------------------
+    vk_reps = do_vk_reps(data_key, meta_hcoc),
+    
+    ## Id. vk -- pores ------------------------------------------------------------
+    vk_pores = do_vk_pores(data_key, meta_hcoc),
+    
+    ## Ie. vk -- unique ---------------------------------------------------------------
+    vk_unique = do_vk_unique(data_key, meta_hcoc),
+
     # ----- ---------------------------------------------------------------------
     # II. peaks ---------------------------------------------------------------------
+    ## IIa. files --------------------------------------------------------------
     peaks_distinct_core = data_key %>% group_by(Core, SampleAssignment) %>% distinct(formula),
     
-    peakcounts_core = compute_peakcounts_core(peaks_distinct_core, meta_classes),
+    peakcounts_core = compute_peakcounts_core(peaks_distinct_core, meta_classes, fticr_key),
     peakcounts_trt = compute_peakcounts_trt(peakcounts_core, fticr_key),
 
-    ## IIa. bar plots ------------------------------------------------------------------
-    gg_peaks_bar = do_gg_peaks_bar(peakcounts_trt),
+    aliphatic_aromatic_counts = 
+      peakcounts_core %>% 
+      ungroup %>% 
+      filter(!class=="total") %>% 
+      mutate(new_class = if_else(grepl("aliphatic",class), "aliphatic", "complex")) %>% 
+      group_by(Core, Homogenization, Moisture, Wetting, Amendments, Suction, new_class) %>% 
+      dplyr::summarise(counts = sum(counts)) %>%
+      ungroup() %>% 
+      spread(new_class, counts) %>% 
+      mutate(arom_aliph_ratio = complex/aliphatic),
     
-    ## IIb. peak count tables --------------------------------------------------
-    peakcount_tables = do_peakcount_table(peakcounts_core, fticr_key),
     
-    aliph_plots = do_alpha_plots(aliphatic_aromatic_counts),
+    ## IIb. tables -- peak counts --------------------------------------------------
+    peakcount_tables = do_peakcount_tables(peakcounts_core, fticr_key),
+
+    ## IIc. plots -- all peaks (bar) ------------------------------------------------------------------
+    gg_peaks_bar = 
+      do_gg_peaks_bar(peakcounts_trt)+
+      scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+      NULL,
     
-    ## IId.  total peak count -- scatter ----------------------------------------------------------
+    ## IId. plots -- total peaks (scatter) ----------------------------------------------------------
     
     fticr_hsd_totalpeaks = compute_fticr_hsd_totalpeaks(peakcounts_core),
     
@@ -98,7 +116,11 @@ fticr_plan <-
     
     gg_totalcounts = do_gg_totalcounts(peakcounts_core),
     
-    ## IId.  peaks -- stats ----------------------------------------------------------
+    
+    ## IIe. plots -- simple:complex (scatter) --------------------------------------------------
+    aliph_plots = do_aliph_plots(aliphatic_aromatic_counts),
+    
+    ## IIf. stats -- peak counts ----------------------------------------------------------
     ### -- arom-aliph-ratio
     #  aov_arom_aliph_ratio_all = 
     #    Anova(lmer(log(arom_aliph_ratio) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
@@ -131,14 +153,14 @@ fticr_plan <-
     
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
-    # IIa. load files ---------------------------------------------------------
-    relabund_trt = read_relabund_trt("data/processed/fticr_relabund_trt.csv"),
-    relabund_cores = read_relabund_cores("data/processed/fticr_relabund_cores.csv"), 
+    ## IIa. files ---------------------------------------------------------
+    relabund_trt = read_fticr_file("data/processed/fticr_relabund_trt.csv"),
+    relabund_cores = read_fticr_file("data/processed/fticr_relabund_cores.csv"), 
     
-    # IIb. bar plots ----------------------------------------------------------
-
+    ## IIb. plots -- all classes (bar) ----------------------------------------------------------
+    relabund_barplots = do_relabund_barplots(relabund_trt, relabund_cores_complex),
     
-    # IIc. complex peaks ----------------------------------------------------------
+    ## IIc. plots -- complex peaks (scatter) ----------------------------------------------------------
     ## fit hsd
     relabund_cores_complex = compute_relabund_cores_complex(relabund_cores),
     fticr_hsd_complex = compute_fticr_hsd_complex(relabund_cores_complex),
@@ -154,7 +176,7 @@ fticr_plan <-
       2.13, 85, 50, "Intact", "b"
     ),
     
-    relabund_plots = do_relabund_plots(relabund_trt, relabund_cores_complex),
+    relabund_scatterplots = do_relabund_scatterplots(relabund_trt, relabund_cores_complex),
   
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
@@ -404,55 +426,46 @@ fticr_plan <-
       #      output_format = rmarkdown::html_document(toc = TRUE))
       output_format = rmarkdown::github_document()),
     
-    report2 = rmarkdown::render(
-      knitr_in("reports/results.Rmd"),
-      output_format = rmarkdown::github_document())
+              #   report2 = rmarkdown::render(
+              #     knitr_in("reports/results.Rmd"),
+              #     output_format = rmarkdown::github_document())
     
     # ----- ---------------------------------------------------------------------
   )
 
 # make plan ---------------------------------------------------------------
-make(fticr_plan, cache = fticr_cache, lock_cache = F)
-
-
-loadd(aliphatic_aromatic_counts)
+make(fticr_plan, lock_cache = F)
 
 
 
 
 
-
-
-
-
-
-
-aliphatic_aromatic_counts %>% 
-  ggplot(aes(x = Homogenization, y = arom_aliph_ratio))+
-  geom_boxplot()+
-  geom_jitter()+
-  NULL
-
-aliphatic_aromatic_counts %>% 
-  ggplot(aes(x = Moisture, y = arom_aliph_ratio))+
-  geom_boxplot()+
-  geom_jitter()+
-  NULL
-
-aliphatic_aromatic_counts %>% 
-  ggplot(aes(x = Amendments, y = arom_aliph_ratio))+
-  geom_boxplot()+
-  geom_jitter()+
-  NULL
-
-
-# total peaks
-loadd(peakcounts_core)
-
-
-
-peakcounts_total_core %>% 
-  ggplot(aes(x = as.character(Suction), y = counts))+
-  geom_boxplot()+
-  geom_jitter()+
-  NULL
+    # loadd(aliphatic_aromatic_counts)
+    # 
+    # aliphatic_aromatic_counts %>% 
+    #   ggplot(aes(x = Homogenization, y = arom_aliph_ratio))+
+    #   geom_boxplot()+
+    #   geom_jitter()+
+    #   NULL
+    # 
+    # aliphatic_aromatic_counts %>% 
+    #   ggplot(aes(x = Moisture, y = arom_aliph_ratio))+
+    #   geom_boxplot()+
+    #   geom_jitter()+
+    #   NULL
+    # 
+    # aliphatic_aromatic_counts %>% 
+    #   ggplot(aes(x = Amendments, y = arom_aliph_ratio))+
+    #   geom_boxplot()+
+    #   geom_jitter()+
+    #   NULL
+    # 
+    # 
+    # # total peaks
+    # loadd(peakcounts_core)
+    # 
+    # peakcounts_total_core %>% 
+    #   ggplot(aes(x = as.character(Suction), y = counts))+
+    #   geom_boxplot()+
+    #   geom_jitter()+
+    #   NULL
