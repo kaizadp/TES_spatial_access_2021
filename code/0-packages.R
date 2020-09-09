@@ -43,7 +43,7 @@ theme_kp <- function() {  # this for all the elements common across plots
 gg_vankrev <- function(data,mapping){
   ggplot(data,mapping) +
     # plot points
-    geom_point(size=2, alpha = 0.2) + # set size and transparency
+    geom_point(size=0.7, alpha = 0.8) + # set size and transparency
     # axis labels
     ylab("H/C") +
     xlab("O/C") +
@@ -54,11 +54,7 @@ gg_vankrev <- function(data,mapping){
     geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
     geom_segment(x = 0.0, y = 0.7, xend = 1.2, yend = 0.4,color="black",linetype="longdash") +
     geom_segment(x = 0.0, y = 1.06, xend = 1.2, yend = 0.51,color="black",linetype="longdash") +
-    #geom_segment(x = 0.0, y = 1.5, xend = 1.2, yend = 1.5,color="black",linetype="longdash") +
-    #geom_segment(x = 0.0, y = 2, xend = 1.2, yend = 2,color="black",linetype="longdash") +
-    #geom_segment(x = 0.0, y = 1, xend = 1.2, yend = 0.75,color="black",linetype="longdash") +
-    #geom_segment(x = 0.0, y = 0.8, xend = 1.2, yend = 0.8,color="black",linetype="longdash")+
-    guides(colour = guide_legend(override.aes = list(alpha=1)))
-  
+    guides(colour = guide_legend(override.aes = list(alpha=1, size=2)))
+
 }
 
