@@ -137,11 +137,33 @@ fticr_processing_plan = drake_plan(
     filter(!Suction==15) %>% 
     na.omit() %>% 
     group_by(SampleAssignment, formula) %>% 
-    mutate(n = n()) %>% 
-    filter(n>1),
+    mutate(n = n()), # %>% filter(n>1),
+  
+## Now, create a replication filter for the peaks, 
+## following Sleighter et al. 2012 (10.1021/ac3018026) and Payne et al. 2009 (10.1021/jasms.8b03484)
+## keep only peaks seen in 2/3 of replicates within that treatment
+
+
+# first, create a separate file that gives us the no. of reps per treatment
+  reps = 
+    data_long_key %>% 
+    filter(Suction != 15) %>% 
+    ungroup() %>% 
+    distinct(Core, SampleAssignment) %>% 
+    group_by(SampleAssignment) %>% 
+    dplyr::summarise(reps = n()),
+  
+# second, join the `reps` file to the long_key file
+# and then use the replication filter  
+  data_long_key2 = 
+    data_long_key %>% 
+    left_join(reps, by = "SampleAssignment") %>% 
+    ungroup() %>% 
+    mutate(keep = n >= (2/3)*reps) %>% 
+    filter(keep),
   
   data_long_trt = 
-    data_long_key %>% 
+    data_long_key2 %>% 
     group_by(SampleAssignment, Suction, Homogenization, Moisture, Wetting, Amendments) %>% 
     distinct(formula, presence),
   
@@ -160,10 +182,13 @@ fticr_processing_plan = drake_plan(
   write.csv(meta, "data/processed/fticr_meta.csv", row.names = F),
   write.csv(fticr_key_cleaned, "data/processed/fticr_key.csv", row.names = F),
   crunch::write.csv.gz(data_long, "data/processed/fticr_long_core.csv.gz", row.names = F, na=""),
-  crunch::write.csv.gz(data_long_key, "data/processed/fticr_long_key.csv.gz", row.names = F, na=""),
+  crunch::write.csv.gz(data_long_key2, "data/processed/fticr_long_key.csv.gz", row.names = F, na=""),
   crunch::write.csv.gz(data_long_trt, "data/processed/fticr_long_trt.csv.gz", row.names = F, na="")
   
   # -----------------------------------------------------------------
 )
 
-make(fticr_processing_plan)
+make(fticr_processing_plan, lock_cache = F)
+
+
+loadd(reps)
