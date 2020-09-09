@@ -55,7 +55,7 @@ homogenized cores
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 intact cores: interaction of Amendments and Moisture
-![](markdown/flux/flux_interx_plot-1.png)<!-- -->
+![](markdown-figs/flux/flux_interx_plot-1.png)<!-- -->
 
 </details>
 
@@ -75,7 +75,7 @@ For intact cores,
 
 ## graphs
 
-![](markdown/flux/cum_flux_boxplot-1.png)<!-- -->
+![](markdown-figs/flux/cum_flux_boxplot-1.png)<!-- -->
 
   - drought increased respiration only in control soils
       - microbes limited by substrate as well as N, which were released
@@ -93,17 +93,24 @@ For intact cores,
         were more limited
       - N??
 
-![](markdown/flux/cum_flux_homo-1.png)<!-- -->
+<!-- end list -->
 
-![](markdown/flux/cum_flux_ggplot-1.png)<!-- -->
+    #> $gg_cumflux_homo
 
-![](markdown/flux/meanflux_ts-1.png)<!-- -->
+![](markdown-figs/flux/cum_flux_homo-1.png)<!-- -->
+
+    #> [1] NA
+
+    #> $gg_flux_ts
+
+![](markdown-figs/flux/meanflux_ts-1.png)<!-- -->
 
 <details>
 
 <summary>time series by core</summary>
 
-![](markdown/flux/corewise_flux-1.png)<!-- -->![](markdown/flux/corewise_flux-2.png)<!-- -->
+    #> [1] NA
+    #> [1] NA
 
 </details>
 
@@ -128,7 +135,7 @@ For intact cores,
 
 <summary>click to expand</summary>
 
-Date run: 2020-08-15
+Date run: 2020-09-09
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -142,8 +149,7 @@ Date run: 2020-08-15
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     #> 
     #> attached base packages:
-    #> [1] stats     graphics  grDevices utils     datasets  methods  
-    #> [7] base     
+    #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
     #>  [1] lme4_1.1-23     Matrix_1.2-18   drake_7.12.4    ggbiplot_0.55  
@@ -157,13 +163,13 @@ Date run: 2020-08-15
     #>  [7] farver_2.0.3       soilpalettes_0.1.0 fansi_0.4.1       
     #> [10] lubridate_1.7.9    xml2_1.3.2         splines_4.0.2     
     #> [13] knitr_1.29         jsonlite_1.7.0     nloptr_1.2.2.2    
-    #> [16] broom_0.7.0        cluster_2.1.0      dbplyr_1.4.4      
-    #> [19] shiny_1.5.0        compiler_4.0.2     httr_1.4.2        
-    #> [22] backports_1.1.8    assertthat_0.2.1   fastmap_1.0.1     
-    #> [25] cli_2.0.2          later_1.1.0.1      htmltools_0.5.0   
-    #> [28] prettyunits_1.1.1  tools_4.0.2        igraph_1.2.5      
-    #> [31] gtable_0.3.0       agricolae_1.3-3    glue_1.4.1        
-    #> [34] tinytex_0.25       Rcpp_1.0.5         carData_3.0-4     
+    #> [16] packrat_0.5.0      broom_0.7.0        cluster_2.1.0     
+    #> [19] dbplyr_1.4.4       shiny_1.5.0        compiler_4.0.2    
+    #> [22] httr_1.4.2         backports_1.1.8    assertthat_0.2.1  
+    #> [25] fastmap_1.0.1      cli_2.0.2          later_1.1.0.1     
+    #> [28] htmltools_0.5.0    prettyunits_1.1.1  tools_4.0.2       
+    #> [31] igraph_1.2.5       gtable_0.3.0       agricolae_1.3-3   
+    #> [34] glue_1.4.1         Rcpp_1.0.5         carData_3.0-4     
     #> [37] cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
     #> [40] xfun_0.16          openxlsx_4.1.5     rvest_0.3.6       
     #> [43] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   

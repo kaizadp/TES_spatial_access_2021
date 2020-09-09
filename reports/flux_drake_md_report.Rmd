@@ -9,7 +9,7 @@ knitr::opts_chunk$set(echo = FALSE,
                       warning = FALSE,
                       message = FALSE,
                       comment = "#>",
-                      fig.path = "markdown/flux/")
+                      fig.path = "markdown-figs/flux/")
 library(drake)
 ```
 
@@ -71,7 +71,7 @@ For intact cores,
 ## graphs 
 
 ```{r cum_flux_boxplot, fig.width=8, fig.height=5}
-readd(gg_flux_cum_intact_boxplot2)
+readd(gg_flux_cum_intact_boxplot)
 ```
 
 
@@ -86,8 +86,7 @@ readd(gg_flux_cum_intact_boxplot2)
   - N??
  
 ```{r cum_flux_homo, fig.width=10, fig.height=4}
-readd(gg_cumflux_homo)+
-  scale_fill_manual(values = soilpalettes::soil_palette("rendoll",2))
+readd(gg_cumflux_homo)
 ```
 
 ```{r cum_flux_ggplot, fig.width=10, fig.height=6}
@@ -95,7 +94,7 @@ readd(gg_flux_cum)
 ```
 
 ```{r meanflux_ts, fig.width=10, fig.height=6}
-readd(gg_flux_cum_ts)
+readd(gg_flux_ts)
 ```
 
 
