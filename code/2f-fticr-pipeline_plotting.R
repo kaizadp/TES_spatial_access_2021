@@ -1,12 +1,16 @@
+# TES SPATIAL ACCESS
+# workflow and functions for fticr graphs 
+
 # Plots for various pipeline targets
+
+
+# 0a. set color palette ----------------------------------------------------
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
-
-
-# 0. fit models for scatterplots ------------------------------------------
+# 0b. fit models for scatterplots ------------------------------------------
 fit_aov_moisture = function(depvar, Moisture){
   # boxplot p-values
-  a1 = aov(log(depvar) ~ Moisture, data = dat)
+  a1 = aov(log(depvar) ~ Moisture)
   label_a1 = broom::tidy(a1) %>% 
     rename(p_value = `p.value`) %>% 
     mutate(p_value = round(p_value,4)) %>% 
@@ -286,7 +290,7 @@ do_labels_totalcounts_intact = function(depvar, Moisture, Amendments, Wetting){
   
   amend_label %>% rbind(moisture_label)
 }
-do_gg_totalcounts <- function(dat) {
+do_gg_totalcounts <- function(peakcounts_core) {
   
   totalcounts_label = 
     peakcounts_core %>% 
@@ -407,7 +411,7 @@ do_labels_complex_intact = function(depvar, Moisture, Amendments, Wetting){
   
   amend_label %>% rbind(moisture_label)
 }
-do_gg_complex <- function(dat) {
+do_gg_complex <- function(relabund_cores_complex) {
   
   label = 
     relabund_cores_complex %>% 
@@ -532,5 +536,7 @@ do_gg_element_plots <- function(fticr_elements) {
   list(gg_elements_n = gg_elements_n,
        gg_elements_o = gg_elements_o)
 }
+
+
 
 
