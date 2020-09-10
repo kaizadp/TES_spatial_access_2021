@@ -1,15 +1,37 @@
 # Plots for various pipeline targets
-# pal2 = c("grey20", "#00496f", "#edd746")
-# pal3 = rev(soilpalettes::soil_palette("rendoll",5))
-# pal3 = rev(soilpalettes::soil_palette("redox2",3))
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
 
 
+# 0. fit models for scatterplots ------------------------------------------
+fit_aov_moisture = function(depvar, Moisture){
+  # boxplot p-values
+  a1 = aov(log(depvar) ~ Moisture, data = dat)
+  label_a1 = broom::tidy(a1) %>% 
+    rename(p_value = `p.value`) %>% 
+    mutate(p_value = round(p_value,4)) %>% 
+    filter(term != "Residuals") %>% 
+    dplyr::select(-df, -sumsq, -meansq, -statistic) 
+}
+fit_hsd_amend <- function(depvar, Amendments) {
+  a <-aov(log(depvar) ~ Amendments)
+  h <-agricolae::HSD.test(a,"Amendments")
+  #create a tibble with one column for each treatment
+  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+  tibble(`control` = h$groups["control",2], 
+         `C` = h$groups["C",2],
+         `N` = h$groups["N",2])
+}
+fit_aov_wetting = function(depvar, Wetting){
+  a3 = aov(log(depvar) ~ Wetting)
+  broom::tidy(a3) %>% 
+    filter(term != "Residuals") %>% 
+    dplyr::select(term, `p.value`) %>% 
+    filter(`p.value` <= 0.05)
+}
+
+#
 # I. van krevelens -----------------------------------------------------------
-## reps --------------------------------------------------------------------
-
-
 do_vk_reps <- function(data_key, meta_hcoc) {
   gg_fticr_reps_1_5_intact <- 
     data_key %>%
@@ -62,9 +84,6 @@ do_vk_reps <- function(data_key, meta_hcoc) {
        gg_fticr_reps_50_homo = gg_fticr_reps_50_homo)
 }
 
-
-## vk pores ----------------------------------------------------------------
-
 do_vk_pores <- function(data_long_trt) {
  # (gg_fticr_pores_1_5kPa <-  
  #   data_long_trt %>%
@@ -107,9 +126,6 @@ do_vk_pores <- function(data_long_trt) {
     gg_fticr_pores_1_5kPa = gg_fticr_pores_1_5kPa,
     gg_fticr_pores_50kPa = gg_fticr_pores_50kPa)
 }
-
-
-## vk unique ----------------------------------------------------------------
 
 do_vk_unique <- function(data_long_trt) {
   ## IId. vk unique ---------------------------------------------------------------
@@ -189,11 +205,7 @@ do_vk_unique <- function(data_long_trt) {
 }
 
 
-
-
 # ---- -------------------------------------------------------------------------
-
-
 #  ## Ia. domains
           #  gg_fticr_domains <- 
           #    data_long_trt %>% 
@@ -222,9 +234,7 @@ do_vk_unique <- function(data_long_trt) {
 # ---- -------------------------------------------------------------------------
 
 # II. peak counts ---------------------------------------------------------
-
-## all peaks -------------------------------------------------------------
-
+# all peaks (bar plot)
 do_gg_peaks_bar <- function(peakcounts_trt) {
     peakcounts_trt %>% 
       ggplot(aes(x = Amendments, y = peaks, fill = class))+
@@ -235,35 +245,75 @@ do_gg_peaks_bar <- function(peakcounts_trt) {
       NULL
 }
 
-do_gg_totalcounts <- function(peakcounts_core) {
-  totalcounts_label = tribble(
-    ~x, ~y, ~Suction, ~Homogenization, ~label,
-    1.87, 2000, 1.5, "Intact", "b",
-    2, 3000, 1.5, "Intact", "a",
-    2.13, 2000, 1.5, "Intact", "ab"
-  )
+# total peak counts (scatter plot)
+do_labels_totalcounts_intact = function(depvar, Moisture, Amendments, Wetting){
+  # 1. p-values for moisture ----
+  moisture_label = 
+    peakcounts_core %>% 
+    group_by(Suction) %>% 
+    do(fit_aov_moisture(.$counts, .$Moisture)) %>% 
+    mutate(x = 1.5,
+           y = 0,
+           label = paste("p =", p_value),
+           label = if_else(p_value == 0, "p < 0.0001", label))
+  
+  # 2. HSD for amendments ----
+  hsd_y = peakcounts_core %>% 
+    filter(class=="total" & Homogenization=="Intact") %>% 
+    group_by(Suction, Moisture, Amendments) %>% 
+    dplyr::summarize(max = max(counts),
+                     y = max(counts) + 200)
+  
+  amend_label = peakcounts_core %>% 
+    group_by(Suction, Moisture) %>% 
+    do(fit_hsd_amend(.$counts, .$Amendments)) %>% 
+    pivot_longer(-c(Suction, Moisture),
+                 names_to = "Amendments",
+                 values_to = "label") %>% 
+    mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
+           am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
+           x = as.numeric(m)+as.numeric(am)) %>% 
+    left_join(hsd_y)
+  
+  # 3. wetting label ----
+  wetting_label = 
+    peakcounts_core %>% 
+    filter(class=="total" & Homogenization=="Intact") %>% 
+    group_by(Suction, Moisture, Amendments) %>% 
+    do(fit_aov_wetting(.$counts, .$Wetting))
+  
+  # 4. combined label ----
+  
+  amend_label %>% rbind(moisture_label)
+}
+do_gg_totalcounts <- function(dat) {
+  
+  totalcounts_label = 
+    peakcounts_core %>% 
+    do_labels_totalcounts_intact(.$counts, .$Moisture, .$Amendments)
   
   peakcounts_core %>% 
     filter(class=="total") %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot()+
-    geom_point(aes(x = Moisture, y = counts, 
-                   fill = Amendments, shape = Wetting, group = Amendments),
-               size=4, stroke=1, position = position_dodge(width = 0.4))+
-    geom_text(data = totalcounts_label, aes(x = x, y = y, label = label), size=4)+
-    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+    ggplot(aes(x = Moisture, y = counts))+
+    geom_boxplot(aes(group = Moisture), 
+                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    geom_text(data = totalcounts_label, aes(x = x, y = y, label = label), size=5)+
+    scale_fill_manual(values = pal3)+
     scale_shape_manual(values = c(21,23))+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
     labs(title = "total peak counts",
-         y = "count")+
+         y = "count",
+         caption = "wetting sig for: 1.5/fm/control,C; 50/fm/C,N; 50/dr/control,N")+
     facet_grid(Homogenization~Suction)+
     theme_kp()+
     NULL
 }
 
 
-## simple:complex ----------------------------------------------------------
-
+# simple:complex peaks (scatter plots)
 do_aliph_plots <- function(aliphatic_aromatic_counts) {
   gg_aliph_aromatic <- 
     aliphatic_aromatic_counts %>% 
@@ -292,9 +342,8 @@ do_aliph_plots <- function(aliphatic_aromatic_counts) {
 }
 
 # ---- -------------------------------------------------------------------------
-
 # III. relative abundance ------------------------------------------------------
-
+# relative abundance (bar plot) 
 do_relabund_barplots <- function(relabund_trt, relabund_cores_complex) {
   gg_fticr_relabund_barplots <-     
     relabund_trt %>%  
@@ -310,41 +359,80 @@ do_relabund_barplots <- function(relabund_trt, relabund_cores_complex) {
   list(gg_fticr_relabund_barplots = gg_fticr_relabund_barplots)
 }
 
-do_relabund_scatterplots <- function(relabund_trt, relabund_cores_complex) {
-  
-  complex_label = tribble(
-    ~x, ~y, ~Suction, ~Homogenization, ~label,
-    0.87, 90, 50, "Intact", "a",
-    1, 85, 50, "Intact", "b",
-    1.13, 85, 50, "Intact", "ab",
-    
-    1.87, 92, 50, "Intact", "a",
-    2, 85, 50, "Intact", "b",
-    2.13, 85, 50, "Intact", "b"
-  )
-  
-  gg_complex_relabund_intact <- 
+# contribution of complex peaks (scatter plot)
+do_labels_complex_intact = function(depvar, Moisture, Amendments, Wetting){
+  # 1. p-values for moisture ----
+  moisture_label = 
     relabund_cores_complex %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot() +
-    geom_point(aes(x = Moisture, y = relabund, fill = Amendments, shape = Wetting, group = Amendments),
-               size = 4, stroke = 1,
-               position = position_dodge(width = 0.4)) + 
-    geom_text(data = complex_label, aes(x = x, y = y, label = label))+
-    
-    scale_fill_manual(values = rev(soilpalettes::soil_palette("rendoll",5)))+
+    group_by(Suction) %>% 
+    do(fit_aov_moisture(.$relabund, .$Moisture)) %>% 
+    mutate(x = 1.5,
+           y = 40,
+           label = paste("p =", p_value),
+           label = if_else(p_value == 0, "p < 0.0001", label))
+  
+  # 2. HSD for amendments ----
+  hsd_y = 
+    relabund_cores_complex %>% 
+    filter(Homogenization=="Intact") %>% 
+    group_by(Suction, Moisture, Amendments) %>% 
+    dplyr::summarize(max = max(relabund),
+                     y = max(relabund) + 10)
+  
+  amend_label = 
+    relabund_cores_complex %>% 
+    filter(Homogenization=="Intact") %>% 
+    group_by(Suction, Moisture) %>% 
+    do(fit_hsd_amend(.$relabund, .$Amendments)) %>% 
+    mutate(skip = control==C & C==N) %>% 
+    filter(!skip) %>% 
+    dplyr::select(-skip) %>% 
+    pivot_longer(-c(Suction, Moisture),
+                 names_to = "Amendments",
+                 values_to = "label") %>% 
+    mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
+           am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
+           x = as.numeric(m)+as.numeric(am)) %>% 
+    left_join(hsd_y)
+  
+  # 3. wetting label ----
+  wetting_label = 
+    relabund_cores_complex %>% 
+    filter(Homogenization=="Intact") %>% 
+    group_by(Suction, Moisture, Amendments) %>% 
+    do(fit_aov_wetting(.$relabund, .$Wetting))
+  
+  # 4. combined label ----
+  
+  amend_label %>% rbind(moisture_label)
+}
+do_gg_complex <- function(dat) {
+  
+  label = 
+    relabund_cores_complex %>% 
+    do_labels_complex_intact(.$relabund, .$Moisture, .$Amendments)
+  
+  relabund_cores_complex %>% 
+    filter(Homogenization=="Intact") %>% 
+    ggplot(aes(x = Moisture, y = relabund))+
+    geom_boxplot(aes(group = Moisture), 
+                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    geom_text(data = label, aes(x = x, y = y, label = label), size=5)+
+    scale_fill_manual(values = pal3)+
     scale_shape_manual(values = c(21,23))+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "% contribution of complex peaks",
-         y = "% contribution")+
-    facet_grid(Homogenization~ Suction)+
+    labs(title = "contribution of complex molecules",
+         y = "% contribution",
+         caption = "wetting sig for: 1.5/fm/C,N; 1.5/dr/N; 50/fm/C; 50/dr/control")+
+    facet_grid(Homogenization~Suction)+
     theme_kp()+
     NULL
-  
-  list(gg_complex_relabund = gg_complex_relabund_intact)
 }
 
-
+#
 # IV. PCA ---------------------------------------------------------------------
 
 
@@ -444,4 +532,5 @@ do_gg_element_plots <- function(fticr_elements) {
   list(gg_elements_n = gg_elements_n,
        gg_elements_o = gg_elements_o)
 }
+
 

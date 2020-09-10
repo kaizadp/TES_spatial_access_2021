@@ -46,22 +46,7 @@ compute_peakcounts_trt <- function(peakcounts_core, fticr_key) {
            Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))  
 }
 
-fit_hsd_totalpeaks <- function(dat) {
-  a <-aov(log(counts) ~ Amendments, data = dat)
-  h <-agricolae::HSD.test(a,"Amendments")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}
-compute_fticr_hsd_totalpeaks <- function(peakcounts_core) {
-  peakcounts_core %>% 
-    filter(class=="total") %>% 
-    mutate(Suction = as.character(Suction)) %>% 
-    group_by(Suction, Homogenization, Moisture) %>% 
-    do(fit_hsd_totalpeaks(.))
-}
+
 
 
 compute_relabund_cores_complex <- function(relabund_cores) {
