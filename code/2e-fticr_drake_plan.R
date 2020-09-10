@@ -103,18 +103,8 @@ fticr_plan <-
       NULL,
     
     ## IId. plots -- total peaks (scatter) ----------------------------------------------------------
-    
-    fticr_hsd_totalpeaks = compute_fticr_hsd_totalpeaks(peakcounts_core),
-    
-    totalcounts_label = tribble(
-      ~x, ~y, ~Suction, ~Homogenization, ~label,
-      1.87, 2000, 1.5, "Intact", "b",
-      2, 3000, 1.5, "Intact", "a",
-      2.13, 2000, 1.5, "Intact", "ab"
-    ),  
-    
-    gg_totalcounts = do_gg_totalcounts(peakcounts_core),
-    
+    gg_totalcounts = 
+      do_gg_totalcounts(peakcounts_core),
     
     ## IIe. plots -- simple:complex (scatter) --------------------------------------------------
     aliph_plots = do_aliph_plots(aliphatic_aromatic_counts),
@@ -160,22 +150,10 @@ fticr_plan <-
     relabund_barplots = do_relabund_barplots(relabund_trt, relabund_cores_complex),
     
     ## IIc. plots -- complex peaks (scatter) ----------------------------------------------------------
-    ## fit hsd
     relabund_cores_complex = compute_relabund_cores_complex(relabund_cores),
-    fticr_hsd_complex = compute_fticr_hsd_complex(relabund_cores_complex),
-      
-    complex_label = tribble(
-      ~x, ~y, ~Suction, ~Homogenization, ~label,
-      0.87, 90, 50, "Intact", "a",
-      1, 85, 50, "Intact", "b",
-      1.13, 85, 50, "Intact", "ab",
-      
-      1.87, 92, 50, "Intact", "a",
-      2, 85, 50, "Intact", "b",
-      2.13, 85, 50, "Intact", "b"
-    ),
+    #fticr_hsd_complex = compute_fticr_hsd_complex(relabund_cores_complex),
     
-    relabund_scatterplots = do_relabund_scatterplots(relabund_trt, relabund_cores_complex),
+    relabund_coresrelabund_scatterplots = do_gg_complex(relabund_cores_complex),
   
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
