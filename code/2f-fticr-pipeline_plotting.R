@@ -3,7 +3,7 @@
 
 # Plots for various pipeline targets
 
-
+options(scipen = 999)
 # 0a. set color palette ----------------------------------------------------
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
@@ -289,7 +289,6 @@ do_labels_totalcounts_intact = function(depvar, peakcounts_core){
   
   amend_label %>% rbind(moisture_label)
 }
-
 do_gg_totalcounts <- function(peakcounts_core) {
   totalcounts_label <- do_labels_totalcounts_intact("counts", peakcounts_core)
   
@@ -313,6 +312,48 @@ do_gg_totalcounts <- function(peakcounts_core) {
     NULL
 }
 
+
+# effect of homogenization
+fit_aov_homo = function(depvar, Homogenization){
+  # boxplot p-values
+  a1 <- aov(log(depvar) ~ Homogenization)
+  label_a1 <- broom::tidy(a1) %>% 
+    filter(term != "Residuals") %>% 
+    mutate(p_value = round(p.value, 4)) %>% 
+    dplyr::select(term, p_value) 
+}
+plot_totalcounts_homo <- function(peakcounts_core) {
+  
+  do_labels_totalcounts_homo = function(depvar, peakcounts_core){
+    peakcounts_core %>%
+      group_by(Suction, Amendments) %>% 
+      do(fit_aov_homo(.[[depvar]], .$Homogenization)) %>% 
+      mutate(x = 1.5,
+             y = -200,
+             label = paste("p =", p_value),
+             label = if_else(p_value == 0, "p < 0.0001", label))
+  }
+  
+  totalcounts_label_homo <- do_labels_totalcounts_homo("counts", peakcounts_core)
+  
+  peakcounts_core %>% 
+    filter(class=="total") %>% 
+    ggplot(aes(x = Homogenization, y = counts))+
+    geom_boxplot(aes(group = Homogenization), 
+                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Moisture, shape = Wetting, group = Moisture),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    geom_text(data = totalcounts_label_homo, aes(x = x, y = y, label = label), size=5)+
+    scale_shape_manual(values = c(21,23))+
+    scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
+    
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "total peak counts",
+         y = "count")+
+    facet_grid(Suction~Amendments)+
+    theme_kp()+
+    NULL
+}
 
 # simple:complex peaks (scatter plots)
 do_aliph_plots <- function(aliphatic_aromatic_counts) {
@@ -426,6 +467,39 @@ do_gg_complex <- function(relabund_cores_complex) {
          y = "% contribution",
          caption = "wetting sig for: 1.5/fm/C,N; 1.5/dr/N; 50/fm/C; 50/dr/control")+
     facet_grid(Homogenization~Suction)+
+    theme_kp()+
+    NULL
+}
+
+# complex peaks, effect of homogenization
+plot_complex_homo <- function(relabund_cores_complex) {
+  
+  do_labels_totalcounts_homo = function(depvar, relabund_cores_complex){
+    relabund_cores_complex %>%
+      group_by(Suction, Amendments) %>% 
+      do(fit_aov_homo(.[[depvar]], .$Homogenization)) %>% 
+      mutate(x = 1.5,
+             y = 40,
+             label = paste("p =", round(p_value,4)),
+             label = if_else(p_value == 0, "p < 0.0001", label))
+  }
+  
+  totalcounts_label_homo <- do_labels_totalcounts_homo("relabund", relabund_cores_complex)
+  
+  relabund_cores_complex %>% 
+    ggplot(aes(x = Homogenization, y = relabund))+
+    geom_boxplot(aes(group = Homogenization), 
+                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Moisture, shape = Wetting, group = Moisture),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    geom_text(data = totalcounts_label_homo, aes(x = x, y = y, label = label), size=5)+
+    scale_shape_manual(values = c(21,23))+
+    scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
+    
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "contribution of complex molecules",
+         y = "% contribution")+
+    facet_grid(Suction~Amendments)+
     theme_kp()+
     NULL
 }

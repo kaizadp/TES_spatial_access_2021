@@ -15,7 +15,6 @@ source("code/2f-fticr-pipeline_compute.R")
 source("code/2f-fticr-pipeline_reading.R")
 
 # Setup (from here from plan)
-theme_set(theme_bw())
 pal <- pnw_palette("Bay", 3)
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
@@ -103,8 +102,8 @@ fticr_plan <-
       NULL,
     
     ## IId. plots -- total peaks (scatter) ----------------------------------------------------------
-    gg_totalcounts = 
-      do_gg_totalcounts(peakcounts_core),
+    gg_totalcounts = do_gg_totalcounts(peakcounts_core),
+    gg_totalcounts_homo = plot_totalcounts_homo(peakcounts_core),
     
     ## IIe. plots -- simple:complex (scatter) --------------------------------------------------
     aliph_plots = do_aliph_plots(aliphatic_aromatic_counts),
@@ -154,7 +153,7 @@ fticr_plan <-
     #fticr_hsd_complex = compute_fticr_hsd_complex(relabund_cores_complex),
     
     gg_relabund_complex = do_gg_complex(relabund_cores_complex),
-    
+    gg_relabund_complex_homo = plot_complex_homo(relabund_cores_complex),
     
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------

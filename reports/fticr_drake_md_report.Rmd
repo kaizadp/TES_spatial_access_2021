@@ -145,6 +145,9 @@ total peaks
 readd(gg_totalcounts)
 ```
 
+```{r fticr_totalpeaks_scatter_homo, fig.height=6, fig.width=8}
+readd(gg_totalcounts_homo)
+```
 
 complex:simple compounds
 
@@ -202,6 +205,11 @@ relative abundance of complex peaks
 
 readd(gg_relabund_complex)
 ```
+
+```{r fticr_relabund_complex_homo, fig.height=6, fig.width=8}
+readd(gg_relabund_complex_homo)
+```
+
 
 
 ### STATS 
