@@ -13,6 +13,8 @@ source("code/0-packages.R")
 # load files --------------------------------------------------------------
 corekey = read.csv("data/processed/corekey.csv")
 fluxes_input = read.csv("data/GHG_Flux_exclOutliers.csv")
+coreweights = read.csv("data/core_weights.csv") %>% 
+  dplyr::select(CORE, Homogenization, dry_wt_fine_g)
 
 ## clean the flux data
 
@@ -38,12 +40,11 @@ flux_summary =
   group_by(ID, CORE, Homogenization) %>% 
   summarise(mean_CO2_nmol_g_s = mean(CO2_umol_g_s*1000),
             cum_CO2C_mg = max(CO2C_cum_mg)) %>% 
+  ungroup() %>% 
+  left_join(coreweights, by = c("CORE", "Homogenization")) %>% 
+  mutate(cum_CO2C_mg_g = round(cum_CO2C_mg/dry_wt_fine_g,2)) %>% 
+  dplyr::select(CORE, Homogenization, mean_CO2_nmol_g_s, cum_CO2C_mg_g) %>% 
   left_join(corekey, by = c("CORE"="Core"))
-
-#
-# cumulative evolution ----------------------------------------------------
-
-
 
 
 #
