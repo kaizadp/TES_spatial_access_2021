@@ -393,7 +393,7 @@ fticr_plan <-
       filter(Homogenization=="Intact") %>% 
       left_join(meta_on, by = "formula"),
     
-    gg_element_plots <- do_gg_element_plots(fticr_elements),
+    gg_element_plots = do_gg_element_plots(fticr_elements),
     
     # ----- ---------------------------------------------------------------------
     # report ------------------------------------------------------------------
@@ -411,7 +411,7 @@ fticr_plan <-
   )
 
 # make plan ---------------------------------------------------------------
-make(fticr_plan, lock_cache = F)
+make(fticr_plan)
 
 
 

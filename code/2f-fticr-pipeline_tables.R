@@ -2,7 +2,7 @@
 
 do_peakcount_tables <- function(peakcounts_core, fticr_key) {
   # 1. total counts ----
-  peakcounts_table_total =
+  peakcounts_table_total <-
     peakcounts_core %>% 
     filter(class=="total") %>% 
     group_by(SampleAssignment, class) %>% 
@@ -28,7 +28,7 @@ do_peakcount_tables <- function(peakcounts_core, fticr_key) {
     peakcounts_core %>% 
     filter(class %in% c("unsaturated/lignin", "aromatic", "condensed_arom")) %>%
     group_by(Core, SampleAssignment) %>% 
-    summarise(peaks=sum(counts))  %>% 
+    dplyr::summarise(peaks=sum(counts))  %>% 
     group_by(SampleAssignment) %>% 
     dplyr::summarize(peaks_mean = as.integer(mean(peaks)),
                      peaks_se = as.integer(sd(peaks)/sqrt(n())),

@@ -10,12 +10,11 @@ pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 # 0b. fit models for scatterplots ------------------------------------------
 fit_aov_moisture = function(depvar, Moisture){
   # boxplot p-values
-  a1 = aov(log(depvar) ~ Moisture)
-  label_a1 = broom::tidy(a1) %>% 
-    rename(p_value = `p.value`) %>% 
-    mutate(p_value = round(p_value,4)) %>% 
+  a1 <- aov(log(depvar) ~ Moisture)
+  label_a1 <- broom::tidy(a1) %>% 
     filter(term != "Residuals") %>% 
-    dplyr::select(-df, -sumsq, -meansq, -statistic) 
+    mutate(p_value = round(p.value, 4)) %>% 
+    dplyr::select(term, p_value) 
 }
 fit_hsd_amend <- function(depvar, Amendments) {
   a <-aov(log(depvar) ~ Amendments)
@@ -250,25 +249,25 @@ do_gg_peaks_bar <- function(peakcounts_trt) {
 }
 
 # total peak counts (scatter plot)
-do_labels_totalcounts_intact = function(depvar, Moisture, Amendments, Wetting){
+do_labels_totalcounts_intact = function(depvar, peakcounts_core){
   # 1. p-values for moisture ----
-  moisture_label = 
+  moisture_label <- 
     peakcounts_core %>% 
     group_by(Suction) %>% 
-    do(fit_aov_moisture(.$counts, .$Moisture)) %>% 
+    do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
     mutate(x = 1.5,
            y = 0,
            label = paste("p =", p_value),
            label = if_else(p_value == 0, "p < 0.0001", label))
   
   # 2. HSD for amendments ----
-  hsd_y = peakcounts_core %>% 
+  hsd_y <- peakcounts_core %>% 
     filter(class=="total" & Homogenization=="Intact") %>% 
     group_by(Suction, Moisture, Amendments) %>% 
     dplyr::summarize(max = max(counts),
                      y = max(counts) + 200)
   
-  amend_label = peakcounts_core %>% 
+  amend_label <- peakcounts_core %>% 
     group_by(Suction, Moisture) %>% 
     do(fit_hsd_amend(.$counts, .$Amendments)) %>% 
     pivot_longer(-c(Suction, Moisture),
@@ -280,7 +279,7 @@ do_labels_totalcounts_intact = function(depvar, Moisture, Amendments, Wetting){
     left_join(hsd_y)
   
   # 3. wetting label ----
-  wetting_label = 
+  wetting_label <- 
     peakcounts_core %>% 
     filter(class=="total" & Homogenization=="Intact") %>% 
     group_by(Suction, Moisture, Amendments) %>% 
@@ -290,11 +289,9 @@ do_labels_totalcounts_intact = function(depvar, Moisture, Amendments, Wetting){
   
   amend_label %>% rbind(moisture_label)
 }
+
 do_gg_totalcounts <- function(peakcounts_core) {
-  
-  totalcounts_label = 
-    peakcounts_core %>% 
-    do_labels_totalcounts_intact(.$counts, .$Moisture, .$Amendments)
+  totalcounts_label <- do_labels_totalcounts_intact("counts", peakcounts_core)
   
   peakcounts_core %>% 
     filter(class=="total") %>% 
@@ -364,13 +361,13 @@ do_relabund_barplots <- function(relabund_trt, relabund_cores_complex) {
 }
 
 # contribution of complex peaks (scatter plot)
-do_labels_complex_intact = function(depvar, Moisture, Amendments, Wetting){
+do_labels_complex_intact = function(depvar, relabund_cores_complex){
   # 1. p-values for moisture ----
-  moisture_label = 
+  moisture_label <- 
     relabund_cores_complex %>% 
     filter(Homogenization=="Intact") %>% 
     group_by(Suction) %>% 
-    do(fit_aov_moisture(.$relabund, .$Moisture)) %>% 
+    do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
     mutate(x = 1.5,
            y = 40,
            label = paste("p =", p_value),
@@ -412,10 +409,7 @@ do_labels_complex_intact = function(depvar, Moisture, Amendments, Wetting){
   amend_label %>% rbind(moisture_label)
 }
 do_gg_complex <- function(relabund_cores_complex) {
-  
-  label = 
-    relabund_cores_complex %>% 
-    do_labels_complex_intact(.$relabund, .$Moisture, .$Amendments)
+  label <- do_labels_complex_intact("relabund", relabund_cores_complex)
   
   relabund_cores_complex %>% 
     filter(Homogenization=="Intact") %>% 

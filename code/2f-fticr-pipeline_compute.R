@@ -36,9 +36,9 @@ compute_peakcounts_core <- function(peaks_distinct_core, meta_classes, fticr_key
 
 compute_peakcounts_trt <- function(peakcounts_core, fticr_key) {
   peakcounts_core %>% 
-    group_by(SampleAssignment, class) %>% 
     filter(class != "total") %>% 
-    summarize(peaks = as.integer(mean(counts))) %>% 
+    group_by(SampleAssignment, class) %>% 
+    dplyr::summarize(peaks = as.integer(mean(counts))) %>% 
     ungroup() %>% 
     left_join(fticr_key, by = "SampleAssignment") %>% 
     mutate(Amendments = factor(Amendments, 
