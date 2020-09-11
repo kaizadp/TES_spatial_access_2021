@@ -1,6 +1,5 @@
 ---
 title: "flux_drake_plan"
-output: html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -89,7 +88,7 @@ readd(gg_flux_cum_intact_boxplot)
 readd(gg_cumflux_homo)
 ```
 
-```{r cum_flux_ggplot, fig.width=10, fig.height=6}
+```{r cum_flux_ggplot, fig.width=10, fig.height=6, eval=F}
 readd(gg_flux_cum)
 ```
 
@@ -111,11 +110,11 @@ readd(gg_flux_ts_core_homo)
 
 
 ## summary table 
-
+cumulative CO2-C, mgC/g soil
 ```{r summarytable}
 readd(flux_summarytable) %>% 
   dplyr::select(-Assignment) %>% 
-  spread(Amendments, cum_CO2C_mg) %>% 
+  spread(Amendments, cum_CO2C_mg_g) %>% 
   knitr::kable(align = "c")
 ```
 
@@ -152,7 +151,7 @@ flux_boxplotlabel = tribble(
 
 flux_summary %>% 
   filter(Homogenization=="Intact") %>% 
-  ggplot(aes(x = Wetting, y = cum_CO2C_mg))+
+  ggplot(aes(x = Wetting, y = cum_CO2C_mg_g))+
   geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.3)+
   geom_point(size=4, stroke=1, position = position_dodge(width = 0.5), 
              aes(fill = Amendments, shape = Amendments))+ 

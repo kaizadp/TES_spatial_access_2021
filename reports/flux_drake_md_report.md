@@ -24,16 +24,16 @@ intact cores
 
     #> Anova Table (Type III tests)
     #> 
-    #> Response: log(cum_CO2C_mg)
-    #>                     Sum Sq Df  F value    Pr(>F)    
-    #> (Intercept)         79.287  1 241.6145 < 2.2e-16 ***
-    #> Moisture             3.510  1  10.6970  0.002369 ** 
-    #> Amendments           4.212  2   6.4184  0.004131 ** 
-    #> Wetting              0.119  1   0.3618  0.551283    
-    #> Moisture:Amendments  3.729  2   5.6818  0.007169 ** 
-    #> Moisture:Wetting     0.005  1   0.0152  0.902494    
-    #> Amendments:Wetting   1.895  2   2.8874  0.068706 .  
-    #> Residuals           11.814 36                       
+    #> Response: log(cum_CO2C_mg_g)
+    #>                      Sum Sq Df F value  Pr(>F)  
+    #> (Intercept)          2.4064  1  6.0051 0.01926 *
+    #> Moisture             2.5334  1  6.3219 0.01653 *
+    #> Amendments           3.0693  2  3.8297 0.03105 *
+    #> Wetting              0.1035  1  0.2583 0.61439  
+    #> Moisture:Amendments  2.8120  2  3.5086 0.04054 *
+    #> Moisture:Wetting     0.0073  1  0.0182 0.89347  
+    #> Amendments:Wetting   1.9118  2  2.3854 0.10645  
+    #> Residuals           14.4263 36                  
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -41,16 +41,16 @@ homogenized cores
 
     #> Anova Table (Type III tests)
     #> 
-    #> Response: log(cum_CO2C_mg)
-    #>                      Sum Sq Df  F value    Pr(>F)    
-    #> (Intercept)         109.678  1 158.7171 9.264e-15 ***
-    #> Moisture              0.140  1   0.2022  0.655667    
-    #> Amendments            1.197  2   0.8662  0.429114    
-    #> Wetting               0.598  1   0.8655  0.358398    
-    #> Moisture:Amendments   4.970  2   3.5958  0.037692 *  
-    #> Moisture:Wetting      2.431  1   3.5182  0.068825 .  
-    #> Amendments:Wetting    7.521  2   5.4416  0.008613 ** 
-    #> Residuals            24.877 36                       
+    #> Response: log(cum_CO2C_mg_g)
+    #>                      Sum Sq Df F value  Pr(>F)  
+    #> (Intercept)          0.0057  1  0.0072 0.93275  
+    #> Moisture             0.0148  1  0.0188 0.89173  
+    #> Amendments           1.9157  2  1.2163 0.30821  
+    #> Wetting              0.5761  1  0.7316 0.39804  
+    #> Moisture:Amendments  4.1127  2  2.6112 0.08730 .
+    #> Moisture:Wetting     2.8734  1  3.6488 0.06410 .
+    #> Amendments:Wetting   7.7421  2  4.9156 0.01296 *
+    #> Residuals           28.3500 36                  
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
@@ -99,8 +99,6 @@ For intact cores,
 
 ![](markdown-figs/flux/cum_flux_homo-1.png)<!-- -->
 
-    #> [1] NA
-
     #> $gg_flux_ts
 
 ![](markdown-figs/flux/meanflux_ts-1.png)<!-- -->
@@ -116,16 +114,18 @@ For intact cores,
 
 ## summary table
 
-| Homogenization | Moisture | Wetting |    control     |        C        |       N        |
-| :------------: | :------: | :-----: | :------------: | :-------------: | :------------: |
-|     Intact     |    fm    | precip  |   52 ± 20.16   | 270.95 ± 103.11 | 244.8 ± 85.34  |
-|     Intact     |    fm    | groundw | 100.22 ± 4.12  | 199.62 ± 57.58  |  85.92 ± 6.79  |
-|     Intact     | drought  | precip  | 245.11 ± 17.38 | 125.07 ± 36.68  | 186.55 ± 49.75 |
-|     Intact     | drought  | groundw | 161.18 ± 34.49 | 227.34 ± 32.09  | 119.25 ± 18.59 |
-|  Homogenized   |    fm    | precip  | 108.62 ± 28.23 |  96.28 ± 34.16  | 99.67 ± 22.65  |
-|  Homogenized   |    fm    | groundw | 118.74 ± 45.04 | 261.79 ± 51.91  | 107.47 ± 33.66 |
-|  Homogenized   | drought  | precip  | 208.65 ± 41.69 |  35.29 ± 23.78  | 50.76 ± 19.67  |
-|  Homogenized   | drought  | groundw | 201.98 ± 51.46 | 217.43 ± 60.18  | 177.38 ± 46.22 |
+cumulative CO2-C, mgC/g soil
+
+| Homogenization | Moisture | Wetting |   control   |      C      |      N      |
+| :------------: | :------: | :-----: | :---------: | :---------: | :---------: |
+|     Intact     |    fm    | precip  | 0.43 ± 0.17 | 1.82 ± 0.7  |  2.16 ± 1   |
+|     Intact     |    fm    | groundw | 0.87 ± 0.14 | 1.38 ± 0.41 | 0.6 ± 0.05  |
+|     Intact     | drought  | precip  | 1.79 ± 0.17 | 0.91 ± 0.29 | 1.29 ± 0.43 |
+|     Intact     | drought  | groundw | 1.19 ± 0.22 | 1.75 ± 0.33 | 0.98 ± 0.28 |
+|  Homogenized   |    fm    | precip  | 0.88 ± 0.21 | 0.65 ± 0.23 | 0.87 ± 0.35 |
+|  Homogenized   |    fm    | groundw | 1.02 ± 0.37 |  2 ± 0.42   | 0.74 ± 0.22 |
+|  Homogenized   | drought  | precip  | 1.53 ± 0.31 | 0.27 ± 0.19 | 0.36 ± 0.16 |
+|  Homogenized   | drought  | groundw | 1.71 ± 0.54 | 1.77 ± 0.56 | 1.56 ± 0.62 |
 
 -----
 
@@ -135,7 +135,7 @@ For intact cores,
 
 <summary>click to expand</summary>
 
-Date run: 2020-09-09
+Date run: 2020-09-11
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -158,38 +158,30 @@ Date run: 2020-09-09
     #> [13] ggplot2_3.3.2   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
-    #>  [4] rio_0.5.16         fs_1.5.0           rstudioapi_0.11   
-    #>  [7] farver_2.0.3       soilpalettes_0.1.0 fansi_0.4.1       
-    #> [10] lubridate_1.7.9    xml2_1.3.2         splines_4.0.2     
-    #> [13] knitr_1.29         jsonlite_1.7.0     nloptr_1.2.2.2    
-    #> [16] packrat_0.5.0      broom_0.7.0        cluster_2.1.0     
-    #> [19] dbplyr_1.4.4       shiny_1.5.0        compiler_4.0.2    
-    #> [22] httr_1.4.2         backports_1.1.8    assertthat_0.2.1  
-    #> [25] fastmap_1.0.1      cli_2.0.2          later_1.1.0.1     
-    #> [28] htmltools_0.5.0    prettyunits_1.1.1  tools_4.0.2       
-    #> [31] igraph_1.2.5       gtable_0.3.0       agricolae_1.3-3   
-    #> [34] glue_1.4.1         Rcpp_1.0.5         carData_3.0-4     
-    #> [37] cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
-    #> [40] xfun_0.16          openxlsx_4.1.5     rvest_0.3.6       
-    #> [43] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   
-    #> [46] statmod_1.4.34     MASS_7.3-51.6      scales_1.1.1      
-    #> [49] hms_0.5.3          promises_1.1.1     parallel_4.0.2    
-    #> [52] yaml_2.2.1         curl_4.3           labelled_2.5.0    
-    #> [55] stringi_1.4.6      highr_0.8          klaR_0.6-15       
-    #> [58] AlgDesign_1.2.0    filelock_1.0.2     boot_1.3-25       
-    #> [61] zip_2.1.0          storr_1.2.1        rlang_0.4.7       
-    #> [64] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41   
-    #> [67] labeling_0.3       tidyselect_1.1.0   plyr_1.8.6        
-    #> [70] magrittr_1.5       R6_2.4.1           generics_0.0.2    
-    #> [73] base64url_1.4      combinat_0.0-8     txtq_0.2.3        
-    #> [76] DBI_1.1.0          mgcv_1.8-31        pillar_1.4.6      
-    #> [79] haven_2.3.1        foreign_0.8-80     withr_2.2.0       
-    #> [82] abind_1.4-5        modelr_0.1.8       crayon_1.3.4      
-    #> [85] car_3.0-9          questionr_0.7.1    rmarkdown_2.3     
-    #> [88] progress_1.2.2     grid_4.0.2         readxl_1.3.1      
-    #> [91] data.table_1.13.0  blob_1.2.1         reprex_0.3.0      
-    #> [94] digest_0.6.25      xtable_1.8-4       httpuv_1.5.4      
-    #> [97] munsell_0.5.0
+    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1     rio_0.5.16        
+    #>  [5] rsconnect_0.8.16   fs_1.5.0           rstudioapi_0.11    farver_2.0.3      
+    #>  [9] soilpalettes_0.1.0 fansi_0.4.1        lubridate_1.7.9    xml2_1.3.2        
+    #> [13] splines_4.0.2      knitr_1.29         jsonlite_1.7.0     nloptr_1.2.2.2    
+    #> [17] packrat_0.5.0      broom_0.7.0        cluster_2.1.0      dbplyr_1.4.4      
+    #> [21] shiny_1.5.0        compiler_4.0.2     httr_1.4.2         backports_1.1.8   
+    #> [25] assertthat_0.2.1   fastmap_1.0.1      cli_2.0.2          later_1.1.0.1     
+    #> [29] htmltools_0.5.0    prettyunits_1.1.1  tools_4.0.2        igraph_1.2.5      
+    #> [33] gtable_0.3.0       agricolae_1.3-3    glue_1.4.1         Rcpp_1.0.5        
+    #> [37] carData_3.0-4      cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
+    #> [41] xfun_0.16          openxlsx_4.1.5     rvest_0.3.6        mime_0.9          
+    #> [45] miniUI_0.1.1.1     lifecycle_0.2.0    statmod_1.4.34     MASS_7.3-51.6     
+    #> [49] scales_1.1.1       hms_0.5.3          promises_1.1.1     parallel_4.0.2    
+    #> [53] yaml_2.2.1         curl_4.3           labelled_2.5.0     stringi_1.4.6     
+    #> [57] highr_0.8          klaR_0.6-15        AlgDesign_1.2.0    filelock_1.0.2    
+    #> [61] boot_1.3-25        zip_2.1.0          storr_1.2.1        rlang_0.4.7       
+    #> [65] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41    labeling_0.3      
+    #> [69] tidyselect_1.1.0   plyr_1.8.6         magrittr_1.5       R6_2.4.1          
+    #> [73] generics_0.0.2     base64url_1.4      combinat_0.0-8     txtq_0.2.3        
+    #> [77] DBI_1.1.0          pillar_1.4.6       haven_2.3.1        foreign_0.8-80    
+    #> [81] withr_2.2.0        mgcv_1.8-31        abind_1.4-5        modelr_0.1.8      
+    #> [85] crayon_1.3.4       car_3.0-9          questionr_0.7.1    rmarkdown_2.3     
+    #> [89] progress_1.2.2     grid_4.0.2         readxl_1.3.1       data.table_1.13.0 
+    #> [93] blob_1.2.1         reprex_0.3.0       digest_0.6.25      xtable_1.8-4      
+    #> [97] httpuv_1.5.4       munsell_0.5.0
 
 </details>

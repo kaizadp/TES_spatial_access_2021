@@ -2,8 +2,6 @@ source(("code/0-packages.R"))
 library(drake)
 library(lme4)
 
-
-
 source("code/3e-fluxes-functions.R")
 
 respiration_plan = 
@@ -56,13 +54,13 @@ respiration_plan =
     
     ## intact and homogenized ----
     aov_flux_intact = 
-      car::Anova(lm(log(cum_CO2C_mg) ~ 
+      car::Anova(lm(log(cum_CO2C_mg_g) ~ 
                       (Moisture + Amendments + Wetting)^2,
                     data = flux_summary %>% filter(Homogenization=="Intact")), 
                  type="III"),
     
     aov_flux_homo = 
-      car::Anova(lm(log(cum_CO2C_mg) ~ 
+      car::Anova(lm(log(cum_CO2C_mg_g) ~ 
                       (Moisture + Amendments + Wetting)^2,
                     data = flux_summary %>% filter(Homogenization=="Homogenized")), 
                  type="III"),
@@ -72,18 +70,18 @@ respiration_plan =
       flux_summary %>% 
       # filter(Homogenization=="Intact") %>% 
       group_by(Amendments, Homogenization) %>% 
-      dplyr::summarize(cum_CO2C_mg = mean(cum_CO2C_mg, na.rm = TRUE)) %>% 
-      ggplot(aes(x = Amendments, y = cum_CO2C_mg, color = Homogenization))+
+      dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
+      ggplot(aes(x = Amendments, y = cum_CO2C_mg_g, color = Homogenization))+
       geom_point()+geom_path(aes(group = Homogenization))+
       NULL,
     
     aov_homo_c =     
-      car::Anova(lmer(log(cum_CO2C_mg) ~ Homogenization + (1|CORE), 
+      car::Anova(lmer(log(cum_CO2C_mg_g) ~ Homogenization + (1|CORE), 
                       data = flux_summary %>% filter(Amendments == "C")), 
                  type = "III"),
     
     aov_homo_n =     
-      car::Anova(lmer(log(cum_CO2C_mg) ~ Homogenization + (1|CORE), 
+      car::Anova(lmer(log(cum_CO2C_mg_g) ~ Homogenization + (1|CORE), 
                       data = flux_summary %>% filter(Amendments == "N")), 
                  type = "III"),
     
@@ -102,5 +100,4 @@ respiration_plan =
 
 
 # make plan ---------------------------------------------------------------
-
 make(respiration_plan, lock_cache = F)
