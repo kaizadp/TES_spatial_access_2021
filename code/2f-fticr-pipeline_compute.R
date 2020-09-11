@@ -46,9 +46,6 @@ compute_peakcounts_trt <- function(peakcounts_core, fticr_key) {
            Homogenization = factor(Homogenization, levels = c("Intact", "Homogenized")))  
 }
 
-
-
-
 compute_relabund_cores_complex <- function(relabund_cores) {
   relabund_cores %>% 
     filter(!class=="aliphatic") %>% 
@@ -57,18 +54,3 @@ compute_relabund_cores_complex <- function(relabund_cores) {
     ungroup()
 }
 
-fit_hsd_complex <- function(dat) {
-  a <-aov(log(relabund) ~ Amendments, data = dat)
-  h <-agricolae::HSD.test(a,"Amendments")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}
-compute_fticr_hsd_complex <- function(relabund_cores_complex) {
-  relabund_cores_complex %>% 
-    mutate(Suction = as.character(Suction)) %>% 
-    group_by(Suction, Homogenization, Moisture) %>% 
-    do(fit_hsd_complex(.))
-}
