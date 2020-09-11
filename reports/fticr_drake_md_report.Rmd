@@ -200,7 +200,7 @@ relative abundance of complex peaks
 ```{r fticr_relabund_complex, fig.height=5, fig.width=8}
 # readd(gg_complex_relabund)
 
-readd(relabund_scatterplots)
+readd(gg_relabund_complex)
 ```
 
 

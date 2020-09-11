@@ -216,7 +216,7 @@ tables – complex peaks
 
 relative abundance of complex peaks
 
-    #> [1] NA
+![](markdown-figs/fticr2/fticr_relabund_complex-1.png)<!-- -->
 
 ### STATS
 
@@ -495,65 +495,60 @@ relative abundance of complex peaks
 
 Date run: 2020-09-11
 
-    #> R version 3.6.1 (2019-07-05)
-    #> Platform: x86_64-apple-darwin15.6.0 (64-bit)
-    #> Running under: macOS Mojave 10.14.6
+    #> R version 4.0.2 (2020-06-22)
+    #> Platform: x86_64-apple-darwin17.0 (64-bit)
+    #> Running under: macOS Catalina 10.15.6
     #> 
     #> Matrix products: default
     #> BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
-    #> LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+    #> LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
     #> 
     #> locale:
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
     #> 
     #> attached base packages:
-    #> [1] grid      stats     graphics  grDevices utils     datasets  methods  
-    #> [8] base     
+    #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] tidyselect_1.1.0 patchwork_1.0.1  lme4_1.1-21      Matrix_1.2-17   
-    #>  [5] car_3.0-3        carData_3.0-2    visNetwork_2.0.9 vegan_2.5-6     
-    #>  [9] lattice_0.20-38  permute_0.9-5    rmarkdown_2.2    drake_7.7.0     
-    #> [13] ggbiplot_0.55    scales_1.0.0     plyr_1.8.4       PNWColors_0.1.0 
-    #> [17] forcats_0.4.0    stringr_1.4.0    dplyr_1.0.2      purrr_0.3.3     
-    #> [21] readr_1.3.1      tidyr_1.0.0      tibble_2.1.3     ggplot2_3.2.1   
-    #> [25] tidyverse_1.3.0  here_0.1        
+    #>  [1] patchwork_1.0.1  lme4_1.1-23      Matrix_1.2-18    car_3.0-9       
+    #>  [5] carData_3.0-4    visNetwork_2.0.9 vegan_2.5-6      lattice_0.20-41 
+    #>  [9] permute_0.9-5    rmarkdown_2.3    drake_7.12.4     ggbiplot_0.55   
+    #> [13] PNWColors_0.1.0  forcats_0.5.0    stringr_1.4.0    dplyr_1.0.1     
+    #> [17] purrr_0.3.4      readr_1.3.1      tidyr_1.1.1      tibble_3.0.3    
+    #> [21] ggplot2_3.3.2    tidyverse_1.3.0  here_0.1        
     #> 
     #> loaded via a namespace (and not attached):
-    #>   [1] minqa_1.2.4        colorspace_1.4-1   deldir_0.1-23     
-    #>   [4] ellipsis_0.3.0     rio_0.5.16         class_7.3-15      
-    #>   [7] rprojroot_1.3-2    fs_1.3.1           rstudioapi_0.11   
-    #>  [10] soilpalettes_0.1.0 fansi_0.4.0        lubridate_1.7.4   
-    #>  [13] xml2_1.2.2         splines_3.6.1      knitr_1.25        
-    #>  [16] jsonlite_1.6       nloptr_1.2.1       packrat_0.5.0     
-    #>  [19] broom_0.5.2        cluster_2.1.0      dbplyr_1.4.2      
-    #>  [22] shiny_1.4.0.2      compiler_3.6.1     httr_1.4.1        
-    #>  [25] backports_1.1.5    assertthat_0.2.1   fastmap_1.0.1     
-    #>  [28] lazyeval_0.2.2     cli_1.1.0          later_1.0.0       
-    #>  [31] htmltools_0.4.0    tools_3.6.1        igraph_1.2.4.1    
-    #>  [34] coda_0.19-3        gtable_0.3.0       agricolae_1.3-1   
-    #>  [37] glue_1.4.1         reshape2_1.4.3     gmodels_2.18.1    
-    #>  [40] Rcpp_1.0.3         cellranger_1.1.0   vctrs_0.3.2       
-    #>  [43] spdep_1.1-3        gdata_2.18.0       nlme_3.1-140      
-    #>  [46] xfun_0.10          openxlsx_4.1.0.1   rvest_0.3.5       
-    #>  [49] mime_0.7           miniUI_0.1.1.1     lifecycle_0.2.0   
-    #>  [52] gtools_3.8.1       LearnBayes_2.15.1  MASS_7.3-51.4     
-    #>  [55] hms_0.5.3          promises_1.1.0     parallel_3.6.1    
-    #>  [58] expm_0.999-4       yaml_2.2.0         curl_4.2          
-    #>  [61] stringi_1.4.3      highr_0.8          klaR_0.6-14       
-    #>  [64] AlgDesign_1.1-7.3  e1071_1.7-2        filelock_1.0.2    
-    #>  [67] zip_2.0.4          boot_1.3-22        spData_0.3.2      
-    #>  [70] storr_1.2.1        rlang_0.4.7        pkgconfig_2.0.3   
-    #>  [73] evaluate_0.14      sf_0.8-0           labeling_0.3      
-    #>  [76] htmlwidgets_1.5.1  magrittr_1.5       R6_2.4.1          
-    #>  [79] generics_0.0.2     base64url_1.4      combinat_0.0-8    
-    #>  [82] txtq_0.2.0         DBI_1.1.0          foreign_0.8-71    
-    #>  [85] pillar_1.4.2       haven_2.2.0        withr_2.1.2       
-    #>  [88] mgcv_1.8-28        units_0.6-5        abind_1.4-5       
-    #>  [91] sp_1.3-1           modelr_0.1.5       crayon_1.3.4      
-    #>  [94] questionr_0.7.0    utf8_1.1.4         KernSmooth_2.23-15
-    #>  [97] readxl_1.3.1       data.table_1.12.6  reprex_0.3.0      
-    #> [100] digest_0.6.23      classInt_0.4-2     xtable_1.8-4      
-    #> [103] httpuv_1.5.2       munsell_0.5.0
+    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
+    #>  [4] rio_0.5.16         rprojroot_1.3-2    fs_1.5.0          
+    #>  [7] rstudioapi_0.11    farver_2.0.3       soilpalettes_0.1.0
+    #> [10] fansi_0.4.1        lubridate_1.7.9    xml2_1.3.2        
+    #> [13] splines_4.0.2      knitr_1.29         jsonlite_1.7.0    
+    #> [16] nloptr_1.2.2.2     packrat_0.5.0      broom_0.7.0       
+    #> [19] cluster_2.1.0      dbplyr_1.4.4       shiny_1.5.0       
+    #> [22] compiler_4.0.2     httr_1.4.2         backports_1.1.8   
+    #> [25] assertthat_0.2.1   fastmap_1.0.1      cli_2.0.2         
+    #> [28] later_1.1.0.1      htmltools_0.5.0    prettyunits_1.1.1 
+    #> [31] tools_4.0.2        igraph_1.2.5       gtable_0.3.0      
+    #> [34] agricolae_1.3-3    glue_1.4.1         tinytex_0.25      
+    #> [37] Rcpp_1.0.5         cellranger_1.1.0   vctrs_0.3.2       
+    #> [40] nlme_3.1-148       xfun_0.16          openxlsx_4.1.5    
+    #> [43] rvest_0.3.6        mime_0.9           miniUI_0.1.1.1    
+    #> [46] lifecycle_0.2.0    statmod_1.4.34     MASS_7.3-51.6     
+    #> [49] scales_1.1.1       hms_0.5.3          promises_1.1.1    
+    #> [52] parallel_4.0.2     yaml_2.2.1         curl_4.3          
+    #> [55] labelled_2.5.0     stringi_1.4.6      highr_0.8         
+    #> [58] klaR_0.6-15        AlgDesign_1.2.0    filelock_1.0.2    
+    #> [61] boot_1.3-25        zip_2.1.0          storr_1.2.1       
+    #> [64] rlang_0.4.7        pkgconfig_2.0.3    evaluate_0.14     
+    #> [67] labeling_0.3       htmlwidgets_1.5.1  tidyselect_1.1.0  
+    #> [70] plyr_1.8.6         magrittr_1.5       R6_2.4.1          
+    #> [73] generics_0.0.2     base64url_1.4      combinat_0.0-8    
+    #> [76] txtq_0.2.3         DBI_1.1.0          pillar_1.4.6      
+    #> [79] haven_2.3.1        foreign_0.8-80     withr_2.2.0       
+    #> [82] mgcv_1.8-31        abind_1.4-5        modelr_0.1.8      
+    #> [85] crayon_1.3.4       questionr_0.7.1    progress_1.2.2    
+    #> [88] grid_4.0.2         readxl_1.3.1       data.table_1.13.0 
+    #> [91] blob_1.2.1         reprex_0.3.0       digest_0.6.25     
+    #> [94] xtable_1.8-4       httpuv_1.5.4       munsell_0.5.0
 
 </details>

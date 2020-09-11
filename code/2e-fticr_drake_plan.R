@@ -17,7 +17,7 @@ source("code/2f-fticr-pipeline_reading.R")
 # Setup (from here from plan)
 theme_set(theme_bw())
 pal <- pnw_palette("Bay", 3)
-
+pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
 # BBL: Why are you getting cache this way? Should not be necessary
 #fticr_cache <- drake_cache(path = "reports/cache/fticr")
@@ -58,7 +58,7 @@ fticr_plan <-
                Homogenization=="Intact") %>% 
       gg_vankrev(aes(x = OC, y = HC, color = as.character(Suction)))+
       stat_ellipse()+
-      scale_color_manual(values = PNWColors::pnw_palette("Bay",3))+
+      scale_color_manual(values = pal3)+
       labs(title = "baseline (fm, groundw, non-amended)")+
       theme_kp()+
       NULL,
@@ -153,8 +153,9 @@ fticr_plan <-
     relabund_cores_complex = compute_relabund_cores_complex(relabund_cores),
     #fticr_hsd_complex = compute_fticr_hsd_complex(relabund_cores_complex),
     
-    relabund_coresrelabund_scatterplots = do_gg_complex(relabund_cores_complex),
-  
+    gg_relabund_complex = do_gg_complex(relabund_cores_complex),
+    
+    
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
@@ -263,7 +264,7 @@ fticr_plan <-
                      shape = interaction(as.factor(relabund_pca_grp_50_intact$Moisture),
                                          as.factor(relabund_pca_grp_50_intact$Wetting))))+
       scale_shape_manual(values = c(1, 2, 19, 17))+
-      scale_color_manual(values = pal)+
+      scale_color_manual(values = pal3)+
       labs(shape="",
            title = "50 kPa INTACT")+
       NULL,
@@ -293,7 +294,7 @@ fticr_plan <-
                      shape = interaction(as.factor(relabund_pca_grp_1_intact$Moisture),
                                          as.factor(relabund_pca_grp_1_intact$Wetting))))+
       scale_shape_manual(values = c(1, 2, 19, 17))+
-      scale_color_manual(values = pal)+
+      scale_color_manual(values = pal3)+
       labs(shape="",
            title = "1.5 kPa INTACT")+
       NULL,
@@ -322,7 +323,7 @@ fticr_plan <-
                      shape = interaction(as.factor(relabund_pca_grp_50_Homogenized$Moisture),
                                          as.factor(relabund_pca_grp_50_Homogenized$Wetting))))+
       scale_shape_manual(values = c(1, 2, 19, 17))+
-      scale_color_manual(values = pal)+
+      scale_color_manual(values = pal3)+
       labs(shape="",
            title = "50 kPa Homogenized")+
       NULL,
@@ -351,7 +352,7 @@ fticr_plan <-
                      shape = interaction(as.factor(relabund_pca_grp_1_Homogenized$Moisture),
                                          as.factor(relabund_pca_grp_1_Homogenized$Wetting))))+
       scale_shape_manual(values = c(1, 2, 19, 17))+
-      scale_color_manual(values = pal)+
+      scale_color_manual(values = pal3)+
       labs(shape="",
            title = "1.5 kPa Homogenized")+
       NULL,
@@ -376,7 +377,7 @@ fticr_plan <-
       geom_violin()+
       geom_boxplot(width=0.2, coef=0, outlier.shape = NA, fill = "white")+
       #   geom_dotplot(binaxis = "y", size=1)+
-      scale_fill_manual(values = pal)+
+      scale_fill_manual(values = pal3)+
       labs(x = "",
            y = "NOSC")+
       theme(legend.position = "none")+
