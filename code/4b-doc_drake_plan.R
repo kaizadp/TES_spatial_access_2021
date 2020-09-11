@@ -4,20 +4,19 @@ source("code/0-packages.R")
 library(drake)
 library(car)
 
-source("code/4e-doc-functions.R")
+source("code/4c-doc-functions.R")
 
 doc_plan = drake_plan(
   # I. load files --------------------------------------------------------------
-  theme_set(theme_bw()),
-  
   doc = read_file("data/processed/doc.csv"),
 
-  
   # II. plots -------------------------------------------------------------------
   
   gg_doc_suctions = plot_doc_suctions(doc),
-  gg_doc_fullcore = plot_doc_fullcore(doc),
+  # gg_doc_fullcore = plot_doc_fullcore(doc),
   
+  gg_doc_fullcore_intact = plot_doc_fullcore_intact(doc),
+  gg_doc_fullcore_homo = plot_doc_fullcore_homo(doc),
 
   # III. stats -------------------------------------------------------------------
   ## overall ANOVA
