@@ -220,37 +220,20 @@ readd(gg_relabund_complex_homo)
 #### PERMANOVA
 **overall**
 ```{r permanova_overall}
-readd(permanova_fticr_all)
+readd(relabund_permanova_overall)
 ```
 
 **PERMANOVA for treatments**
 
 1.5 kPa intact cores
 ```{r}
-readd(permanova_fticr_1_5_intact)
+readd(relabund_permanova_int_1)
 ```
 
 50 kPa intact cores
 ```{r}
-readd(permanova_fticr_50_intact)
+readd(relabund_permanova_int_50)
 ```
-
-1.5 kPa homogenized cores
-```{r}
-readd(permanova_fticr_1_5_homo)
-```
-
-50 kPa homogenized cores
-```{r}
-readd(permanova_fticr_50_homo)
-```
-
-
-
-
-
-
-
 
 </details>
 

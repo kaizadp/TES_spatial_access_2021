@@ -54,3 +54,36 @@ compute_relabund_cores_complex <- function(relabund_cores) {
     ungroup()
 }
 
+
+# stats -------------------------------------------------------------------
+
+compute_permanova_overall = function(relabund_cores){
+  relabund_wide = 
+    relabund_cores %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0)
+  
+  permanova_fticr_all = 
+    adonis(relabund_wide %>% select(aliphatic:condensed_arom) ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^2, 
+           data = relabund_wide)
+  
+  broom::tidy(permanova_fticr_all$aov.tab)
+}
+compute_permanova_intact = function(dat){
+  relabund_wide = 
+    dat %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Amendments) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0)
+  
+  permanova_fticr_int = 
+    adonis(relabund_wide %>% select(aliphatic:condensed_arom) ~ (Amendments+Moisture+Wetting)^2, 
+           data = relabund_wide)
+  
+  broom::tidy(permanova_fticr_int$aov.tab)
+}

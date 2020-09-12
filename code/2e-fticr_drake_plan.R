@@ -158,7 +158,22 @@ fticr_plan <-
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------
     ## IIIa. PERMANOVA ---------------------------------------------------------
-    # make wide
+    # overall permanova
+    relabund_permanova_overall = compute_permanova_overall(relabund_cores),
+    
+    # intact cores by suction
+    relabund_permanova_int_1 = 
+      relabund_cores %>% 
+      filter(Suction==1.5 & Homogenization=="Intact") %>% 
+      do(compute_permanova_intact(.)),
+    
+    relabund_permanova_int_50 = 
+      relabund_cores %>% 
+      filter(Suction==50 & Homogenization=="Intact") %>% 
+      do(compute_permanova_intact(.)),
+    
+    ## IIIb. PCA ---------------------------------------------------------------
+    # make pca file
     relabund_wide = 
       relabund_cores %>% 
       filter(!Suction==15) %>% 
@@ -167,39 +182,6 @@ fticr_plan <-
       spread(class, relabund) %>% 
       replace(is.na(.), 0),
     
-    ### IIIa1. overall permanova (homogenization) --------------------------------------
-    permanova_fticr_all = 
-      adonis(relabund_wide %>% select(aliphatic:condensed_arom) ~ (Amendments+Moisture+Wetting+Suction+Homogenization)^3, 
-             data = relabund_wide),
-    
-    ### IIIa2. permanova for treatments --------------------------------------
-    intact_1_5 = relabund_wide %>% filter(Homogenization=="Intact" & Suction==1.5),
-    intact_50 = relabund_wide %>% filter(Homogenization=="Intact" & Suction==50),
-    homo_1_5 = relabund_wide %>% filter(Homogenization=="Homogenized" & Suction==1.5),
-    homo_50 = relabund_wide %>% filter(Homogenization=="Homogenized" & Suction==50),
-    
-    permanova_fticr_1_5_intact = 
-      adonis(intact_1_5 %>% 
-               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-             data = intact_1_5),
-    
-    permanova_fticr_50_intact = 
-      adonis(intact_50 %>% 
-               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-             data = intact_50),
-    
-    permanova_fticr_1_5_homo = 
-      adonis(homo_1_5 %>%  
-               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-             data = homo_1_5),
-    
-    permanova_fticr_50_homo = 
-      adonis(homo_50 %>% 
-               select(aliphatic:condensed_arom) ~  Amendments*Moisture*Wetting, 
-             data = homo_50),
-    
-    ## IIIb. PCA ---------------------------------------------------------------
-    # make pca file
     relabund_pca=
       relabund_wide %>% 
       select(-1),
