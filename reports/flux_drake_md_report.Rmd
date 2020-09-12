@@ -32,6 +32,11 @@ library(drake)
 
 intact cores
 
+```{r lme_flux_all}
+readd(aov_flux_all)
+```
+
+
 ```{r aov_flux_intact}
 readd(aov_flux_intact)
 ```
@@ -45,6 +50,15 @@ readd(aov_flux_homo)
 intact cores: interaction of Amendments and Moisture
 ```{r flux_interx_plot}
 readd(flux_interx_plot)
+
+
+flux_summary %>% 
+  filter(Homogenization=="Intact") %>% 
+  group_by(Amendments, Moisture) %>% 
+  dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
+  ggplot(aes(x = Amendments, y = cum_CO2C_mg_g, color = Moisture))+
+  geom_point()+geom_path(aes(group = Moisture))+
+  NULL
 ```
 
 </details>

@@ -45,25 +45,15 @@ respiration_plan =
     
     # ----- ---------------------------------------------------------------------
     # IV. stats -------------------------------------------------------------------
-    ## overall LME -- NOT WORKING ----
-    #    aov_flux_all = 
-    #      car::Anova(lme4::lmer(cum_CO2C_mg ~ 
-    #                        (Homogenization + Moisture + Amendments + Wetting)^3 + (1|CORE),
-    #                        data = flux_summary), 
-    #                 type="III"),
+    # overall LME 
+    aov_flux_all =  
+      flux_summary %>% 
+      do(compute_lme_flux_overall(.)),
     
-    ## intact and homogenized ----
-    aov_flux_intact = 
-      car::Anova(lm(log(cum_CO2C_mg_g) ~ 
-                      (Moisture + Amendments + Wetting)^2,
-                    data = flux_summary %>% filter(Homogenization=="Intact")), 
-                 type="III"),
-    
-    aov_flux_homo = 
-      car::Anova(lm(log(cum_CO2C_mg_g) ~ 
-                      (Moisture + Amendments + Wetting)^2,
-                    data = flux_summary %>% filter(Homogenization=="Homogenized")), 
-                 type="III"),
+    # intact
+    aov_flux_intact = flux_summary %>% 
+      filter(Homogenization=="Intact") %>% 
+      do(compute_aov_flux_intact(.)),
     
     ## homogenization:amendments ----
     flux_interx_plot =  

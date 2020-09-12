@@ -106,6 +106,9 @@ do_labels_cumflux_intact = function(depvar, flux_summary){
     flux_summary %>% 
     group_by(Moisture, Wetting) %>% 
     do(fit_hsd_amend(.$cum_CO2C_mg_g, .$Amendments)) %>% 
+    dplyr::mutate(skip = control==C & C==N) %>% 
+    filter(!skip) %>% 
+    dplyr::select(-skip) %>% 
     pivot_longer(-c(Moisture, Wetting),
                  names_to = "Amendments",
                  values_to = "label") %>% 
@@ -133,7 +136,7 @@ do_cumflux_boxplot = function(flux_summary){
     labs(title = "cumulative CO2-C evolved")+
     #annotate("text", label = "p = xx", x = 1.5, y = 20)+
     geom_text(data = cumflux_label, aes(x = x, y = y, label = label), size=5)+
-    facet_grid(.~Moisture)+
+    facet_grid(Homogenization~Moisture)+
     theme_kp()+
     theme(panel.grid = element_blank())+
     NULL
@@ -236,7 +239,6 @@ do_flux_ts_bycore = function(flux){
 }
 
 #
-
 # III. TABLES ----------------------------------------------------------------
 do_flux_summarytable = function(flux_summary){
   flux_summarytable =
@@ -249,3 +251,22 @@ do_flux_summarytable = function(flux_summary){
     select(Homogenization, Assignment, Moisture, Wetting, Amendments, cum_CO2C_mg_g)
   
 }
+
+# IV. STATISTICS ----------------------------------------------------------
+
+compute_lme_flux_overall = function(flux_summary){
+  l = lme4::lmer(log(cum_CO2C_mg_g) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
+                 data = flux_summary)
+  car::Anova(l, type = "III")
+}
+compute_aov_flux_intact = function(flux_summary){
+  l = lm(log(cum_CO2C_mg_g) ~ (Moisture + Amendments + Wetting)^2,
+         data = flux_summary)
+  
+  car::Anova(l, type="III")
+}
+
+
+
+
+     

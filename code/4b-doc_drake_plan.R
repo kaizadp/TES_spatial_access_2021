@@ -19,23 +19,8 @@ doc_plan = drake_plan(
   gg_doc_fullcore_homo = plot_doc_fullcore_homo(doc),
 
   # III. stats -------------------------------------------------------------------
-  ## overall ANOVA
-  aov_doc_all = 
-    Anova(lm((DOC_ng_g) ~ 
-               (Homogenization + Suction + Moisture + Wetting + Amendments)^2,
-             data = doc),
-          type = "III"),
-  
-  ## intact and homogenized
-  aov_doc_intact = 
-    Anova(lm(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
-             data = doc %>% filter(Homogenization=="Intact")),
-          type = "III"),
-  
-  aov_doc_homo = 
-    Anova(lm(DOC_ng_g ~ (Amendments+Suction+Moisture+Wetting)^2,
-             data = doc %>% filter(Homogenization=="Homogenized")),
-          type = "III"),  
+  aov_doc_all = compute_lme_doc_overall(doc),
+  aov_doc_intact = compute_aov_flux_intact(doc),
   
   # IV. report ------------------------------------------------------------------
   

@@ -16,8 +16,6 @@ read_file <- function(fn) {
 # II. PLOTTING ------------------------------------------------------------
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
-# II. plots -------------------------------------------------------------------
-
 plot_doc_suctions = function(doc){
   
   gg_doc_boxplot_suctions = 
@@ -278,3 +276,31 @@ plot_doc_others = function(doc){
     NULL
   
 }
+
+
+# III. STATS --------------------------------------------------------------
+
+compute_lme_doc_overall = function(doc){
+  doc_fullcore = 
+    doc %>% 
+    filter(CORE!=40) %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+  
+  l = lme4::lmer(log(DOC_ng_g) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
+                 data = doc_fullcore)
+  car::Anova(l, type = "III")
+}
+compute_aov_flux_intact = function(doc){
+  doc_fullcore = 
+    doc %>% 
+    filter(CORE!=40) %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+  
+  l = lm(log(DOC_ng_g) ~ (Moisture + Amendments + Wetting)^2,
+         data = doc_fullcore %>% filter(Homogenization=="Intact"))
+  
+  car::Anova(l, type="III")
+}
+
