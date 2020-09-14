@@ -5,6 +5,4 @@
 .DS_Store
 data/.DS_Store
 
-markdown-figs/
 *.html
-*.md
