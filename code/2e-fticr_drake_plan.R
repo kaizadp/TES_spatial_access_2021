@@ -7,6 +7,7 @@ library(visNetwork)
 library(car)
 library(lme4)
 library(patchwork)
+library(dplyr)
 
 # Pipeline functions
 source("code/2f-fticr-pipeline_plotting.R")
@@ -26,7 +27,7 @@ fticr_plan <-
     # 0a. setup -------------------------------------------------------------------
     
     # 0b. load files --------------------------------------------------------------
-    meta = read.csv(file_in("data/processed/fticr_meta.csv")),
+    meta = read.csv(file_in("data/processed/fticr_meta.csv")) %>% dplyr::select(-Mass) %>% distinct(),
     meta_hcoc = select(meta, formula, HC, OC),    
     meta_classes = select(meta, formula, class),
     
@@ -72,10 +73,15 @@ fticr_plan <-
     ## Ie. vk -- unique ---------------------------------------------------------------
     vk_unique = do_vk_unique(data_long_trt),
 
+    ## If. vk -- peaks introduced after homogenization -------------------------------------------------------------------------
+    vk_homo_new = do_vk_homo_new(data_long_trt),
+    
     # ----- ---------------------------------------------------------------------
     # II. peaks ---------------------------------------------------------------------
     ## IIa. files --------------------------------------------------------------
     peaks_distinct_core = data_key %>% group_by(Core, SampleAssignment) %>% distinct(formula),
+
+
     
     peakcounts_core = compute_peakcounts_core(peaks_distinct_core, meta_classes, fticr_key),
     peakcounts_trt = compute_peakcounts_trt(peakcounts_core, fticr_key),
@@ -123,22 +129,10 @@ fticr_plan <-
             type = "III"),
     
     ### -- total-peaks
-    peakcounts_total_core = 
-      peakcounts_core %>% 
-      filter(class=="total"),
+    lme_peaks_overall = compute_lme_peaks_overall(peakcounts_core),
+    aov_peaks_intact = compute_aov_peaks_intact(peakcounts_core),
     
-    #   aov_total_peaks_all = 
-    #     Anova(lmer(log(counts) ~ (Homogenization+Suction+Moisture+Wetting+Amendments) +
-    #                  (1|Core), 
-    #                data = peakcounts_total_core),
-    #           type = "III"),
-    
-    aov_total_peaks_intact = 
-      Anova(lm(log(counts) ~ (Suction+Moisture+Wetting+Amendments)^2, 
-               data = peakcounts_total_core %>% 
-                 filter(Homogenization=="Intact")),
-            type = "III"),
-    
+
     # ----- ---------------------------------------------------------------------
     # II. relative abundances -------------------------------------------------
     ## IIa. files ---------------------------------------------------------
@@ -154,6 +148,12 @@ fticr_plan <-
     
     gg_relabund_complex = do_gg_complex(relabund_cores_complex),
     gg_relabund_complex_homo = plot_complex_homo(relabund_cores_complex),
+    
+    
+    ## IId. stats -------------------------------------------------------------------------
+    # this overall lme doesn't work in drake. run separately for results
+    #lme_complex_overall = compute_lme_complex_overall(relabund_cores_complex),
+    aov_complex_intact = compute_aov_complex_intact(relabund_cores_complex),
     
     # ----- ---------------------------------------------------------------------
     # III. statistics ----------------------------------------------------------

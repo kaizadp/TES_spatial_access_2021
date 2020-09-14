@@ -126,9 +126,18 @@ readd(vk_unique)
 # readd(gg_fticr_unique_homo)
 ```
 
+#### VK - peaks introduced after homogenization
+
+```{r vk_homo_new, fig.width=12, fig.height=7}
+readd(vk_homo_new)
+```
+
+
 </details>
 
 ---
+
+
 
 ## peaks
 
@@ -270,6 +279,21 @@ readd(gg_fticr_pca_homo_combined)
 ---
 
 
+
+
+#### LME-AOV
+
+peak counts stats
+```{r stats_peakcounts}
+readd(lme_peaks_overall)
+readd(aov_peaks_intact)
+```
+
+relabund_complex stats
+```{r stats_complex_relabund}
+readd(lme_complex_overall)
+readd(aov_complex_intact)
+```
 
 
 ### others
