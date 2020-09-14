@@ -250,9 +250,14 @@ do_gg_peaks_bar <- function(peakcounts_trt) {
 
 # total peak counts (scatter plot)
 do_labels_totalcounts_intact = function(depvar, peakcounts_core){
+  # 0. make file ----
+  peakcounts_core_total_int = 
+    peakcounts_core %>% 
+    filter(class=="total" & Homogenization=="Intact")
+  
   # 1. p-values for moisture ----
   moisture_label <- 
-    peakcounts_core %>% 
+    peakcounts_core_total_int %>% 
     group_by(Suction) %>% 
     do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
     mutate(x = 1.5,
@@ -261,15 +266,17 @@ do_labels_totalcounts_intact = function(depvar, peakcounts_core){
            label = if_else(p_value == 0, "p < 0.0001", label))
   
   # 2. HSD for amendments ----
-  hsd_y <- peakcounts_core %>% 
-    filter(class=="total" & Homogenization=="Intact") %>% 
+  hsd_y <- peakcounts_core_total_int %>% 
     group_by(Suction, Moisture, Amendments) %>% 
     dplyr::summarize(max = max(counts),
                      y = max(counts) + 200)
   
-  amend_label <- peakcounts_core %>% 
+  amend_label <- peakcounts_core_total_int %>% 
     group_by(Suction, Moisture) %>% 
     do(fit_hsd_amend(.$counts, .$Amendments)) %>% 
+    dplyr::mutate(skip = control==C & C==N) %>% 
+    filter(!skip) %>% 
+    dplyr::select(-skip) %>% 
     pivot_longer(-c(Suction, Moisture),
                  names_to = "Amendments",
                  values_to = "label") %>% 
@@ -280,8 +287,7 @@ do_labels_totalcounts_intact = function(depvar, peakcounts_core){
   
   # 3. wetting label ----
   wetting_label <- 
-    peakcounts_core %>% 
-    filter(class=="total" & Homogenization=="Intact") %>% 
+    peakcounts_core_total_int %>% 
     group_by(Suction, Moisture, Amendments) %>% 
     do(fit_aov_wetting(.$counts, .$Wetting))
   
@@ -293,8 +299,7 @@ do_gg_totalcounts <- function(peakcounts_core) {
   totalcounts_label <- do_labels_totalcounts_intact("counts", peakcounts_core)
   
   peakcounts_core %>% 
-    filter(class=="total") %>% 
-    filter(Homogenization=="Intact") %>% 
+    filter(class=="total" & Homogenization=="Intact") %>% 
     ggplot(aes(x = Moisture, y = counts))+
     geom_boxplot(aes(group = Moisture), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+

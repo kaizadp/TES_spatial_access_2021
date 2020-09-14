@@ -359,11 +359,10 @@ Date run: 2020-09-14
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] lme4_1.1-23      Matrix_1.2-18    visNetwork_2.0.9 vegan_2.5-6     
-    #>  [5] lattice_0.20-41  permute_0.9-5    rmarkdown_2.3    here_0.1        
-    #>  [9] patchwork_1.0.1  car_3.0-9        carData_3.0-4    drake_7.12.4    
-    #> [13] ggbiplot_0.55    PNWColors_0.1.0  forcats_0.5.0    stringr_1.4.0   
-    #> [17] dplyr_1.0.1      purrr_0.3.4      readr_1.3.1      tidyr_1.1.1     
+    #>  [1] lme4_1.1-23      Matrix_1.2-18    visNetwork_2.0.9 vegan_2.5-6      lattice_0.20-41 
+    #>  [6] permute_0.9-5    rmarkdown_2.3    here_0.1         patchwork_1.0.1  car_3.0-9       
+    #> [11] carData_3.0-4    drake_7.12.4     ggbiplot_0.55    PNWColors_0.1.0  forcats_0.5.0   
+    #> [16] stringr_1.4.0    dplyr_1.0.1      purrr_0.3.4      readr_1.3.1      tidyr_1.1.1     
     #> [21] tibble_3.0.3     ggplot2_3.3.2    tidyverse_1.3.0 
     #> 
     #> loaded via a namespace (and not attached):
