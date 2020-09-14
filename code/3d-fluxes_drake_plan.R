@@ -21,7 +21,7 @@ respiration_plan =
     gg_cumflux_scatter = do_cumflux_scatterplot(flux_summary),
     
     # intact cores (boxplot)
-    gg_flux_cum_intact_boxplot = do_cumflux_boxplot(flux_summary),
+    gg_flux_cum_intact_boxplot = do_gg_cumfluxflux_boxplot2(flux_summary),
     
     # effect of homogenization (boxplot)
     gg_cumflux_homo = do_cumflux_boxplot_homo(flux_summary),    

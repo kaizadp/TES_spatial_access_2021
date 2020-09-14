@@ -39,7 +39,7 @@ readd(gg_doc_suctions)
 
 full core
 
-```{r doc_boxplot_intact, fig.width=8, fig.height=5}
+```{r doc_boxplot_intact, fig.width=5, fig.height=5}
 readd(gg_doc_fullcore_intact)
 ```
 

@@ -182,6 +182,93 @@ plot_doc_fullcore_intact = function(doc){
     NULL
 }
 
+# intact cores (full core) -- version 2
+fit_aov_moisture = function(depvar, Moisture){
+  # boxplot p-values
+  a1 <- aov(log(depvar) ~ Moisture)
+  label_a1 <- broom::tidy(a1) %>% 
+    filter(term != "Residuals") %>% 
+    mutate(p_value = round(p.value, 4)) %>% 
+    dplyr::select(term, p_value) 
+}
+fit_aov_wetting2 = function(depvar, Wetting){
+  a3 = aov(log(depvar) ~ Wetting)
+  broom::tidy(a3) %>% 
+    filter(term != "Residuals") %>% 
+    dplyr::select(term, `p.value`) %>% 
+    filter(`p.value` <= 0.05)
+}
+
+plot_doc_fullcore_intact2 <- function(doc) {
+  doc_fullcore = 
+    doc %>% 
+    filter(CORE != 40) %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g)) %>% 
+    ungroup()
+  
+  do_labels_doc_fullcore_intact2 = function(depvar, doc_fullcore){
+    # 1. p-values for moisture ----
+    moisture_label <- 
+      doc_fullcore %>% 
+      ungroup() %>% 
+      do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
+      mutate(x = 1.5,
+             y = -500,
+             label = paste("p =", p_value),
+             label = if_else(p_value == 0, "p < 0.0001", label))
+    
+    # 2. HSD for amendments ----
+    hsd_y <- doc_fullcore %>% 
+      group_by(Moisture, Amendments) %>% 
+      dplyr::summarize(max = max(DOC_ng_g),
+                       y = max(DOC_ng_g, na.rm = T) + 800)
+    
+    amend_label <- doc_fullcore %>% 
+      group_by(Moisture) %>% 
+      do(fit_hsd_amend(.$DOC_ng_g, .$Amendments)) %>% 
+      dplyr::mutate(skip = control==C & C==N) %>% 
+      filter(!skip) %>% 
+      dplyr::select(-skip) %>% 
+      pivot_longer(-c(Moisture),
+                   names_to = "Amendments",
+                   values_to = "label") %>% 
+      mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
+             am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
+             x = as.numeric(m)+as.numeric(am)) %>% 
+      left_join(hsd_y)
+    
+    # 3. wetting label ----
+    wetting_label <- 
+      doc_fullcore %>% 
+      group_by(Moisture, Amendments) %>% 
+      do(fit_aov_wetting2(.$DOC_ng_g, .$Wetting))
+    
+    # 4. combined label ----
+    
+    amend_label %>% rbind(moisture_label)
+  }
+  doc_label = do_labels_doc_fullcore_intact2("DOC_ng_g", doc_fullcore %>% filter(Homogenization=="Intact"))
+  
+  doc_fullcore %>% 
+    filter(Homogenization=="Intact") %>% 
+    ggplot(aes(x = Moisture, y = DOC_ng_g))+
+    geom_boxplot(aes(group = Moisture), 
+                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    geom_text(data = doc_label, aes(x = x, y = y, label = label), size=5)+
+    scale_fill_manual(values = pal3)+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "WSOC -- full core",
+         #y = "count",
+         caption = "wetting sig for: fm/control")+
+    facet_grid(Homogenization~.)+
+    theme_kp()+
+    NULL
+}
+
 # effect of homogenization (full core)
 fit_aov_homo = function(depvar, Homogenization){
   # boxplot p-values
