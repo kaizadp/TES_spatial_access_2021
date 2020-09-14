@@ -52,7 +52,7 @@ intact cores: interaction of Amendments and Moisture
 readd(flux_interx_plot)
 
 
-flux_summary %>% 
+readd(flux_summary) %>% 
   filter(Homogenization=="Intact") %>% 
   group_by(Amendments, Moisture) %>% 
   dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
