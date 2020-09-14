@@ -94,7 +94,7 @@ compute_lme_peaks_overall = function(peakcounts_core){
     peakcounts_core %>% 
     filter(class=="total")
 
-  l = lme4::lmer(log(counts) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|Core), 
+  l = lme4::lmer(log(counts) ~ (Homogenization+Moisture+Wetting+Amendments+Suction)^2 + (1|Core), 
                  data = peakcounts_total)
   car::Anova(l, type = "III")
 }
@@ -108,14 +108,22 @@ compute_aov_peaks_intact = function(peakcounts_core){
   
   car::Anova(l, type="III")
 }
-
-# loadd(peakcounts_core)
-# 
-# compute_lme_peaks_overall(peakcounts_core)
-# compute_aov_peaks_intact(peakcounts_core)
-# 
-# peakcounts_core %>% 
-#   filter(class=="total" & Homogenization=="Intact") %>% 
-#   ggplot(aes(x = Amendments, y = counts, color = Moisture, shape = Wetting))+
-#   geom_point()+
-#   facet_grid(Homogenization~Suction)
+ 
+# complex peaks relabund
+ compute_lme_complex_overall = function(relabund_cores_complex){
+   
+   l = lme4::lmer(log(relabund) ~ (Homogenization+Moisture+Wetting+Amendments+Suction)^2 + (1|Core), 
+                  data = relabund_cores_complex)
+   car::Anova(l, type = "III")
+ }
+ compute_aov_complex_intact = function(relabund_cores_complex){
+    l = lm(log(relabund) ~ (Moisture + Amendments + Wetting + Suction)^2,
+          data = relabund_cores_complex %>% filter(Homogenization=="Intact"))
+   
+   car::Anova(l, type="III")
+ }
+ 
+ 
+    # compute_lme_complex_overall(relabund_cores_complex)
+    # compute_aov_complex_intact(relabund_cores_complex)
+ 
