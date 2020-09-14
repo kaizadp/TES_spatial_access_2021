@@ -131,7 +131,6 @@ do_vk_pores <- function(data_long_trt) {
 }
 
 do_vk_unique <- function(data_long_trt) {
-  ## IId. vk unique ---------------------------------------------------------------
   data_unique <-  
     data_long_trt %>% 
     group_by(formula, Suction, Homogenization, Moisture, Wetting) %>% 
@@ -158,7 +157,7 @@ do_vk_unique <- function(data_long_trt) {
     gg_control +
     geom_point(data = data_unique %>% filter(Homogenization=="Intact"), aes(color = Amendments),
                size = 0.5, alpha = 0.8)+
-    scale_color_manual(values = c("#2E5894", "#96001B"))+
+    scale_color_manual(values = c("#96001B", "#2E5894"))+
     facet_grid(Suction~Moisture+Wetting)+
     labs(title = "unique peaks -- intact cores",
          caption = "yellow = all peaks in control soils")+
@@ -170,7 +169,7 @@ do_vk_unique <- function(data_long_trt) {
       gg_control +
       geom_point(data = data_unique %>% filter(Homogenization=="Homogenized"), aes(color = Amendments),
                  size = 0.7, alpha = 0.8)+
-    scale_color_manual(values = c("#2E5894", "#96001B"))+
+    scale_color_manual(values = c("#96001B", "#2E5894"))+
     facet_grid(Suction~Moisture+Wetting)+
       labs(title = "unique peaks -- homogenized cores",
            caption = "yellow = all peaks in control soils")+
@@ -207,6 +206,23 @@ do_vk_unique <- function(data_long_trt) {
     gg_fticr_unique_homo = gg_fticr_unique_homo)
 }
 
+do_vk_homo_new <- function(data_long_trt){
+  data_homo_new = 
+    data_long_trt %>% 
+    group_by(formula, Suction, Moisture, Wetting, Amendments) %>% 
+    dplyr::mutate(n = n()) %>% 
+    ungroup()%>% 
+    filter(n==1 & Homogenization=="Homogenized")
+  
+  data_homo_new %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+    stat_ellipse(show.legend = F)+
+    scale_color_manual(values = pal3)+
+    labs(title = "peaks introduced after homogenization")+
+    facet_grid(Suction ~ Moisture + Wetting)+
+    theme_kp()+
+    NULL
+}
 
 # ---- -------------------------------------------------------------------------
 #  ## Ia. domains
