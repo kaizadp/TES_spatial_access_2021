@@ -87,3 +87,35 @@ compute_permanova_intact = function(dat){
   
   broom::tidy(permanova_fticr_int$aov.tab)
 }
+
+# total peaks
+compute_lme_peaks_overall = function(peakcounts_core){
+  peakcounts_total = 
+    peakcounts_core %>% 
+    filter(class=="total")
+
+  l = lme4::lmer(log(counts) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|Core), 
+                 data = peakcounts_total)
+  car::Anova(l, type = "III")
+}
+compute_aov_peaks_intact = function(peakcounts_core){
+  peakcounts_total = 
+    peakcounts_core %>% 
+    filter(class=="total")
+  
+  l = lm(log(counts) ~ (Moisture + Amendments + Wetting + Suction)^2,
+         data = peakcounts_total %>% filter(Homogenization=="Intact"))
+  
+  car::Anova(l, type="III")
+}
+
+# loadd(peakcounts_core)
+# 
+# compute_lme_peaks_overall(peakcounts_core)
+# compute_aov_peaks_intact(peakcounts_core)
+# 
+# peakcounts_core %>% 
+#   filter(class=="total" & Homogenization=="Intact") %>% 
+#   ggplot(aes(x = Amendments, y = counts, color = Moisture, shape = Wetting))+
+#   geom_point()+
+#   facet_grid(Homogenization~Suction)
