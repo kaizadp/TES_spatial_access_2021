@@ -211,62 +211,68 @@ plot_doc_fullcore_intact2 <- function(doc) {
     # 1. p-values for moisture ----
     moisture_label <- 
       doc_fullcore %>% 
-      ungroup() %>% 
+      ungroup() %>%    
+      group_by(Amendments) %>% 
       do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
+      filter(p_value <= 0.05) %>% 
       mutate(x = 1.5,
-             y = -500,
-             label = paste("p =", p_value),
-             label = if_else(p_value == 0, "p < 0.0001", label))
+             y = 6000,
+             label = "\n*")
     
     # 2. HSD for amendments ----
     hsd_y <- doc_fullcore %>% 
-      group_by(Moisture, Amendments) %>% 
-      dplyr::summarize(max = max(DOC_ng_g),
-                       y = max(DOC_ng_g, na.rm = T) + 800)
+      group_by(Amendments) %>% 
+      dplyr::summarize(max = max(DOC_ng_g))
     
     amend_label <- doc_fullcore %>% 
-      group_by(Moisture) %>% 
       do(fit_hsd_amend(.$DOC_ng_g, .$Amendments)) %>% 
-      dplyr::mutate(skip = control==C & C==N) %>% 
-      filter(!skip) %>% 
-      dplyr::select(-skip) %>% 
-      pivot_longer(-c(Moisture),
-                   names_to = "Amendments",
-                   values_to = "label") %>% 
-      mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
-             am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
-             x = as.numeric(m)+as.numeric(am)) %>% 
-      left_join(hsd_y)
+#      dplyr::mutate(skip = control==C & C==N) %>% 
+#      filter(!skip) %>% 
+#      dplyr::select(-skip) %>% 
+      mutate(y = 10) %>% 
+      pivot_longer(-y, names_to = "Amendments",
+                   values_to = "label")
+    
     
     # 3. wetting label ----
     wetting_label <- 
       doc_fullcore %>% 
-      group_by(Moisture, Amendments) %>% 
-      do(fit_aov_wetting2(.$DOC_ng_g, .$Wetting))
+      group_by(Amendments) %>% 
+      do(fit_aov_wetting2(.$DOC_ng_g, .$Wetting)) %>% 
+      #dplyr::select(-`p.value`) %>% 
+      mutate(label = "\n\n†",
+             y = 10)
     
     # 4. combined label ----
     
-    amend_label %>% rbind(moisture_label)
+    amend_label %>% bind_rows(moisture_label) %>% bind_rows(wetting_label) %>% 
+      left_join(hsd_y) %>% mutate(y = max+800)  
   }
-  doc_label = do_labels_doc_fullcore_intact2("DOC_ng_g", doc_fullcore %>% filter(Homogenization=="Intact"))
+  
+  doc_label = 
+    do_labels_doc_fullcore_intact2("DOC_ng_g", 
+                                   doc_fullcore %>% filter(Homogenization=="Intact")) %>% 
+    mutate(y = if_else(Amendments == "C", 8200, 13),
+           Amendments = factor(Amendments, levels = c("control", "C", "N")))
+    
   
   doc_fullcore %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = DOC_ng_g))+
-    geom_boxplot(aes(group = Moisture), 
+    ggplot(aes(x = Amendments, y = DOC_ng_g))+
+    geom_boxplot(aes(group = Amendments), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
-    geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+    geom_point(aes(fill = Moisture, shape = Wetting, group = Wetting),
                size=4, stroke=1, position = position_dodge(width = 0.6))+
-    geom_text(data = doc_label, aes(x = x, y = y, label = label), size=5)+
+    geom_text(data = doc_label, aes(x = Amendments, y = y, label = label), size=5)+
     scale_fill_manual(values = pal3)+
     scale_shape_manual(values = c(21,23))+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "WSOC -- full core",
-         #y = "count",
-         caption = "wetting sig for: fm/control")+
-    facet_grid(Homogenization~.)+
+    labs(title = "WSOC -- full core")+
+    #facet_grid(Homogenization~.)+
     theme_kp()+
-    NULL
+    NULL+
+    facet_wrap(~Amendments, scales = "free")+expand_limits(y=0)+
+    theme(strip.text.x = element_blank())
 }
 
 # effect of homogenization (full core)
