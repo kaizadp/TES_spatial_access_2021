@@ -13,7 +13,7 @@ source("code/0-packages.R")
 data = read.csv("data/doc.csv")
 corekey = read.csv("data/processed/corekey.csv")
 coreweights = read.csv("data/core_weights.csv") %>% 
-  dplyr::select(CORE, Homogenization, dry_wt_fine_g)
+  dplyr::select(CORE, Homogenization, dry_wt_fine_g, totalC_perc)
 
 ## clean the doc file
 doc = 
@@ -29,9 +29,12 @@ doc =
   select(-name) %>% 
   spread(variable, value) %>% 
   left_join(coreweights, by = c("CORE", "Homogenization")) %>% 
-  mutate(DOC_ng_g = round((DOC_mg_L * porewater_mL/dry_wt_fine_g),2)) %>% 
+  mutate(DOC_ng_g = round((DOC_mg_L * porewater_mL/dry_wt_fine_g),2),
+         DOC_ng_gC = round(DOC_ng_g * 100/totalC_perc,2),
+         DOC_ug_gC = round(DOC_ng_gC/1000,3)) %>% 
   left_join(corekey, by = c("CORE"="Core")) %>% 
-  filter(!is.na(DOC_ng_g))
+  filter(!is.na(DOC_ng_g)) %>% 
+  dplyr::select(CORE, Homogenization, Suction, Moisture, Wetting, Amendments, DOC_mg_L, DOC_ug_gC)
 
 
 # output ------------------------------------------------------------------
