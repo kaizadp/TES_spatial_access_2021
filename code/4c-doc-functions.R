@@ -21,7 +21,7 @@ plot_doc_suctions = function(doc){
   gg_doc_boxplot_suctions = 
     doc %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = DOC_ng_g))+
+    ggplot(aes(x = Moisture, y = DOC_ug_gC))+
     geom_boxplot(aes(group = Moisture), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.4)+
     geom_point(aes(fill = Amendments, shape = Wetting, group=Amendments),
@@ -60,12 +60,12 @@ plot_doc_fullcore = function(doc){
   doc_fullcore = 
     doc %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC))
   
   (gg_doc_boxdotplot_fullcore = 
       doc_fullcore %>% 
       filter(Homogenization=="Intact") %>% 
-      ggplot(aes(x = Wetting, y = DOC_ng_g))+
+      ggplot(aes(x = Wetting, y = DOC_ug_gC))+
       geom_boxplot(aes(group = Wetting), 
                    fill = "grey90", alpha = 0.3, color = "grey60", width = 0.4)+
       geom_point(aes(fill = Amendments, shape = Wetting, group=Amendments),
@@ -82,7 +82,7 @@ plot_doc_fullcore = function(doc){
   # effect of homogenization
   (gg_doc_boxdotplot_fullcore_homo = 
       doc_fullcore %>% 
-      ggplot(aes(x = Homogenization, y = DOC_ng_g))+
+      ggplot(aes(x = Homogenization, y = DOC_ug_gC))+
       geom_boxplot(aes(group = Homogenization), 
                    fill = "grey90", alpha = 0.3, color = "grey60", width = 0.4)+
       geom_point(aes(fill = Moisture, shape = Wetting, group=Moisture),
@@ -124,7 +124,7 @@ plot_doc_fullcore_intact = function(doc){
   doc_fullcore = 
     doc %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC))
   
   do_labels_doc_intact = function(depvar, doc_fullcore){
     # 1. p-values for moisture ----
@@ -144,7 +144,7 @@ plot_doc_fullcore_intact = function(doc){
       filter(Homogenization=="Intact") %>% 
       group_by(Moisture, Wetting, Amendments) %>% 
       dplyr::summarize(
-        y = max(DOC_ng_g, na.rm = T) + 500)
+        y = max(DOC_ug_gC, na.rm = T) + 500)
     
     amend_label <- 
       doc_fullcore %>% 
@@ -163,10 +163,10 @@ plot_doc_fullcore_intact = function(doc){
     amend_label %>% rbind(wetting_label)
   }
   
-  doc_labels = do_labels_doc_intact("DOC_ng_g", doc_fullcore)
+  doc_labels = do_labels_doc_intact("DOC_ug_gC", doc_fullcore)
   doc_fullcore %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Wetting, y = DOC_ng_g))+
+    ggplot(aes(x = Wetting, y = DOC_ug_gC))+
     geom_boxplot(aes(group = Wetting), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
     geom_point(aes(fill = Amendments, shape = Wetting, group=Amendments),
@@ -204,7 +204,7 @@ plot_doc_fullcore_intact2 <- function(doc) {
     doc %>% 
     filter(CORE != 40) %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g)) %>% 
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC)) %>% 
     ungroup()
   
   do_labels_doc_fullcore_intact2 = function(depvar, doc_fullcore){
@@ -221,12 +221,12 @@ plot_doc_fullcore_intact2 <- function(doc) {
     # 2. HSD for amendments ----
     hsd_y <- doc_fullcore %>% 
       group_by(Moisture, Amendments) %>% 
-      dplyr::summarize(max = max(DOC_ng_g),
-                       y = max(DOC_ng_g, na.rm = T) + 800)
+      dplyr::summarize(max = max(DOC_ug_gC),
+                       y = max(DOC_ug_gC, na.rm = T) + 800)
     
     amend_label <- doc_fullcore %>% 
       group_by(Moisture) %>% 
-      do(fit_hsd_amend(.$DOC_ng_g, .$Amendments)) %>% 
+      do(fit_hsd_amend(.$DOC_ug_gC, .$Amendments)) %>% 
       dplyr::mutate(skip = control==C & C==N) %>% 
       filter(!skip) %>% 
       dplyr::select(-skip) %>% 
@@ -242,17 +242,17 @@ plot_doc_fullcore_intact2 <- function(doc) {
     wetting_label <- 
       doc_fullcore %>% 
       group_by(Moisture, Amendments) %>% 
-      do(fit_aov_wetting2(.$DOC_ng_g, .$Wetting))
+      do(fit_aov_wetting2(.$DOC_ug_gC, .$Wetting))
     
     # 4. combined label ----
     
     amend_label %>% rbind(moisture_label)
   }
-  doc_label = do_labels_doc_fullcore_intact2("DOC_ng_g", doc_fullcore %>% filter(Homogenization=="Intact"))
+  doc_label = do_labels_doc_fullcore_intact2("DOC_ug_gC", doc_fullcore %>% filter(Homogenization=="Intact"))
   
   doc_fullcore %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = DOC_ng_g))+
+    ggplot(aes(x = Moisture, y = DOC_ug_gC))+
     geom_boxplot(aes(group = Moisture), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
     geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
@@ -282,7 +282,7 @@ plot_doc_fullcore_homo = function(doc){
   doc_fullcore = 
     doc %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC))
   
   do_labels_doc_homo = function(depvar, doc_fullcore){
     # 1. p-values for moisture ----
@@ -296,10 +296,10 @@ plot_doc_fullcore_homo = function(doc){
              label = if_else(p_value == 0, "p < 0.0001", label))
   }
   
-  doc_labels_homo = do_labels_doc_homo("DOC_ng_g", doc_fullcore)
+  doc_labels_homo = do_labels_doc_homo("DOC_ug_gC", doc_fullcore)
   
   doc_fullcore %>% 
-    ggplot(aes(x = Homogenization, y = DOC_ng_g))+
+    ggplot(aes(x = Homogenization, y = DOC_ug_gC))+
     geom_boxplot(aes(group = Homogenization), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
     geom_point(aes(fill = Moisture, shape = Wetting, group=Moisture),
@@ -319,7 +319,7 @@ plot_doc_fullcore_homo = function(doc){
 plot_doc_others = function(doc){
   gg_doc_allpanels = 
     doc %>% 
-    ggplot(aes(x = Amendments, y = DOC_ng_g, color = Amendments))+
+    ggplot(aes(x = Amendments, y = DOC_ug_gC, color = Amendments))+
     geom_point()+
     scale_y_continuous(trans = "log10", labels = scales::comma)+
     facet_grid(Homogenization+Suction~Moisture+Wetting, scales = "free_y")+
@@ -328,7 +328,7 @@ plot_doc_others = function(doc){
   gg_doc_boxdotplot = 
     doc %>% 
     #filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Amendments, y = DOC_ng_g, color = Moisture, shape = Wetting))+
+    ggplot(aes(x = Amendments, y = DOC_ug_gC, color = Moisture, shape = Wetting))+
     geom_boxplot(aes(group = Amendments), color = "grey")+
     geom_point(size=3, position = position_dodge(width = 0.7))+
     scale_y_continuous(trans = "log10", labels = scales::comma)+
@@ -339,7 +339,7 @@ plot_doc_others = function(doc){
   gg_doc_boxdotplot2 = 
     doc %>% 
     #filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Wetting, y = DOC_ng_g, color = Amendments, shape = Amendments))+
+    ggplot(aes(x = Wetting, y = DOC_ug_gC, color = Amendments, shape = Amendments))+
     geom_boxplot(aes(group = Wetting), fill = "grey90", alpha = 0.9, color = "grey60", width = 0.4)+
     geom_point(size=3, position = position_dodge(width = 0.7))+
     scale_y_continuous(trans = "log10", labels = scales::comma)+
@@ -351,7 +351,7 @@ plot_doc_others = function(doc){
   gg_doc_boxdotplot3 = 
     doc %>% 
     #filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = DOC_ng_g, color = Amendments, shape = Amendments))+
+    ggplot(aes(x = Moisture, y = DOC_ug_gC, color = Amendments, shape = Amendments))+
     geom_boxplot(aes(group = Moisture), fill = "grey90", alpha = 0.9, color = "grey60", width = 0.4)+
     geom_point(size=3, position = position_dodge(width = 0.5))+
     scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
@@ -372,9 +372,9 @@ compute_lme_doc_overall = function(doc){
     doc %>% 
     filter(CORE!=40) %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC))
   
-  l = lme4::lmer(log(DOC_ng_g) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
+  l = lme4::lmer(log(DOC_ug_gC) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
                  data = doc_fullcore)
   car::Anova(l, type = "III")
 }
@@ -383,11 +383,71 @@ compute_aov_flux_intact = function(doc){
     doc %>% 
     filter(CORE!=40) %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
-    dplyr::summarise(DOC_ng_g = sum(DOC_ng_g))
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC))
   
-  l = lm(log(DOC_ng_g) ~ (Moisture + Amendments + Wetting)^2,
+  l = lm(log(DOC_ug_gC) ~ (Moisture + Amendments + Wetting)^2,
          data = doc_fullcore %>% filter(Homogenization=="Intact"))
   
   car::Anova(l, type="III")
 }
 
+
+
+# IV. TABLES --------------------------------------------------------------
+make_doc_table = function(doc){
+  doc_fullcore = 
+    doc %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC)) %>% 
+    filter(DOC_ug_gC != 0)
+  
+  doc_summary = 
+    doc_fullcore %>% 
+    group_by(Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(meanDOC_ug_gC = round(mean(DOC_ug_gC),2),
+                     se = round(sd(DOC_ug_gC)/sqrt(n()),2)) %>% 
+    ungroup() %>% 
+    mutate(DOC_ug_gC = paste(meanDOC_ug_gC, "\u00b1", se))
+  
+  doc_summary %>% 
+    dplyr::select(-c(meanDOC_ug_gC, se)) %>% 
+    spread(Amendments, DOC_ug_gC) %>% knitr::kable()
+  }
+compute_doc_tablestats = function(doc){
+  doc_fullcore = 
+    doc %>% 
+    group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
+    dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC)) %>% 
+    filter(DOC_ug_gC != 0)
+  
+  do_doc_stats_fullANOVA = function(dat){
+    l = lm(log(DOC_ug_gC) ~ Moisture*Wetting, data = dat)
+    a = car::Anova(l)
+    broom::tidy((a)) %>% filter(term != "Residuals")
+  }
+  doc_stats_fullANOVA = doc_fullcore %>% 
+    group_by(Homogenization, Amendments) %>% 
+    do(do_doc_stats_fullANOVA(.))
+  
+  do_doc_stats_wetting = function(dat){
+    l = lm(log(DOC_ug_gC) ~ Wetting, data = dat)
+    a = car::Anova(l)
+    broom::tidy((a)) %>% filter(term != "Residuals")
+  }
+  doc_stats_wetting = doc_fullcore %>% 
+    group_by(Homogenization, Amendments, Moisture) %>% 
+    do(do_doc_stats_wetting(.))
+
+  do_doc_dunnett = function(dat){
+    d <-DescTools::DunnettTest(log(DOC_ug_gC)~Amendments, control = "control", data = dat)
+    tibble(C = d$control["C-control", 4],
+           N = d$control["N-control", 4])
+  }
+  doc_dunnett = doc_fullcore %>% 
+    group_by(Homogenization, Moisture, Wetting) %>% 
+    do(do_doc_dunnett(.))
+  
+  list(doc_stats_fullANOVA = doc_stats_fullANOVA,
+       doc_stats_wetting = doc_stats_wetting,
+       doc_dunnett = doc_dunnett)
+}
