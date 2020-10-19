@@ -18,7 +18,7 @@ pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
 # old scatterplot
 fit_hsd = function(dat) {
-  a = aov(log(cum_CO2C_mg_g) ~ Amendments, data = dat)
+  a = aov(log(cum_CO2C_mg_gC) ~ Amendments, data = dat)
   h = agricolae::HSD.test(a,"Amendment")
   #create a tibble with one column for each treatment
   #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
@@ -45,14 +45,14 @@ do_cumflux_scatterplot = function(flux_summary){
     flux_summary %>% 
     na.omit() %>% 
     group_by(Moisture, Wetting, Homogenization, Amendments) %>% 
-    summarize(y_lab = max(cum_CO2C_mg_g)) %>% 
+    summarize(y_lab = max(cum_CO2C_mg_gC)) %>% 
     left_join(flux_hsd) %>% 
     na.omit()
   
   ## plot
   gg_flux_cum = 
     flux_summary %>% 
-    ggplot(aes(x = Amendments, y = cum_CO2C_mg_g))+
+    ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC))+
     geom_point(size=2)+ 
     geom_text(data = flux_cum_labels, aes(x = Amendments, y = y_lab+70, label = label))+
     #scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
@@ -100,12 +100,12 @@ do_labels_cumflux_intact = function(depvar, flux_summary){
     filter(Homogenization=="Intact") %>% 
     group_by(Moisture, Wetting, Amendments) %>% 
     dplyr::summarize(
-      y = max(cum_CO2C_mg_g, na.rm = T) + 0.5)
+      y = max(cum_CO2C_mg_gC, na.rm = T) + 0.5)
   
   amend_label <- 
     flux_summary %>% 
     group_by(Moisture, Wetting) %>% 
-    do(fit_hsd_amend(.$cum_CO2C_mg_g, .$Amendments)) %>% 
+    do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
     dplyr::mutate(skip = control==C & C==N) %>% 
     filter(!skip) %>% 
     dplyr::select(-skip) %>% 
@@ -123,11 +123,11 @@ do_labels_cumflux_intact = function(depvar, flux_summary){
 }
 do_cumflux_boxplot = function(flux_summary){
   
-  cumflux_label = do_labels_cumflux_intact("cum_CO2C_mg_g", flux_summary)
+  cumflux_label = do_labels_cumflux_intact("cum_CO2C_mg_gC", flux_summary)
   
   flux_summary %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Wetting, y = cum_CO2C_mg_g))+
+    ggplot(aes(x = Wetting, y = cum_CO2C_mg_gC))+
     geom_boxplot(width=0.6, fill = "grey90", color = "grey60", alpha = 0.3)+
     geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
                aes(fill = Amendments), shape = 21)+ 
@@ -172,12 +172,12 @@ do_labels_cumflux_intact2 = function(depvar, flux_summary){
   # 2. HSD for amendments ----
   hsd_y <- flux_summary %>% 
     group_by(Moisture, Amendments) %>% 
-    dplyr::summarize(max = max(cum_CO2C_mg_g),
-                     y = max(cum_CO2C_mg_g, na.rm = T) + 200)
+    dplyr::summarize(max = max(cum_CO2C_mg_gC),
+                     y = max(cum_CO2C_mg_gC, na.rm = T) + 200)
   
   amend_label <- flux_summary %>% 
     group_by(Moisture) %>% 
-    do(fit_hsd_amend(.$cum_CO2C_mg_g, .$Amendments)) %>% 
+    do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
     dplyr::mutate(skip = control==C & C==N) %>% 
     filter(!skip) %>% 
     dplyr::select(-skip) %>% 
@@ -193,18 +193,18 @@ do_labels_cumflux_intact2 = function(depvar, flux_summary){
   wetting_label <- 
     flux_summary %>% 
     group_by(Moisture, Amendments) %>% 
-    do(fit_aov_wetting2(.$cum_CO2C_mg_g, .$Wetting))
+    do(fit_aov_wetting2(.$cum_CO2C_mg_gC, .$Wetting))
   
   # 4. combined label ----
   
   amend_label %>% rbind(moisture_label)
 }
 do_gg_cumfluxflux_boxplot2 <- function(flux_summary) {
-  cumflux_label2 <- do_labels_cumflux_intact2("cum_CO2C_mg_g", flux_summary %>% filter(Homogenization=="Intact"))
+  cumflux_label2 <- do_labels_cumflux_intact2("cum_CO2C_mg_gC", flux_summary %>% filter(Homogenization=="Intact"))
 
   flux_summary %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = cum_CO2C_mg_g))+
+    ggplot(aes(x = Moisture, y = cum_CO2C_mg_gC))+
     geom_boxplot(aes(group = Moisture), 
                  fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
     geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
@@ -243,11 +243,11 @@ do_labels_cumflux_homo = function(depvar, flux_summary){
 }
 do_cumflux_boxplot_homo = function(flux_summary){
   
-  homo_labels = do_labels_cumflux_homo("cum_CO2C_mg_g", flux_summary)
+  homo_labels = do_labels_cumflux_homo("cum_CO2C_mg_gC", flux_summary)
   
   gg_cumflux_homo = 
     flux_summary %>% 
-    ggplot(aes(x = Homogenization, y = cum_CO2C_mg_g))+
+    ggplot(aes(x = Homogenization, y = cum_CO2C_mg_gC))+
     geom_boxplot(aes(group=Homogenization), width = 0.4)+
     geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
                aes(fill = Moisture, shape = Wetting, group = Moisture))+
@@ -272,15 +272,15 @@ do_flux_ts = function(flux){
   meanflux = 
     flux %>% 
     group_by(Homogenization, Moisture, Wetting, Amendments, Assignment, elapsed_min_bin) %>%
-    summarise(CO2C_mg_g_s = mean(CO2C_mg_g_s))
+    dplyr::summarise(CO2C_mg_gC_s = mean(CO2C_mg_gC_s))
   
   gg_flux_ts = 
     ggplot()+
     geom_smooth(data = flux, 
-                aes(x = elapsed_min_bin/60, y = CO2C_mg_g_s*1000, group=CORE, color = Amendments), 
+                aes(x = elapsed_min_bin/60, y = CO2C_mg_gC_s*1000, group=CORE, color = Amendments), 
                 size=0.5, alpha = 0.5, se=FALSE)+
     geom_smooth(data = meanflux,
-                aes(x = elapsed_min_bin/60, y = CO2C_mg_g_s*1000, color = Amendments),
+                aes(x = elapsed_min_bin/60, y = CO2C_mg_gC_s*1000, color = Amendments),
                 se=FALSE, size=1.5)+ #geom_point()+
     scale_color_manual(values = pal3)+
     labs(title = "mean CO2-C flux",
@@ -300,7 +300,7 @@ do_flux_ts_bycore = function(flux){
     flux %>% 
     filter(Homogenization=="Intact") %>% 
     arrange(CORE, elapsed_min_bin) %>% 
-    ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = as.character(CORE)))+
+    ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
     geom_path()+ geom_point()+
     ylim(0, 30)+
     labs(title = "intact cores")+
@@ -311,7 +311,7 @@ do_flux_ts_bycore = function(flux){
     flux %>% 
     filter(Homogenization=="Homogenized") %>% 
     arrange(CORE, elapsed_min_bin) %>% 
-    ggplot(aes(x = elapsed_min_bin, y = CO2_umol_g_s*1000, color = as.character(CORE)))+
+    ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
     geom_path()+ geom_point()+
     ylim(0, 30)+
     labs(title = "homogenized cores")+
@@ -325,23 +325,23 @@ do_flux_summarytable = function(flux_summary){
   flux_summarytable =
     flux_summary %>% 
     group_by(Homogenization,Assignment, Moisture, Wetting, Amendments) %>% 
-    summarise(se_cum_CO2C_mg_g = sd(cum_CO2C_mg_g, na.rm = T)/sqrt(n()),
-              cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = T)) %>% 
-    mutate(cum_CO2C_mg_g = paste(round(cum_CO2C_mg_g,2), "\u00b1", round(se_cum_CO2C_mg_g,2))) %>% 
+    summarise(se_cum_CO2C_mg_gC = sd(cum_CO2C_mg_gC, na.rm = T)/sqrt(n()),
+              cum_CO2C_mg_gC = mean(cum_CO2C_mg_gC, na.rm = T)) %>% 
+    mutate(cum_CO2C_mg_gC = paste(round(cum_CO2C_mg_gC,2), "\u00b1", round(se_cum_CO2C_mg_gC,2))) %>% 
     ungroup %>% 
-    select(Homogenization, Assignment, Moisture, Wetting, Amendments, cum_CO2C_mg_g)
+    select(Homogenization, Assignment, Moisture, Wetting, Amendments, cum_CO2C_mg_gC)
   
 }
 
 # IV. STATISTICS ----------------------------------------------------------
 
 compute_lme_flux_overall = function(flux_summary){
-  l = lme4::lmer(log(cum_CO2C_mg_g) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
+  l = lme4::lmer(log(cum_CO2C_mg_gC) ~ (Homogenization+Moisture+Wetting+Amendments)^2 + (1|CORE), 
                  data = flux_summary)
   car::Anova(l, type = "III")
 }
 compute_aov_flux_intact = function(flux_summary){
-  l = lm(log(cum_CO2C_mg_g) ~ (Moisture + Amendments + Wetting)^2,
+  l = lm(log(cum_CO2C_mg_gC) ~ (Moisture + Amendments + Wetting)^2,
          data = flux_summary)
   
   car::Anova(l, type="III")

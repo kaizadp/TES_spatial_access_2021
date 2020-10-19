@@ -56,19 +56,19 @@ loadd(flux_summary)
 flux_summary %>% 
   filter(Homogenization=="Intact") %>% 
   group_by(Amendments, Moisture) %>% 
-  dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
-  ggplot(aes(x = Amendments, y = cum_CO2C_mg_g, color = Moisture))+
+  dplyr::summarize(cum_CO2C_mg_gC = mean(cum_CO2C_mg_gC, na.rm = TRUE)) %>% 
+  ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC, color = Moisture))+
   geom_point()+ geom_path(aes(group = Moisture))+
   NULL
 
 flux_summary %>% 
   filter(Homogenization=="Intact") %>% 
   group_by(Amendments, Moisture) %>% 
-  dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
-  ggplot(aes(x = Amendments, y = cum_CO2C_mg_g, color = Moisture))+
+  dplyr::summarize(cum_CO2C_mg_gC = mean(cum_CO2C_mg_gC, na.rm = TRUE)) %>% 
+  ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC, color = Moisture))+
   geom_path(aes(group = Moisture))+
   geom_point(data = flux_summary %>% filter(Homogenization=="Intact"), 
-             aes(x = Amendments, y = cum_CO2C_mg_g, color = Moisture))+
+             aes(x = Amendments, y = cum_CO2C_mg_gC, color = Moisture))+
   NULL
 ```
 
@@ -139,7 +139,7 @@ cumulative CO2-C, mgC/g soil
 ```{r summarytable}
 readd(flux_summarytable) %>% 
   dplyr::select(-Assignment) %>% 
-  spread(Amendments, cum_CO2C_mg_g) %>% 
+  spread(Amendments, cum_CO2C_mg_gC) %>% 
   knitr::kable(align = "c")
 ```
 
@@ -176,7 +176,7 @@ flux_boxplotlabel = tribble(
 
 flux_summary %>% 
   filter(Homogenization=="Intact") %>% 
-  ggplot(aes(x = Wetting, y = cum_CO2C_mg_g))+
+  ggplot(aes(x = Wetting, y = cum_CO2C_mg_gC))+
   geom_boxplot(width=0.5, fill = "grey90", color = "grey60", alpha = 0.3)+
   geom_point(size=4, stroke=1, position = position_dodge(width = 0.5), 
              aes(fill = Amendments, shape = Amendments))+ 

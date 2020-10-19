@@ -46,34 +46,34 @@ respiration_plan =
     # ----- ---------------------------------------------------------------------
     # IV. stats -------------------------------------------------------------------
     # overall LME 
-    aov_flux_all =  
-      flux_summary %>% 
-      do(compute_lme_flux_overall(.)),
-    
-    # intact
-    aov_flux_intact = flux_summary %>% 
-      filter(Homogenization=="Intact") %>% 
-      do(compute_aov_flux_intact(.)),
-    
-    ## homogenization:amendments ----
-    flux_interx_plot =  
-      flux_summary %>% 
-      # filter(Homogenization=="Intact") %>% 
-      group_by(Amendments, Homogenization) %>% 
-      dplyr::summarize(cum_CO2C_mg_g = mean(cum_CO2C_mg_g, na.rm = TRUE)) %>% 
-      ggplot(aes(x = Amendments, y = cum_CO2C_mg_g, color = Homogenization))+
-      geom_point()+geom_path(aes(group = Homogenization))+
-      NULL,
-    
-    aov_homo_c =     
-      car::Anova(lmer(log(cum_CO2C_mg_g) ~ Homogenization + (1|CORE), 
-                      data = flux_summary %>% filter(Amendments == "C")), 
-                 type = "III"),
-    
-    aov_homo_n =     
-      car::Anova(lmer(log(cum_CO2C_mg_g) ~ Homogenization + (1|CORE), 
-                      data = flux_summary %>% filter(Amendments == "N")), 
-                 type = "III"),
+    ##    aov_flux_all =  
+    ##      flux_summary %>% 
+    ##      do(compute_lme_flux_overall(.)),
+    ##    
+    ##    # intact
+    ##    aov_flux_intact = flux_summary %>% 
+    ##      filter(Homogenization=="Intact") %>% 
+    ##      do(compute_aov_flux_intact(.)),
+    ##    
+    ##    ## homogenization:amendments ----
+    ##    flux_interx_plot =  
+    ##      flux_summary %>% 
+    ##      # filter(Homogenization=="Intact") %>% 
+    ##      group_by(Amendments, Homogenization) %>% 
+    ##      dplyr::summarize(cum_CO2C_mg_gC = mean(cum_CO2C_mg_gC, na.rm = TRUE)) %>% 
+    ##      ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC, color = Homogenization))+
+    ##      geom_point()+geom_path(aes(group = Homogenization))+
+    ##      NULL,
+    ##    
+    ##    aov_homo_c =     
+    ##      car::Anova(lmer(log(cum_CO2C_mg_gC) ~ Homogenization + (1|CORE), 
+    ##                      data = flux_summary %>% filter(Amendments == "C")), 
+    ##                 type = "III"),
+    ##    
+    ##    aov_homo_n =     
+    ##      car::Anova(lmer(log(cum_CO2C_mg_gC) ~ Homogenization + (1|CORE), 
+    ##                      data = flux_summary %>% filter(Amendments == "N")), 
+    ##                 type = "III"),
     
     # ----- ---------------------------------------------------------------------
     # V. report ------------------------------------------------------------------

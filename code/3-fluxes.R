@@ -14,8 +14,7 @@ source("code/0-packages.R")
 corekey = read.csv("data/processed/corekey.csv")
 fluxes_input = read.csv("data/GHG_Flux_exclOutliers.csv")
 coreweights = read.csv("data/core_weights.csv") %>% 
-  dplyr::select(CORE, Homogenization, dry_wt_fine_g)
-
+  dplyr::select(CORE, Homogenization, dry_wt_fine_g, totalC_perc)
 ## clean the flux data
 
 flux = 
@@ -28,7 +27,9 @@ flux =
          elapsed_min_bin = `ElapsedMin.BIN.`) %>% 
   mutate(CO2C_mg_g_s = CO2_umol_g_s*12/1000) %>% 
   left_join(corekey, by = c("CORE"="Core")) %>% 
-  mutate(Homogenization = recode(Homogenization, " Intact" = "Intact"))
+  mutate(Homogenization = recode(Homogenization, " Intact" = "Intact")) %>% 
+  left_join(dplyr::select(coreweights, CORE, Homogenization, totalC_perc), by = c("CORE", "Homogenization")) %>% 
+  mutate(CO2C_mg_gC_s = CO2C_mg_g_s*100/totalC_perc)
 
 
 # summaries ---------------------------------------------------------------
@@ -38,12 +39,13 @@ flux =
 flux_summary = 
   flux %>% 
   group_by(ID, CORE, Homogenization) %>% 
-  summarise(mean_CO2_nmol_g_s = mean(CO2_umol_g_s*1000),
+  summarise(mean_CO2C_mg_gC_s = round(mean(CO2C_mg_gC_s),2),
             cum_CO2C_mg = max(CO2C_cum_mg)) %>% 
   ungroup() %>% 
   left_join(coreweights, by = c("CORE", "Homogenization")) %>% 
-  mutate(cum_CO2C_mg_g = round(cum_CO2C_mg/dry_wt_fine_g,2)) %>% 
-  dplyr::select(CORE, Homogenization, mean_CO2_nmol_g_s, cum_CO2C_mg_g) %>% 
+  mutate(cum_CO2C_mg_g = round(cum_CO2C_mg/dry_wt_fine_g,2),
+         cum_CO2C_mg_gC = round(cum_CO2C_mg_g*100/totalC_perc,2)) %>% 
+  dplyr::select(CORE, Homogenization, mean_CO2C_mg_gC_s, cum_CO2C_mg_gC) %>% 
   left_join(corekey, by = c("CORE"="Core"))
 
 
