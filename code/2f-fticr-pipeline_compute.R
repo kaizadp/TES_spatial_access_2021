@@ -87,6 +87,21 @@ compute_permanova_intact = function(dat){
   
   broom::tidy(permanova_fticr_int$aov.tab)
 }
+compute_permanova_intact_overall = function(dat){
+  relabund_wide = 
+    dat %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Amendments, Suction) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0)
+  
+  permanova_fticr_int = 
+    adonis(relabund_wide %>% select(aliphatic:condensed_arom) ~ (Suction+Amendments+Moisture+Wetting)^2, 
+           data = relabund_wide)
+  
+  broom::tidy(permanova_fticr_int$aov.tab)
+}
 
 # total peaks
 compute_lme_peaks_overall = function(peakcounts_core){
