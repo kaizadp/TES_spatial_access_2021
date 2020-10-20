@@ -10,13 +10,13 @@ library(patchwork)
 library(dplyr)
 
 # Pipeline functions
-source("code/2f-fticr-pipeline_plotting.R")
+source("code/2f-fticr-pipeline_plotting_new.R")
 source("code/2f-fticr-pipeline_tables.R")
 source("code/2f-fticr-pipeline_compute.R")
 source("code/2f-fticr-pipeline_reading.R")
 
 # Setup (from here from plan)
-pal <- pnw_palette("Bay", 3)
+pal <- PNWColors::pnw_palette("Bay", 3)
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
 # BBL: Why are you getting cache this way? Should not be necessary
@@ -162,6 +162,11 @@ fticr_plan <-
     relabund_permanova_overall = compute_permanova_overall(relabund_cores),
     
     # intact cores by suction
+    relabund_permanova_int = 
+      relabund_cores %>% 
+      filter(Homogenization=="Intact") %>% 
+      do(compute_permanova_intact_overall(.)),
+    
     relabund_permanova_int_1 = 
       relabund_cores %>% 
       filter(Suction==1.5 & Homogenization=="Intact") %>% 
