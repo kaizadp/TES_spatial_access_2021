@@ -63,3 +63,46 @@ do_peakcount_tables <- function(peakcounts_core, fticr_key) {
        peakcounts_table_aromatic = peakcounts_table_aromatic,
        aliphatic_aromatic_counts = aliphatic_aromatic_counts)
 }
+
+peakcount_table_stats <- function(peakcounts_core){
+  peakcounts_total <-
+    peakcounts_core %>% 
+    filter(class=="total" & Homogenization == "Intact") 
+
+  do_peakcount_dunnett = function(dat){
+    d <-DescTools::DunnettTest(log(counts)~Amendments, control = "control", data = dat)
+    tibble(C = d$control["C-control", 4],
+           N = d$control["N-control", 4])
+  }
+  do_peakcount_stats_fullANOVA = function(dat){
+    l = lm(log(counts) ~ Moisture*Wetting, data = dat)
+    a = car::Anova(l, type = "III")
+    broom::tidy((a)) %>% filter(term != "Residuals")
+  }
+  
+  peakcount_dunnett = 
+    peakcounts_total %>% 
+    group_by(Suction, Moisture, Wetting) %>% 
+    do(do_peakcount_dunnett(.))
+  
+  peakcount_dunnett_grandmeans = 
+    peakcounts_total %>% 
+    group_by(Suction) %>% 
+    do(do_peakcount_dunnett(.))
+  
+  peakcount_stats_fullANOVA = 
+    peakcounts_total %>% 
+    group_by(Suction, Amendments) %>% 
+    do(do_peakcount_stats_fullANOVA(.)) %>% 
+    ungroup() %>% 
+    mutate(`p.value` = round(`p.value`,4))
+    
+  list(peakcount_dunnett = peakcount_dunnett,
+       peakcount_stats_fullANOVA = peakcount_stats_fullANOVA)
+  
+}
+peakcount_table_stats(peakcounts_core)
+
+peakcounts_total %>% 
+  group_by(Suction, Amendments) %>% 
+  dplyr::summarise(mean = as.integer(mean(counts)))
