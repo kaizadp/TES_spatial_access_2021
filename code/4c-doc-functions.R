@@ -102,6 +102,79 @@ plot_doc_fullcore = function(doc){
   
 }
 
+
+do_scatterplot_stats = function(depvar, doc){
+  fit_stats = function(depvar, Amendments){
+    l = lm((depvar) ~ Amendments)
+    a = car::Anova(l, type = "III")
+    broom::tidy(a) %>% 
+      filter(term == "Amendments") %>% 
+      rename(p_value = `p.value`)
+  }
+  
+  fit_stats_C = 
+    doc %>% 
+    filter(Amendments != "N") %>% 
+    group_by(Moisture, Wetting) %>% 
+    do(fit_stats(.[[depvar]], .$Amendments)) %>% 
+    mutate(Amendments = "C")
+  
+  fit_stats_N = 
+    doc %>% 
+    filter(Amendments != "C") %>% 
+    group_by(Moisture, Wetting) %>% 
+    do(fit_stats(.[[depvar]], .$Amendments)) %>% 
+    mutate(Amendments = "N")
+  
+  rbind(fit_stats_C, fit_stats_N) %>% 
+    mutate(label = case_when(p_value <= 0.05 ~ "*",
+                             p_value > 0.05 & p_value <= 0.10 ~ "\u02d9"),
+           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
+                           Moisture=="fm"&Wetting=="groundw" ~ 2,
+                           Moisture=="drought"&Wetting=="precip" ~ 3,
+                           Moisture=="drought"&Wetting=="groundw" ~ 4),
+           x_2 = case_when(Amendments=="control" ~ -0.2,
+                           Amendments=="C" ~ 0,
+                           Amendments=="N" ~ +0.2),
+           x = x_1 + x_2)
+}
+do_doc_boxplot = function(doc){
+  doc_label2 = 
+    do_scatterplot_stats("DOC_ug_gC", doc %>% 
+                           filter(Homogenization=="Intact"))
+  
+  
+  doc %>% 
+    filter(Homogenization=="Intact") %>% 
+    ggplot(aes(x = interaction(Wetting, Moisture), y = DOC_ug_gC))+
+    #  geom_boxplot(aes(fill = Amendments), 
+    #               alpha = 0.3, color = "grey60", width = 0.6,
+    #               show.legend = F)+
+    geom_point(aes(fill = Amendments, shape = Wetting),
+               size=4, stroke=1, position = position_dodge(width = 0.6))+
+    #  geom_text(data = doc_label2, 
+    #            aes(x = x, y = 1900, label = label), size=10)+
+    
+    scale_fill_manual(values = pal3)+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "WSOC full core",
+         x = "")+
+    annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 1950, ymax = 2050, alpha = 0.2, fill = "yellow")+
+    annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 1950, ymax = 2050, alpha = 0.2, fill = "red")+
+    annotate("text", label = "FM", x = 1.5, y = 2000)+
+    annotate("text", label = "Drought", x = 3.5, y = 2000)+
+    annotate("segment", x = 2.5, xend = 2.5, y = 50, yend = 2000, color = "grey70")+
+    scale_x_discrete(breaks = c("precip.fm", "groundw.fm", "precip.drought", "groundw.drought"),
+                     labels  =c("precip", "groundw", "precip", "groundw"))+
+    facet_grid(Homogenization~.)+
+    theme_kp()+
+    theme(panel.grid.major.x = element_blank())+
+    NULL
+}
+
+#
+######### OLD PLOTS ######### ----
 # intact cores (full core)
 fit_aov_wetting = function(depvar, Wetting){
   # boxplot p-values

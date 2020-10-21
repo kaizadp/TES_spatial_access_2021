@@ -15,6 +15,8 @@ knitr::opts_chunk$set(echo = FALSE,
 library(drake)
 ```
 
+
+## PLOTS 
 ```{r doc_plot1, fig.width=8, eval=FALSE}
 readd(gg_doc_allpanels)
 ```
@@ -39,13 +41,21 @@ readd(gg_doc_suctions)
 
 full core
 
-```{r doc_boxplot_intact, fig.width=5, fig.height=5}
+```{r doc_boxplot_intact, fig.width=7, fig.height=5}
 readd(gg_doc_fullcore_intact)
 ```
 
 ```{r doc_boxplot_homo, fig.width=10, fig.height=4}
 readd(gg_doc_fullcore_homo)
 ```
+
+
+## TABLES
+
+```{r doc_table}
+readd(doc_table)
+```
+
 
 ## what influenced DOC?
 

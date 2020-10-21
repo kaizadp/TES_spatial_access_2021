@@ -1,6 +1,8 @@
 doc\_report
 ================
 
+## PLOTS
+
     #> $gg_doc_boxplot_suctions_combined
 
 ![](markdown-figs/doc/doc_boxplot4-1.png)<!-- -->
@@ -9,7 +11,20 @@ full core
 
 ![](markdown-figs/doc/doc_boxplot_intact-1.png)<!-- -->
 
-![](markdown-figs/doc/doc_boxplot_homo-1.png)<!-- -->
+    #> [1] NA
+
+## TABLES
+
+| Homogenization | Moisture | Wetting | control        | C               | N           |
+| :------------- | :------- | :------ | :------------- | :-------------- | :---------- |
+| Intact         | fm       | precip  | 0.25 ± 0.03    | 985.72 ± 314.24 | 0.49 ± 0.15 |
+| Intact         | fm       | groundw | 0.32 ± 0.09    | 255.51 ± 66.81  | 0.33 ± 0.22 |
+| Intact         | drought  | precip  | 0.66 ± 0.14    | 917.11 ± 556.88 | 1.44 ± 0.49 |
+| Intact         | drought  | groundw | 0.46 ± 0.04    | 367.52 ± 115.62 | 0.29 ± 0.11 |
+| Homogenized    | fm       | precip  | 0.49 ± 0.08    | 48.59 ± 16.75   | 0.38 ± 0.18 |
+| Homogenized    | fm       | groundw | 0.65 ± 0.16    | 1.13 ± 0.15     | 0.38 ± 0.09 |
+| Homogenized    | drought  | precip  | 100.12 ± 48.42 | 4.65 ± 2.28     | 1.13 ± 0.25 |
+| Homogenized    | drought  | groundw | 76.07 ± 55.47  | 20.63 ± 8.28    | 1.38 ± 0.49 |
 
 ## what influenced DOC?
 
@@ -99,7 +114,7 @@ how much DOC was added as part of the amendment?
 
 <summary>click to expand</summary>
 
-Date run: 2020-10-19
+Date run: 2020-10-21
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -122,37 +137,40 @@ Date run: 2020-10-19
     #> [13] tibble_3.0.3    ggplot2_3.3.2   tidyverse_1.3.0
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
-    #>  [4] rio_0.5.16         fs_1.5.0           rstudioapi_0.11   
-    #>  [7] farver_2.0.3       soilpalettes_0.1.0 fansi_0.4.1       
-    #> [10] lubridate_1.7.9    xml2_1.3.2         splines_4.0.2     
-    #> [13] knitr_1.29         jsonlite_1.7.0     nloptr_1.2.2.2    
-    #> [16] packrat_0.5.0      broom_0.7.0        cluster_2.1.0     
-    #> [19] dbplyr_1.4.4       shiny_1.5.0        compiler_4.0.2    
-    #> [22] httr_1.4.2         backports_1.1.8    assertthat_0.2.1  
-    #> [25] Matrix_1.2-18      fastmap_1.0.1      cli_2.0.2         
-    #> [28] later_1.1.0.1      htmltools_0.5.0    prettyunits_1.1.1 
-    #> [31] tools_4.0.2        igraph_1.2.5       gtable_0.3.0      
-    #> [34] agricolae_1.3-3    glue_1.4.1         Rcpp_1.0.5        
-    #> [37] cellranger_1.1.0   vctrs_0.3.2        nlme_3.1-148      
-    #> [40] xfun_0.16          openxlsx_4.1.5     lme4_1.1-23       
-    #> [43] rvest_0.3.6        mime_0.9           miniUI_0.1.1.1    
-    #> [46] lifecycle_0.2.0    statmod_1.4.34     MASS_7.3-51.6     
-    #> [49] scales_1.1.1       hms_0.5.3          promises_1.1.1    
-    #> [52] parallel_4.0.2     yaml_2.2.1         curl_4.3          
-    #> [55] labelled_2.5.0     stringi_1.4.6      highr_0.8         
-    #> [58] klaR_0.6-15        AlgDesign_1.2.0    filelock_1.0.2    
-    #> [61] boot_1.3-25        zip_2.1.0          storr_1.2.1       
-    #> [64] rlang_0.4.7        pkgconfig_2.0.3    evaluate_0.14     
-    #> [67] lattice_0.20-41    labeling_0.3       tidyselect_1.1.0  
-    #> [70] plyr_1.8.6         magrittr_1.5       R6_2.4.1          
-    #> [73] generics_0.0.2     base64url_1.4      combinat_0.0-8    
-    #> [76] txtq_0.2.3         DBI_1.1.0          pillar_1.4.6      
-    #> [79] haven_2.3.1        foreign_0.8-80     withr_2.2.0       
-    #> [82] abind_1.4-5        modelr_0.1.8       crayon_1.3.4      
-    #> [85] questionr_0.7.1    rmarkdown_2.3      progress_1.2.2    
-    #> [88] grid_4.0.2         readxl_1.3.1       data.table_1.13.0 
-    #> [91] blob_1.2.1         reprex_0.3.0       digest_0.6.25     
-    #> [94] xtable_1.8-4       httpuv_1.5.4       munsell_0.5.0
+    #>   [1] minqa_1.2.4        colorspace_1.4-1   ellipsis_0.3.1    
+    #>   [4] class_7.3-17       rio_0.5.16         fs_1.5.0          
+    #>   [7] gld_2.6.2          rstudioapi_0.11    farver_2.0.3      
+    #>  [10] soilpalettes_0.1.0 fansi_0.4.1        mvtnorm_1.1-1     
+    #>  [13] lubridate_1.7.9    xml2_1.3.2         splines_4.0.2     
+    #>  [16] rootSolve_1.8.2.1  knitr_1.29         jsonlite_1.7.0    
+    #>  [19] nloptr_1.2.2.2     packrat_0.5.0      broom_0.7.0       
+    #>  [22] cluster_2.1.0      dbplyr_1.4.4       shiny_1.5.0       
+    #>  [25] compiler_4.0.2     httr_1.4.2         backports_1.1.8   
+    #>  [28] assertthat_0.2.1   Matrix_1.2-18      fastmap_1.0.1     
+    #>  [31] cli_2.0.2          later_1.1.0.1      prettyunits_1.1.1 
+    #>  [34] htmltools_0.5.0    tools_4.0.2        igraph_1.2.5      
+    #>  [37] gtable_0.3.0       agricolae_1.3-3    glue_1.4.1        
+    #>  [40] lmom_2.8           Rcpp_1.0.5         cellranger_1.1.0  
+    #>  [43] vctrs_0.3.2        nlme_3.1-148       xfun_0.16         
+    #>  [46] openxlsx_4.1.5     lme4_1.1-23        rvest_0.3.6       
+    #>  [49] mime_0.9           miniUI_0.1.1.1     lifecycle_0.2.0   
+    #>  [52] statmod_1.4.34     MASS_7.3-51.6      scales_1.1.1      
+    #>  [55] hms_0.5.3          promises_1.1.1     parallel_4.0.2    
+    #>  [58] expm_0.999-5       yaml_2.2.1         curl_4.3          
+    #>  [61] Exact_2.1          labelled_2.5.0     stringi_1.4.6     
+    #>  [64] highr_0.8          klaR_0.6-15        AlgDesign_1.2.0   
+    #>  [67] e1071_1.7-3        filelock_1.0.2     boot_1.3-25       
+    #>  [70] zip_2.1.0          storr_1.2.1        rlang_0.4.7       
+    #>  [73] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41   
+    #>  [76] labeling_0.3       tidyselect_1.1.0   plyr_1.8.6        
+    #>  [79] magrittr_1.5       R6_2.4.1           DescTools_0.99.38 
+    #>  [82] generics_0.0.2     base64url_1.4      combinat_0.0-8    
+    #>  [85] txtq_0.2.3         DBI_1.1.0          pillar_1.4.6      
+    #>  [88] haven_2.3.1        foreign_0.8-80     withr_2.2.0       
+    #>  [91] abind_1.4-5        modelr_0.1.8       crayon_1.3.4      
+    #>  [94] questionr_0.7.1    rmarkdown_2.3      progress_1.2.2    
+    #>  [97] grid_4.0.2         readxl_1.3.1       data.table_1.13.0 
+    #> [100] blob_1.2.1         reprex_0.3.0       digest_0.6.25     
+    #> [103] xtable_1.8-4       httpuv_1.5.4       munsell_0.5.0
 
 </details>
