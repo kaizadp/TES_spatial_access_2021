@@ -94,7 +94,7 @@ For intact cores,
 
 ## graphs 
 
-```{r cum_flux_boxplot, fig.width=5, fig.height=5}
+```{r cum_flux_boxplot, fig.width=7, fig.height=5}
 readd(gg_flux_cum_intact_boxplot)
 ```
 
@@ -135,7 +135,7 @@ readd(gg_flux_ts_core_homo)
 
 
 ## summary table 
-cumulative CO2-C, mgC/g soil
+cumulative CO2-C, mgC/g C
 ```{r summarytable}
 readd(flux_summarytable) %>% 
   dplyr::select(-Assignment) %>% 

@@ -13,255 +13,326 @@ read_file <- function(fn) {
 # II. PLOTTING --------------------------------------------------------------
 pal3 = c("#FFE733", "#96001B", "#2E5894") #soil_palette("redox2")
 
-
 ## IIa.  cum-flux ----------------------------------------------------------------
 
-# old scatterplot
-fit_hsd = function(dat) {
-  a = aov(log(cum_CO2C_mg_gC) ~ Amendments, data = dat)
-  h = agricolae::HSD.test(a,"Amendment")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}  
-do_cumflux_scatterplot = function(flux_summary){
+do_scatterplot_stats = function(depvar, flux_summary){
+  fit_stats = function(depvar, Amendments){
+    l = lm((depvar) ~ Amendments)
+    a = car::Anova(l, type = "III")
+    broom::tidy(a) %>% 
+      filter(term == "Amendments") %>% 
+      rename(p_value = `p.value`)
+  }
   
-  flux_hsd = 
+  fit_stats_C = 
     flux_summary %>% 
-    group_by(Moisture, Wetting, Homogenization) %>% 
-    do(fit_hsd(.)) %>% 
-    # retain only those with differences
-    mutate(newcol = paste0(control,C,N)) %>% 
-    filter(!newcol=="aaa") %>% 
-    select(-newcol) %>% 
-    pivot_longer(-c(Moisture, Wetting, Homogenization),
-                 names_to = "Amendments",
-                 values_to = "label")
-  
-  ## make labels with hsd
-  flux_cum_labels = 
-    flux_summary %>% 
-    na.omit() %>% 
-    group_by(Moisture, Wetting, Homogenization, Amendments) %>% 
-    summarize(y_lab = max(cum_CO2C_mg_gC)) %>% 
-    left_join(flux_hsd) %>% 
-    na.omit()
-  
-  ## plot
-  gg_flux_cum = 
-    flux_summary %>% 
-    ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC))+
-    geom_point(size=2)+ 
-    geom_text(data = flux_cum_labels, aes(x = Amendments, y = y_lab+70, label = label))+
-    #scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
-    labs(title = "cumulative CO2-C evolved")+
-    facet_grid(Homogenization~Moisture+Wetting)+
-    theme_kp()+
-    theme(panel.grid = element_blank())
-  
-  list(gg_flux_cum)
-}
-
-# scatter + boxplot (intact cores)
-fit_aov_wetting = function(depvar, Wetting){
-  # boxplot p-values
-  a1 <- aov(log(depvar) ~ Wetting)
-  label_a1 <- broom::tidy(a1) %>% 
-    filter(term != "Residuals") %>% 
-    mutate(p_value = round(p.value, 4)) %>% 
-    dplyr::select(term, p_value) 
-}
-fit_hsd_amend <- function(depvar, Amendments) {
-  a <-aov(log(depvar) ~ Amendments)
-  h <-agricolae::HSD.test(a,"Amendments")
-  #create a tibble with one column for each treatment
-  #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
-  tibble(`control` = h$groups["control",2], 
-         `C` = h$groups["C",2],
-         `N` = h$groups["N",2])
-}
-
-do_labels_cumflux_intact = function(depvar, flux_summary){
-  # 1. p-values for moisture ----
-  wetting_label <- 
-    flux_summary %>% 
-    group_by(Moisture) %>% 
-    do(fit_aov_wetting(.[[depvar]], .$Wetting)) %>% 
-    mutate(x = 1.5,
-           y = 0,
-           label = paste("p =", p_value),
-           label = if_else(p_value == 0, "p < 0.0001", label))
-  
-  # 2. HSD for amendments ----
-  hsd_y <- 
-    flux_summary %>% 
-    filter(Homogenization=="Intact") %>% 
-    group_by(Moisture, Wetting, Amendments) %>% 
-    dplyr::summarize(
-      y = max(cum_CO2C_mg_gC, na.rm = T) + 0.5)
-  
-  amend_label <- 
-    flux_summary %>% 
+    filter(Amendments != "N") %>% 
     group_by(Moisture, Wetting) %>% 
-    do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
-    dplyr::mutate(skip = control==C & C==N) %>% 
-    filter(!skip) %>% 
-    dplyr::select(-skip) %>% 
-    pivot_longer(-c(Moisture, Wetting),
-                 names_to = "Amendments",
-                 values_to = "label") %>% 
-    mutate(w = dplyr::recode(Wetting, "precip"="1" , "groundw"="2"),
-           am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
-           x = as.numeric(w)+as.numeric(am)) %>% 
-    left_join(hsd_y)
+    do(fit_stats(.[[depvar]], .$Amendments)) %>% 
+    mutate(Amendments = "C")
   
+  fit_stats_N = 
+    flux_summary %>% 
+    filter(Amendments != "C") %>% 
+    group_by(Moisture, Wetting) %>% 
+    do(fit_stats(.[[depvar]], .$Amendments)) %>% 
+    mutate(Amendments = "N")
   
-  # 4. combined label ----
-  amend_label %>% rbind(wetting_label)
+  rbind(fit_stats_C, fit_stats_N) %>% 
+    mutate(label = case_when(p_value <= 0.05 ~ "*",
+                             p_value > 0.05 & p_value <= 0.10 ~ "\u02d9"),
+           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
+                           Moisture=="fm"&Wetting=="groundw" ~ 2,
+                           Moisture=="drought"&Wetting=="precip" ~ 3,
+                           Moisture=="drought"&Wetting=="groundw" ~ 4),
+           x_2 = case_when(Amendments=="control" ~ -0.2,
+                           Amendments=="C" ~ 0,
+                           Amendments=="N" ~ +0.2),
+           x = x_1 + x_2)
 }
 do_cumflux_boxplot = function(flux_summary){
+  cumflux_label2 = 
+    do_scatterplot_stats("cum_CO2C_mg_gC", flux_summary %>% 
+                           filter(Homogenization=="Intact"))
   
-  cumflux_label = do_labels_cumflux_intact("cum_CO2C_mg_gC", flux_summary)
   
   flux_summary %>% 
     filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Wetting, y = cum_CO2C_mg_gC))+
-    geom_boxplot(width=0.6, fill = "grey90", color = "grey60", alpha = 0.3)+
-    geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
-               aes(fill = Amendments), shape = 21)+ 
-    #scale_shape_manual(values = c(21,22,23))+
-    scale_fill_manual(values = pal3)+
-    labs(title = "cumulative CO2-C evolved")+
-    #annotate("text", label = "p = xx", x = 1.5, y = 20)+
-    geom_text(data = cumflux_label, aes(x = x, y = y, label = label), size=5)+
-    facet_grid(Homogenization~Moisture)+
-    theme_kp()+
-    theme(panel.grid = element_blank())+
-    NULL
-}
-
-# scatter + boxplot (intact cores) -- #2
-fit_aov_moisture = function(depvar, Moisture){
-  # boxplot p-values
-  a1 <- aov(log(depvar) ~ Moisture)
-  label_a1 <- broom::tidy(a1) %>% 
-    filter(term != "Residuals") %>% 
-    mutate(p_value = round(p.value, 4)) %>% 
-    dplyr::select(term, p_value) 
-}
-fit_aov_wetting2 = function(depvar, Wetting){
-  a3 = aov(log(depvar) ~ Wetting)
-  broom::tidy(a3) %>% 
-    filter(term != "Residuals") %>% 
-    dplyr::select(term, `p.value`) %>% 
-    filter(`p.value` <= 0.05)
-}
-
-do_labels_cumflux_intact2 = function(depvar, flux_summary){
-  # 1. p-values for moisture ----
-  moisture_label <- 
-    flux_summary %>% 
-    do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
-    mutate(x = 1.5,
-           y = 0,
-           label = paste("p =", p_value),
-           label = if_else(p_value == 0, "p < 0.0001", label))
-  
-  # 2. HSD for amendments ----
-  hsd_y <- flux_summary %>% 
-    group_by(Moisture, Amendments) %>% 
-    dplyr::summarize(max = max(cum_CO2C_mg_gC),
-                     y = max(cum_CO2C_mg_gC, na.rm = T) + 200)
-  
-  amend_label <- flux_summary %>% 
-    group_by(Moisture) %>% 
-    do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
-    dplyr::mutate(skip = control==C & C==N) %>% 
-    filter(!skip) %>% 
-    dplyr::select(-skip) %>% 
-    pivot_longer(-c(Moisture),
-                 names_to = "Amendments",
-                 values_to = "label") %>% 
-    mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
-           am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
-           x = as.numeric(m)+as.numeric(am)) %>% 
-    left_join(hsd_y)
-  
-  # 3. wetting label ----
-  wetting_label <- 
-    flux_summary %>% 
-    group_by(Moisture, Amendments) %>% 
-    do(fit_aov_wetting2(.$cum_CO2C_mg_gC, .$Wetting))
-  
-  # 4. combined label ----
-  
-  amend_label %>% rbind(moisture_label)
-}
-do_gg_cumfluxflux_boxplot2 <- function(flux_summary) {
-  cumflux_label2 <- do_labels_cumflux_intact2("cum_CO2C_mg_gC", flux_summary %>% filter(Homogenization=="Intact"))
-
-  flux_summary %>% 
-    filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Moisture, y = cum_CO2C_mg_gC))+
-    geom_boxplot(aes(group = Moisture), 
-                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
-    geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+    ggplot(aes(x = interaction(Wetting, Moisture), y = cum_CO2C_mg_gC))+
+    #  geom_boxplot(aes(fill = Amendments), 
+    #               alpha = 0.3, color = "grey60", width = 0.6,
+    #               show.legend = F)+
+    geom_point(aes(fill = Amendments, shape = Wetting),
                size=4, stroke=1, position = position_dodge(width = 0.6))+
-    geom_text(data = cumflux_label2, aes(x = x, y = y, label = label), size=5)+
+    geom_text(data = cumflux_label2 %>% filter(label=="*"), 
+              aes(x = x, y = 600, label = label), size=10)+
+    geom_text(data = cumflux_label2 %>% filter(label!="*"), 
+              aes(x = x, y = 1000, label = label), size=10)+
     scale_fill_manual(values = pal3)+
     scale_shape_manual(values = c(21,23))+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
     labs(title = "cumulative CO2C evolved",
-         #y = "count",
-         caption = "wetting sig for: dr/C")+
+         x = "")+
+    annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "yellow")+
+    annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "red")+
+    annotate("text", label = "FM", x = 1.5, y = 1100)+
+    annotate("text", label = "Drought", x = 3.5, y = 1100)+
+    annotate("segment", x = 2.5, xend = 2.5, y = 5, yend = 1100, color = "grey70")+
+    scale_x_discrete(breaks = c("precip.fm", "groundw.fm", "precip.drought", "groundw.drought"),
+                     labels  =c("precip", "groundw", "precip", "groundw"))+
     facet_grid(Homogenization~.)+
     theme_kp()+
+    theme(panel.grid.major.x = element_blank())+
     NULL
 }
 
-
-
-# scatter + box plot (effect of homogenization)
-fit_aov_homo = function(depvar, Homogenization){
-  # boxplot p-values
-  a1 <- aov(log(depvar) ~ Homogenization)
-  label_a1 <- broom::tidy(a1) %>% 
-    filter(term != "Residuals") %>% 
-    mutate(p_value = round(p.value, 4)) %>% 
-    dplyr::select(term, p_value) 
-}
-do_labels_cumflux_homo = function(depvar, flux_summary){
-  flux_summary %>% 
-    group_by(Amendments) %>% 
-    do(fit_aov_homo(.[[depvar]], .$Homogenization)) %>% 
-    mutate(x = 1.5,
-           y = 0,
-           label = paste("p =", p_value),
-           label = if_else(p_value == 0, "p < 0.0001", label))
-}
-do_cumflux_boxplot_homo = function(flux_summary){
-  
-  homo_labels = do_labels_cumflux_homo("cum_CO2C_mg_gC", flux_summary)
-  
-  gg_cumflux_homo = 
-    flux_summary %>% 
-    ggplot(aes(x = Homogenization, y = cum_CO2C_mg_gC))+
-    geom_boxplot(aes(group=Homogenization), width = 0.4)+
-    geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
-               aes(fill = Moisture, shape = Wetting, group = Moisture))+
-    scale_shape_manual(values = c(21,23))+
-    scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
-    geom_text(data = homo_labels, aes(x = x, y = y, label = label))+
-    labs(title = "effect of homogenization")+
-    facet_grid(.~Amendments)+
-    theme_kp()+
-    guides(fill = guide_legend(override.aes = list(shape=21)))+
-    NULL
-  
-  list(gg_cumflux_homo = gg_cumflux_homo)
-}
+#
+############# OLD PLOTS ############# ####
+##  # old scatterplot
+##  fit_hsd = function(dat) {
+##    a = aov(log(cum_CO2C_mg_gC) ~ Amendments, data = dat)
+##    h = agricolae::HSD.test(a,"Amendment")
+##    #create a tibble with one column for each treatment
+##    #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+##    tibble(`control` = h$groups["control",2], 
+##           `C` = h$groups["C",2],
+##           `N` = h$groups["N",2])
+##  }  
+##  do_cumflux_scatterplot = function(flux_summary){
+##    
+##    flux_hsd = 
+##      flux_summary %>% 
+##      group_by(Moisture, Wetting, Homogenization) %>% 
+##      do(fit_hsd(.)) %>% 
+##      # retain only those with differences
+##      mutate(newcol = paste0(control,C,N)) %>% 
+##      filter(!newcol=="aaa") %>% 
+##      select(-newcol) %>% 
+##      pivot_longer(-c(Moisture, Wetting, Homogenization),
+##                   names_to = "Amendments",
+##                   values_to = "label")
+##    
+##    ## make labels with hsd
+##    flux_cum_labels = 
+##      flux_summary %>% 
+##      na.omit() %>% 
+##      group_by(Moisture, Wetting, Homogenization, Amendments) %>% 
+##      summarize(y_lab = max(cum_CO2C_mg_gC)) %>% 
+##      left_join(flux_hsd) %>% 
+##      na.omit()
+##    
+##    ## plot
+##    gg_flux_cum = 
+##      flux_summary %>% 
+##      ggplot(aes(x = Amendments, y = cum_CO2C_mg_gC))+
+##      geom_point(size=2)+ 
+##      geom_text(data = flux_cum_labels, aes(x = Amendments, y = y_lab+70, label = label))+
+##      #scale_color_manual(values = soilpalettes::soil_palette("redox2",3))+
+##      labs(title = "cumulative CO2-C evolved")+
+##      facet_grid(Homogenization~Moisture+Wetting)+
+##      theme_kp()+
+##      theme(panel.grid = element_blank())
+##    
+##    list(gg_flux_cum)
+##  }
+##  
+##  # scatter + boxplot (intact cores)
+##  fit_aov_wetting = function(depvar, Wetting){
+##    # boxplot p-values
+##    a1 <- aov(log(depvar) ~ Wetting)
+##    label_a1 <- broom::tidy(a1) %>% 
+##      filter(term != "Residuals") %>% 
+##      mutate(p_value = round(p.value, 4)) %>% 
+##      dplyr::select(term, p_value) 
+##  }
+##  fit_hsd_amend <- function(depvar, Amendments) {
+##    a <-aov(log(depvar) ~ Amendments)
+##    h <-agricolae::HSD.test(a,"Amendments")
+##    #create a tibble with one column for each treatment
+##    #the hsd results are row1 = drought, row2 = saturation, row3 = time zero saturation, row4 = field moist. hsd letters are in column 2
+##    tibble(`control` = h$groups["control",2], 
+##           `C` = h$groups["C",2],
+##           `N` = h$groups["N",2])
+##  }
+##  
+##  do_labels_cumflux_intact = function(depvar, flux_summary){
+##    # 1. p-values for moisture
+##    wetting_label <- 
+##      flux_summary %>% 
+##      group_by(Moisture) %>% 
+##      do(fit_aov_wetting(.[[depvar]], .$Wetting)) %>% 
+##      mutate(x = 1.5,
+##             y = 0,
+##             label = paste("p =", p_value),
+##             label = if_else(p_value == 0, "p < 0.0001", label))
+##    
+##    # 2. HSD for amendments
+##    hsd_y <- 
+##      flux_summary %>% 
+##      filter(Homogenization=="Intact") %>% 
+##      group_by(Moisture, Wetting, Amendments) %>% 
+##      dplyr::summarize(
+##        y = max(cum_CO2C_mg_gC, na.rm = T) + 0.5)
+##    
+##    amend_label <- 
+##      flux_summary %>% 
+##      group_by(Moisture, Wetting) %>% 
+##      do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
+##      dplyr::mutate(skip = control==C & C==N) %>% 
+##      filter(!skip) %>% 
+##      dplyr::select(-skip) %>% 
+##      pivot_longer(-c(Moisture, Wetting),
+##                   names_to = "Amendments",
+##                   values_to = "label") %>% 
+##      mutate(w = dplyr::recode(Wetting, "precip"="1" , "groundw"="2"),
+##             am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
+##             x = as.numeric(w)+as.numeric(am)) %>% 
+##      left_join(hsd_y)
+##    
+##    
+##    # 4. combined label 
+##    amend_label %>% rbind(wetting_label)
+##  }
+##  do_cumflux_boxplot = function(flux_summary){
+##    
+##    cumflux_label = do_labels_cumflux_intact("cum_CO2C_mg_gC", flux_summary)
+##    
+##    flux_summary %>% 
+##      filter(Homogenization=="Intact") %>% 
+##      ggplot(aes(x = Wetting, y = cum_CO2C_mg_gC))+
+##      geom_boxplot(width=0.6, fill = "grey90", color = "grey60", alpha = 0.3)+
+##      geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
+##                 aes(fill = Amendments), shape = 21)+ 
+##      #scale_shape_manual(values = c(21,22,23))+
+##      scale_fill_manual(values = pal3)+
+##      labs(title = "cumulative CO2-C evolved")+
+##      #annotate("text", label = "p = xx", x = 1.5, y = 20)+
+##      geom_text(data = cumflux_label, aes(x = x, y = y, label = label), size=5)+
+##      facet_grid(Homogenization~Moisture)+
+##      theme_kp()+
+##      theme(panel.grid = element_blank())+
+##      NULL
+##  }
+##  
+##  # scatter + boxplot (intact cores) -- #2
+##  fit_aov_moisture = function(depvar, Moisture){
+##    # boxplot p-values
+##    a1 <- aov(log(depvar) ~ Moisture)
+##    label_a1 <- broom::tidy(a1) %>% 
+##      filter(term != "Residuals") %>% 
+##      mutate(p_value = round(p.value, 4)) %>% 
+##      dplyr::select(term, p_value) 
+##  }
+##  fit_aov_wetting2 = function(depvar, Wetting){
+##    a3 = aov(log(depvar) ~ Wetting)
+##    broom::tidy(a3) %>% 
+##      filter(term != "Residuals") %>% 
+##      dplyr::select(term, `p.value`) %>% 
+##      filter(`p.value` <= 0.05)
+##  }
+##  
+##  do_labels_cumflux_intact2 = function(depvar, flux_summary){
+##    # 1. p-values for moisture
+##    moisture_label <- 
+##      flux_summary %>% 
+##      do(fit_aov_moisture(.[[depvar]], .$Moisture)) %>% 
+##      mutate(x = 1.5,
+##             y = 0,
+##             label = paste("p =", p_value),
+##             label = if_else(p_value == 0, "p < 0.0001", label))
+##    
+##    # 2. HSD for amendments
+##    hsd_y <- flux_summary %>% 
+##      group_by(Moisture, Amendments) %>% 
+##      dplyr::summarize(max = max(cum_CO2C_mg_gC),
+##                       y = max(cum_CO2C_mg_gC, na.rm = T) + 200)
+##    
+##    amend_label <- flux_summary %>% 
+##      group_by(Moisture) %>% 
+##      do(fit_hsd_amend(.$cum_CO2C_mg_gC, .$Amendments)) %>% 
+##      dplyr::mutate(skip = control==C & C==N) %>% 
+##      filter(!skip) %>% 
+##      dplyr::select(-skip) %>% 
+##      pivot_longer(-c(Moisture),
+##                   names_to = "Amendments",
+##                   values_to = "label") %>% 
+##      mutate(m = dplyr::recode(Moisture, "fm"="1" , "drought"="2"),
+##             am = dplyr::recode(Amendments, "control" = -0.2, "C" = 0, "N" = 0.2),
+##             x = as.numeric(m)+as.numeric(am)) %>% 
+##      left_join(hsd_y)
+##    
+##    # 3. wetting label
+##    wetting_label <- 
+##      flux_summary %>% 
+##      group_by(Moisture, Amendments) %>% 
+##      do(fit_aov_wetting2(.$cum_CO2C_mg_gC, .$Wetting))
+##    
+##    # 4. combined label
+##    
+##    amend_label %>% rbind(moisture_label)
+##  }
+##  do_gg_cumfluxflux_boxplot2 <- function(flux_summary) {
+##    cumflux_label2 <- do_labels_cumflux_intact2("cum_CO2C_mg_gC", flux_summary %>% filter(Homogenization=="Intact"))
+##  
+##    flux_summary %>% 
+##      filter(Homogenization=="Intact") %>% 
+##      ggplot(aes(x = Moisture, y = cum_CO2C_mg_gC))+
+##      geom_boxplot(aes(group = Moisture), 
+##                   fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+##      geom_point(aes(fill = Amendments, shape = Wetting, group = Amendments),
+##                 size=4, stroke=1, position = position_dodge(width = 0.6))+
+##      geom_text(data = cumflux_label2, aes(x = x, y = y, label = label), size=5)+
+##      scale_fill_manual(values = pal3)+
+##      scale_shape_manual(values = c(21,23))+
+##      guides(fill=guide_legend(override.aes=list(shape=21)))+
+##      labs(title = "cumulative CO2C evolved",
+##           #y = "count",
+##           caption = "wetting sig for: dr/C")+
+##      facet_grid(Homogenization~.)+
+##      theme_kp()+
+##      NULL
+##  }
+##  
+##  # scatter + box plot (effect of homogenization)
+##  fit_aov_homo = function(depvar, Homogenization){
+##    # boxplot p-values
+##    a1 <- aov(log(depvar) ~ Homogenization)
+##    label_a1 <- broom::tidy(a1) %>% 
+##      filter(term != "Residuals") %>% 
+##      mutate(p_value = round(p.value, 4)) %>% 
+##      dplyr::select(term, p_value) 
+##  }
+##  do_labels_cumflux_homo = function(depvar, flux_summary){
+##    flux_summary %>% 
+##      group_by(Amendments) %>% 
+##      do(fit_aov_homo(.[[depvar]], .$Homogenization)) %>% 
+##      mutate(x = 1.5,
+##             y = 0,
+##             label = paste("p =", p_value),
+##             label = if_else(p_value == 0, "p < 0.0001", label))
+##  }
+##  do_cumflux_boxplot_homo = function(flux_summary){
+##    
+##    homo_labels = do_labels_cumflux_homo("cum_CO2C_mg_gC", flux_summary)
+##    
+##    gg_cumflux_homo = 
+##      flux_summary %>% 
+##      ggplot(aes(x = Homogenization, y = cum_CO2C_mg_gC))+
+##      geom_boxplot(aes(group=Homogenization), width = 0.4)+
+##      geom_point(size=4, stroke=1, position = position_dodge(width = 0.6), 
+##                 aes(fill = Moisture, shape = Wetting, group = Moisture))+
+##      scale_shape_manual(values = c(21,23))+
+##      scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
+##      geom_text(data = homo_labels, aes(x = x, y = y, label = label))+
+##      labs(title = "effect of homogenization")+
+##      facet_grid(.~Amendments)+
+##      theme_kp()+
+##      guides(fill = guide_legend(override.aes = list(shape=21)))+
+##      NULL
+##    
+##    list(gg_cumflux_homo = gg_cumflux_homo)
+##  }
+##  
 
 #
 ## IIb.  time-series ----------------------------------------------------------------
@@ -346,8 +417,3 @@ compute_aov_flux_intact = function(flux_summary){
   
   car::Anova(l, type="III")
 }
-
-
-
-
-     
