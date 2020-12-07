@@ -725,33 +725,215 @@ data_unique_counts =
 }
 
 
-
-relabund_wide = 
-  relabund_cores %>% 
-  filter(!Suction==15) %>% 
-  dplyr::select(Core, SampleAssignment, class, relabund, 
-                Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
-  spread(class, relabund) %>% 
-  replace(is.na(.), 0),
-
-relabund_pca=
-  relabund_wide %>% 
-  select(-1),
-
 ### IIIb1. intact cores -----------------------------------------------------
-relabund_pca_num_intact = 
-  relabund_pca %>% 
-  filter(Homogenization=="Intact") %>% 
-  dplyr::select(.,-(1:6)),
+do_pca_intact = function(relabund_cores){
+  ## PCA functions ----
+  do_pca_functions = function(dat){
+    num = 
+      dat %>% 
+      dplyr::select(.,-(1:6))
+    
+    grp = 
+      dat %>% 
+      dplyr::select(.,(1:6)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  ## PCA files ----
+  relabund_pca = 
+    relabund_cores %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0) %>% 
+    select(-1) %>% 
+    filter(Homogenization=="Intact")
+  
+  relabund_pca_1 = relabund_pca %>% filter(Suction==1.5)
+  relabund_pca_5 = relabund_pca %>% filter(Suction==50)
+  
+  
+  pca = do_pca_functions(relabund_pca)
+  pca_1 = do_pca_functions(relabund_pca_1)
+  pca_5 = do_pca_functions(relabund_pca_5)
+  
+  ## PCA plots ----
+  ### suction separation ----
+  (gg_pca_suction = 
+     ggbiplot(pca$pca_int, obs.scale = 1, var.scale = 1, 
+              groups = as.character(pca$grp$Suction), ellipse = TRUE, circle = FALSE,
+              var.axes = TRUE) +
+     geom_point(size=3,stroke=1, aes(fill = groups, shape = groups))+
+     scale_shape_manual(values = c(21,25), name = "")+
+     scale_color_manual(values = pal, name = "")+
+     scale_fill_manual(values = pal, name = "")+
+     xlim(-4,4)+
+     ylim(-3.5,3.5)+
+     labs(shape="")+
+     theme_kp()+
+     NULL
+  )
+  
+  ### amendments separation ----
+  (gg_pca_amend_1 = 
+     ggbiplot(pca_1$pca_int, obs.scale = 1, var.scale = 1, 
+              groups = as.character(pca_1$grp$Amendments), ellipse = TRUE, circle = FALSE,
+              var.axes = TRUE) +
+     geom_point(size=3,stroke=1, 
+                aes(fill = groups, shape = groups))+
+     scale_color_manual(values = pal, name  ="")+
+     scale_shape_manual(values = c(21, 22, 23), name = "")+
+     scale_fill_manual(values = pal, name = "")+
+     xlim(-3.5,3.5)+
+     ylim(-3,3)+
+     labs(shape="",
+          title = "1.5 kPa")+
+     theme_kp()+
+     NULL
+  )
+  
+  (gg_pca_amend_5 = 
+      ggbiplot(pca_5$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_5$grp$Amendments), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+      geom_point(size=3,stroke=1, 
+                 aes(fill = groups, shape = groups))+
+      scale_color_manual(values = pal, name  ="")+
+      scale_shape_manual(values = c(21, 22, 23), name = "")+
+      scale_fill_manual(values = pal, name = "")+
+      xlim(-3.5, 3.5)+
+      ylim(-3,3)+
+      labs(shape="",
+           title = "50 kPa")+
+      theme_kp()+
+      NULL
+  )
+  
+  (gg_pca_amend = gg_pca_amend_1 + gg_pca_amend_5 +
+    plot_layout(guides = "collect") &
+    theme(legend.position = "bottom"))
+  
+  
+  ### moisture separation ----
+  
+  (gg_pca_moist1 = 
+     ggbiplot(pca_1$pca_int, obs.scale = 1, var.scale = 1, 
+              groups = as.character(pca_1$grp$Moisture), ellipse = TRUE, circle = FALSE,
+              var.axes = TRUE) +
+     geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_1$grp$Wetting))+
+     geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_1$grp$Wetting), show.legend = F)+
+     scale_fill_manual(values = pal)+
+     scale_shape_manual(values = c(21, 24))+
+     scale_color_manual(values = pal)+
+     xlim(-3.5,3.5)+
+     ylim(-3,3)+
+     labs(shape="",
+          title = "1.5 kPa")+
+     theme_kp()+
+     NULL
+  )
+  
+  (gg_pca_moist5 = 
+      ggbiplot(pca_5$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_5$grp$Moisture), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+      scale_color_manual(values = pal)+
+      geom_point(size=1)+
+      geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_5$grp$Wetting))+
+      geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_5$grp$Wetting), show.legend = F)+
+      scale_shape_manual(values = c(21, 24))+
+      scale_fill_manual(values = pal)+
+      xlim(-3.5, 3.5)+
+      ylim(-3,3)+
+      labs(shape="",
+           title = "50 kPa")+
+      theme_kp()+
+      NULL
+  )
+  
+  
+  (gg_pca_moist = gg_pca_moist1 + gg_pca_moist5 +
+      plot_layout(guides = "collect") &
+      theme(legend.position = "bottom"))
+  
+  ### homogenized ----
+  relabund_pca_homo = 
+    relabund_cores %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0) %>% 
+    select(-1) %>% 
+    filter(Homogenization=="Homogenized" & Amendments == "control" & Moisture == "fm")
+  
+  pca_homo = 
+    do_pca_functions(relabund_pca_homo)
+  
+  (gg_pca_suction_homo = 
+      ggbiplot(pca_homo$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_homo$grp$Suction), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+      geom_point(size=3,stroke=1, aes(fill = groups, shape = pca_homo$grp$Wetting))+
+      scale_shape_manual(values = c(21,25), name = "")+
+      scale_color_manual(values = pal, name = "")+
+      scale_fill_manual(values = pal, name = "")+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "Homogenized")+
+      theme_kp()+
+      NULL
+  )
+}
 
-relabund_pca_grp_intact = 
-  relabund_pca %>% 
-  filter(Homogenization=="Intact") %>% 
-  dplyr::select(.,(1:6)) %>% 
-  dplyr::mutate(row = row_number()),
 
-pca_int = prcomp(relabund_pca_num_intact, scale. = T),
-#summary(pca)
+gg_pca_intact_plots = do_gg_pca_intact_plots(pca_int, relabund_pca_grp_intact)
 
-gg_pca_intact_plots = do_gg_pca_intact_plots(pca_int, relabund_pca_grp_intact),
 
+relabund_pca_control1 = relabund_pca %>% filter(Suction==1.5 & Amendments == "control" & Homogenization == "Intact")
+relabund_pca_control5 = relabund_pca %>% filter(Suction==50 & Amendments == "control" & Homogenization == "Intact")
+pca_control1 = do_pca_functions(relabund_pca_control1)
+pca_control5 = do_pca_functions(relabund_pca_control5)
+    ggbiplot(pca_control1$pca_int, obs.scale = 1, var.scale = 1, 
+             groups = as.character(pca_control1$grp$Moisture), ellipse = TRUE, circle = FALSE,
+             var.axes = TRUE) +
+    geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_control1$grp$Wetting))+
+    geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_control1$grp$Wetting), show.legend = F)+
+    scale_fill_manual(values = pal)+
+    scale_shape_manual(values = c(21, 24))+
+    scale_color_manual(values = pal)+
+    xlim(-3.5,3.5)+
+    ylim(-3,3)+
+    labs(shape="",
+         title = "1.5 kPa")+
+    theme_kp()+
+    NULL
+
+
+    ggbiplot(pca_control5$pca_int, obs.scale = 1, var.scale = 1, 
+             groups = as.character(pca_control5$grp$Moisture), ellipse = TRUE, circle = FALSE,
+             var.axes = TRUE) +
+    scale_color_manual(values = pal)+
+    geom_point(size=1)+
+    geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_control5$grp$Wetting))+
+    geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_control5$grp$Wetting), show.legend = F)+
+    scale_shape_manual(values = c(21, 24))+
+    scale_fill_manual(values = pal)+
+    xlim(-3.5, 3.5)+
+    ylim(-3,3)+
+    labs(shape="",
+         title = "50 kPa")+
+    theme_kp()+
+    NULL
+
+
+
+pca = do_pca_functions(relabund_pca)

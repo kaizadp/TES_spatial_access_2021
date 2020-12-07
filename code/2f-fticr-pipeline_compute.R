@@ -122,6 +122,20 @@ compute_aov_peaks_intact = function(peakcounts_core){
          data = peakcounts_total %>% filter(Homogenization=="Intact"))
   
   car::Anova(l, type="III")
+  
+  
+  ## fm, control soils only
+  peakcounts_total = 
+    peakcounts_core %>% 
+    filter(class=="total" & Amendments == "control" & Moisture == "fm" )
+  
+  l = lm(log(counts) ~ (Wetting),
+         data = peakcounts_total %>% filter(Homogenization=="Intact"))
+  
+  car::Anova(l, type="III")
+  
+  
+  
 }
  
 # complex peaks relabund

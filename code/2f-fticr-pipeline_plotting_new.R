@@ -1,7 +1,12 @@
 # TES SPATIAL ACCESS
-# workflow and functions for fticr graphs 
+# KAIZAD F. PATEL
 
+# workflow and functions for fticr graphs 
 # Plots for various pipeline targets
+
+############# #
+############# #
+
 options(scipen = 999)
 
 # 0a. set color palette ----------------------------------------------------
@@ -33,6 +38,7 @@ fit_aov_wetting = function(depvar, Wetting){
 }
 
 #
+# ---- -------------------------------------------------------------------------
 # I. van krevelens -----------------------------------------------------------
 do_vk_reps <- function(data_key, meta_hcoc) {
   gg_fticr_reps_1_5_intact <- 
@@ -99,34 +105,79 @@ do_vk_pores <- function(data_long_trt) {
  #   NULL)
   
   
-  gg_fticr_pores_1_5kPa <-  
+  gg_fticr_pores_intact <-  
     data_long_trt %>%
-    filter(Suction=="1.5") %>% 
+    filter(Homogenization == "Intact") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
+    stat_ellipse(show.legend = F)+
     geom_point(size=0.7, alpha = 0.8)+
     #  scale_color_manual(values = (pnw_palette("Bay",3)))+
     scale_color_manual(values = pal3)+
-    facet_grid(Homogenization~Moisture+Wetting)+
-    labs(title = "1.5 kPa")+
+    facet_grid(Homogenization+Suction~Moisture+Wetting)+
+    labs(title = "intact")+
     theme_kp()+
     NULL
   
   
-  gg_fticr_pores_50kPa <-  
+  gg_fticr_pores_homo <-  
     data_long_trt %>%
-    filter(Suction=="50") %>% 
+    filter(Homogenization == "Homogenized") %>% 
     gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
     stat_ellipse(show.legend = F)+
     scale_color_manual(values = pal3)+
-    facet_grid(Homogenization~Moisture+Wetting)+
-    labs(title = "50 kPa")+
+    facet_grid(Homogenization+Suction~Moisture+Wetting)+
+    labs(title = "homogenized")+
     #theme(legend.position = "none")+
     theme_kp()+
     NULL 
+
+  list(
+    gg_fticr_pores_intact = gg_fticr_pores_intact,
+    gg_fticr_pores_homo = gg_fticr_pores_homo)
+}
+
+do_vk_pores_amend <- function(data_long_trt) {
+  gg_fticr_pores_control <-  
+      data_long_trt %>%
+      filter(Homogenization == "Intact" & Amendments == "control") %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+      stat_ellipse(show.legend = F)+
+      #scale_color_manual(values = soil_palette("redox",2))+
+      facet_grid(Homogenization+Suction~Moisture)+
+      labs(title = "intact, control")+
+      #theme(legend.position = "none")+
+      theme_kp()+
+      NULL 
+  
+  
+  gg_fticr_pores_c <-  
+      data_long_trt %>%
+      filter(Homogenization == "Intact" & Amendments == "C") %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+      stat_ellipse(show.legend = F)+
+      #scale_color_manual(values = soil_palette("redox",2))+
+      facet_grid(Homogenization+Suction~Moisture)+
+      labs(title = "intact, +C")+
+      #theme(legend.position = "none")+
+      theme_kp()+
+      NULL 
+  
+  gg_fticr_pores_n <-  
+      data_long_trt %>%
+      filter(Homogenization == "Intact" & Amendments == "N") %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+      stat_ellipse(show.legend = F)+
+      #scale_color_manual(values = soil_palette("redox",2))+
+      facet_grid(Homogenization+Suction~Moisture)+
+      labs(title = "intact, +N")+
+      #theme(legend.position = "none")+
+      theme_kp()+
+      NULL 
   
   list(
-    gg_fticr_pores_1_5kPa = gg_fticr_pores_1_5kPa,
-    gg_fticr_pores_50kPa = gg_fticr_pores_50kPa)
+    gg_fticr_pores_control = gg_fticr_pores_control,
+    gg_fticr_pores_c = gg_fticr_pores_c,
+    gg_fticr_pores_n = gg_fticr_pores_n)
 }
 
 do_vk_unique <- function(data_long_trt) {
@@ -137,10 +188,10 @@ do_vk_unique <- function(data_long_trt) {
     filter(n==1) %>% 
     filter(Amendments != "control")
   
-  
   gg_control <- 
     data_long_trt %>% 
     filter(Amendments =="control") %>%
+    dplyr::select(-Amendments) %>% 
     ggplot(aes(x = OC, y = HC))+
     #geom_point(size=2, color = "grey50", alpha = 0.1)+
     geom_point(size=0.5, color = "#FFE733", alpha = 0.2)+
@@ -157,7 +208,7 @@ do_vk_unique <- function(data_long_trt) {
     geom_point(data = data_unique %>% filter(Homogenization=="Intact"), aes(color = Amendments),
                size = 0.5, alpha = 0.8)+
     scale_color_manual(values = c("#96001B", "#2E5894"))+
-    facet_grid(Suction~Moisture+Wetting)+
+    facet_grid(Suction~Amendments)+
     labs(title = "unique peaks -- intact cores",
          caption = "yellow = all peaks in control soils")+
     theme_kp()+
@@ -165,16 +216,33 @@ do_vk_unique <- function(data_long_trt) {
     NULL
     
   gg_fticr_unique_homo <-
-      gg_control +
-      geom_point(data = data_unique %>% filter(Homogenization=="Homogenized"), aes(color = Amendments),
-                 size = 0.7, alpha = 0.8)+
+    gg_control +
+    geom_point(data = data_unique %>% filter(Homogenization=="Homogenized"), aes(color = Amendments),
+               size = 0.7, alpha = 0.8)+
     scale_color_manual(values = c("#96001B", "#2E5894"))+
     facet_grid(Suction~Moisture+Wetting)+
-      labs(title = "unique peaks -- homogenized cores",
-           caption = "yellow = all peaks in control soils")+
-      theme_kp()+
-      guides(colour = guide_legend(override.aes = list(alpha=1, size=2)))+
-      NULL
+    labs(title = "unique peaks -- homogenized cores",
+         caption = "yellow = all peaks in control soils")+
+    theme_kp()+
+    guides(colour = guide_legend(override.aes = list(alpha=1, size=2)))+
+    NULL
+  
+  
+  newpeaks_drought = 
+    data_long_trt %>% 
+    filter(Homogenization == "Intact") %>% 
+    group_by(formula, Suction, Amendments, Wetting) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1 & Moisture == "drought")
+  
+  newpeaks_drought %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+    stat_ellipse(show.legend = F, level = 0.95)+
+    facet_grid(Homogenization+Suction ~ Amendments)+
+    labs(title = "new peaks from drought")+
+    theme_kp()+
+    NULL
+  
   
                   #  gg_fticr_unique_int  <- 
                   #    data_unique %>% 
@@ -221,6 +289,185 @@ do_vk_homo_new <- function(data_long_trt){
     facet_grid(Suction ~ Moisture + Wetting)+
     theme_kp()+
     NULL
+  
+  data_homo_new %>% 
+    filter(Amendments=="control") %>% 
+    gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+    stat_ellipse(show.legend = F)+
+    labs(title = "peaks introduced after homogenization")+
+    facet_grid(Suction ~ Moisture )+
+    theme_kp()+
+    NULL
+  
+}
+
+do_vk_comparisons <- function(data_long_trt, relabund_control, meta_classes) {
+  ## control 
+  (gg_vk_control_fm <-  
+     data_long_trt %>%
+     filter(Homogenization == "Intact" & Amendments == "control" & Moisture == "fm") %>% 
+     mutate(Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+            Suction = dplyr::recode(Suction, "1.5" = "1.5 kPa", "50" = "50 kPa")) %>% 
+     gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+     stat_ellipse(show.legend = F, level = 0.90)+
+     #scale_color_manual(values = (PNWColors::pnw_palette("Bay",2)))+
+     scale_color_manual(values = c("#0f85a0", "#ed8b00"))+
+     facet_grid(. ~ Suction)+
+     labs(title = "Baseline cores")+
+     annotate("text", label = "aliphatic", x = 1.0, y = 1.8, size = 4)+
+     annotate("text", label = "highly unsaturated \n (lignin-like)", x = 1.0, y = 1.2, size = 4)+
+     annotate("text", label = "aromatic", x = 1.0, y = 0.55, size = 4)+
+     annotate("text", label = "condensed aromatic", x = 1.0, y = 0.1, size = 4)+
+     theme_kp()+
+     theme(legend.position = c(0.1, 0.9))+
+     guides(color = guide_legend(nrow = 1, override.aes = list(alpha=1, size=2)))+
+     NULL)
+  
+  # bar graph
+  relabund_control = 
+    data_long_trt %>%
+    filter(Homogenization == "Intact" & Amendments == "control" & Moisture == "fm") %>% 
+    left_join(meta_classes, by = "formula") %>% 
+    group_by(Suction, class, Wetting) %>% 
+    dplyr::summarise(abund = sum(presence)) %>% 
+    group_by(Suction, Wetting) %>% 
+    dplyr::mutate(total = sum(abund),
+                  relabund = round((abund/total)*100,2),
+                  class = factor(class, levels = c("aliphatic", "unsaturated/lignin", "aromatic", "condensed_arom")))
+  
+  (gg_relabund_control_bar = 
+      relabund_control %>% 
+      ggplot(aes(x = Wetting, y = relabund, fill = class))+
+      geom_bar(stat = "identity", width = 0.7)+
+      scale_fill_manual(values = PNWColors::pnw_palette("Sailboat"))+
+      facet_grid(.~Suction)+
+      theme_kp()+
+      theme(panel.border = element_blank(),
+            strip.text.x = element_blank(),
+            strip.text.y = element_blank(),
+            legend.position = "bottom")+
+      labs(#title = "control (baseline) soils",
+        x = "",
+        y = "relative contribution (%)")+
+      scale_x_discrete(breaks = c("groundw", "precip"),
+                       labels = c("precip" = "PR", "groundw" = "GW"))+
+      coord_flip()
+  )
+  
+  library(patchwork)
+  
+  gg_vk_baseline_combined = gg_vk_control_fm/ gg_relabund_control_bar +
+    plot_layout(heights = c(4,1))
+  
+  ##
+  lostgainedpeaks_drought = 
+    data_long_trt %>% 
+    filter(Homogenization == "Intact" & Amendments == "control") %>%
+    group_by(formula, Suction, Wetting) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(loss_gain = dplyr::recode(Moisture, "fm" = "lost", "drought" = "gained"),
+           Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+           Suction = dplyr::recode(Suction, "1.5" = "1.5 kPa", "50" = "50 kPa"))
+  
+  (gg_vk_drought_lossgain = 
+      lostgainedpeaks_drought %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+      stat_ellipse(show.legend = F, level = 0.90)+
+      facet_grid(Wetting ~ Suction)+
+      labs(title = "Peaks lost/gained after drought",
+           subtitle = "")+
+      #scale_color_manual(values = (PNWColors::pnw_palette("Anemone",2)))+
+      #scale_color_manual(values = (soilpalettes::soil_palette("gley",2)))+
+      scale_color_manual(values = c("grey70", "#0F4C81"))+
+      #scale_color_brewer(palette = "Dark2")+
+      theme_kp()+
+      theme(legend.position = "top")+
+      NULL) 
+  
+  ##
+  newpeaks_homo = 
+    data_long_trt %>% 
+    filter(Amendments == "control" & Moisture == "fm") %>% 
+    group_by(formula, Suction, Wetting, Homogenization) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1 & Homogenization == "Homogenized") %>% 
+    mutate(Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+           Suction = dplyr::recode(Suction, "1.5" = "1.5 kPa", "50" = "50 kPa"))
+  
+  (gg_vk_homo_newpeaks = 
+      newpeaks_homo %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = Wetting))+
+      stat_ellipse(show.legend = F)+
+      #scale_color_manual(values = (PNWColors::pnw_palette("Bay",2)))+
+      scale_color_manual(values = c("#0f85a0", "#ed8b00"))+
+      
+      facet_grid(. ~ Suction)+
+      labs(title = "New peaks after homogenization",
+           subtitle = "")+
+      theme_kp()+
+      theme(legend.position = c(0.2, 0.91))+
+      guides(color = guide_legend(nrow = 1, override.aes = list(alpha=1, size=2)))+
+      NULL)
+  
+  lostgainedpeaks_c = 
+    data_long_trt %>% 
+    filter(Homogenization == "Intact" & Amendments %in% c("control", "C") & Moisture == "fm") %>% 
+    group_by(formula, Suction, Wetting) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(loss_gain = dplyr::recode(Amendments, "control" = "lost", "C" = "gained"),
+           Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+           Suction = dplyr::recode(Suction, "1.5" = "1.5 kPa", "50" = "50 kPa"))
+  
+  (gg_vk_c_lossgain = 
+      lostgainedpeaks_c %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+      stat_ellipse(show.legend = F, level = 0.90)+
+      facet_grid(Wetting ~ Suction)+
+      labs(title = "Peaks lost/gained after +C",
+           subtitle = "")+
+      scale_color_manual(values = c("grey70", "#0F4C81"))+
+      theme_kp()+
+      theme(legend.position = "top")+
+      NULL) 
+  
+  
+  lostgainedpeaks_n = 
+    data_long_trt %>% 
+    filter(Homogenization == "Intact" & Amendments %in% c("control", "N") & Moisture == "fm") %>% 
+    group_by(formula, Suction, Wetting) %>% 
+    dplyr::mutate(n = n()) %>% 
+    filter(n == 1) %>% 
+    ungroup() %>% 
+    mutate(loss_gain = dplyr::recode(Amendments, "control" = "lost", "N" = "gained"),
+           Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+           Suction = dplyr::recode(Suction, "1.5" = "1.5 kPa", "50" = "50 kPa"))
+  
+  (gg_vk_n_lossgain = 
+      lostgainedpeaks_n %>% 
+      gg_vankrev(aes(x = OC, y = HC, color = loss_gain))+
+      stat_ellipse(show.legend = F, level = 0.90)+
+      facet_grid(Wetting ~ Suction)+
+      labs(title = "Peaks lost/gained after +N",
+           subtitle = "")+
+      scale_color_manual(values = c("grey70", "#0F4C81"))+
+      theme_kp()+
+      theme(legend.position = "top")+
+      NULL) 
+  
+  #
+
+  
+  # list ----
+  list(gg_vk_baseline_combined  = gg_vk_baseline_combined,
+       gg_vk_drought_lossgain = gg_vk_drought_lossgain,
+       gg_vk_c_lossgain = gg_vk_c_lossgain,
+       gg_vk_n_lossgain = gg_vk_n_lossgain,
+       gg_vk_homo_newpeaks = gg_vk_homo_newpeaks)
+  
 }
 
 # ---- -------------------------------------------------------------------------
@@ -523,10 +770,10 @@ do_gg_complex_stats = function(relabund_cores_complex){
   list(complex_dunnett = complex_dunnett,
        complex_fullANOVA = complex_fullANOVA)
 }
-complex_ANOVA = do_gg_complex_stats(relabund_cores_complex)$complex_fullANOVA %>% 
-  rename(p_value = `p.value`) %>% 
-  filter(p_value <=0.05) %>% 
-  filter(term != "(Intercept)")
+# complex_ANOVA = do_gg_complex_stats(relabund_cores_complex)$complex_fullANOVA %>% 
+#   rename(p_value = `p.value`) %>% 
+#   filter(p_value <=0.05) %>% 
+#   filter(term != "(Intercept)")
 
 do_gg_complex2 <- function(relabund_cores_complex) {
   #label <- do_labels_complex_intact("relabund", relabund_cores_complex)
@@ -564,6 +811,114 @@ do_gg_complex2 <- function(relabund_cores_complex) {
     NULL
 }
 
+
+do_gg_complex3 = function(relabund_cores_complex){
+  do_dunnett = function(dat){
+    d <-DescTools::DunnettTest(log(relabund)~Amendments, control = "control", data = dat)
+    tibble(C = d$control["C-control", 4],
+           N = d$control["N-control", 4])
+  }
+  dunnett_complex = 
+    relabund_cores_complex %>% 
+    filter(Homogenization == "Intact") %>% 
+    group_by(Suction, Moisture, Wetting) %>% 
+    do(do_dunnett(.)) %>% 
+    reshape2::melt(id = c("Suction", "Moisture", "Wetting"), 
+                   variable = "Amendments") %>% 
+    #filter(value <= 0.10) %>% 
+    mutate(label = case_when(value <= 0.05 ~ "*",
+                             value > 0.05 & value <= 0.10 ~ "\U00B7"),
+           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
+                           Moisture=="fm"&Wetting=="groundw" ~ 2,
+                           Moisture=="drought"&Wetting=="precip" ~ 3,
+                           Moisture=="drought"&Wetting=="groundw" ~ 4),
+           x_2 = case_when(Amendments=="control" ~ -0.2,
+                           Amendments=="C" ~ 0,
+                           Amendments=="N" ~ +0.2),
+           x = x_1 + x_2)
+  
+  relabund_cores_complex %>% 
+    filter(Homogenization=="Intact") %>% 
+    ggplot(aes(x = interaction(Wetting, Moisture), y = relabund))+
+    #   geom_boxplot(aes(group = Moisture), 
+    #                fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
+    geom_point(aes(fill = Amendments, shape = Wetting),
+               size=4, stroke=1, position = position_dodge(width = 0.6), alpha = 0.8)+
+    #  geom_text(data = label %>% filter(label == "*"), aes(x = Amendments, y = y, label = label), size=8)+
+    geom_text(data = scatterplot_label, 
+              aes(x = x, y = 90, 
+                  group = Amendments, label = label), size=8)+
+    scale_fill_manual(values = pal3)+
+    scale_shape_manual(values = c(21,23))+
+    guides(fill=guide_legend(override.aes=list(shape=21)))+
+    labs(title = "contribution of complex molecules",
+         y = "% contribution", 
+         x = "")+
+    annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 95, ymax = 100, alpha = 0.2, fill = "yellow")+
+    annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 95, ymax = 100, alpha = 0.2, fill = "red")+
+    annotate("text", label = "FM", x = 1.5, y = 97.5)+
+    annotate("text", label = "Drought", x = 3.5, y = 97.5)+
+    annotate("segment", x = 2.5, xend = 2.5, y = 5, yend = 95, color = "grey70")+
+    scale_x_discrete(breaks = c("precip.fm", "groundw.fm", "precip.drought", "groundw.drought"),
+                     labels  =c("precip", "groundw", "precip", "groundw"))+
+    ylim(0,100)+
+    facet_grid(Suction ~ Homogenization)+
+    theme_kp()+
+    NULL
+  
+  
+    ##  subset = subset %>% filter(Homogenization=="Intact")
+    ##  summary(aov(log(relabund) ~ Amendments, data = subset))
+    ##
+    ##  car::Anova(lm(log(relabund) ~ Amendments, data = subset), type = "III")
+    ##  
+    ##  relabund_cores_complex_int %>% 
+    ##    group_by(Suction, Moisture, Wetting) %>% 
+    ##    do(fit_hsd_amend(.$relabund, .$Amendments))
+    ##  
+      subset = 
+        relabund_cores_complex_int %>% 
+        filter(Suction==50 & Moisture == "drought" & Wetting == "groundw" & Amendments != "N")
+  
+  do_scatterplot_stats = function(dat){
+    fit_stats = function(dat){
+      l = lm(log(relabund) ~ Amendments, data = dat)
+      a = car::Anova(l, type = "III")
+      broom::tidy(a) %>% 
+        filter(term == "Amendments") %>% 
+        rename(p_value = `p.value`)
+    }
+  fit_stats_C = 
+    relabund_cores_complex_int %>% 
+    filter(Amendments != "N") %>% 
+    group_by(Suction, Moisture, Wetting) %>% 
+    do(fit_stats(.)) %>% 
+    mutate(Amendments = "C")
+  
+  fit_stats_N = 
+    relabund_cores_complex_int %>% 
+    filter(Amendments != "C") %>% 
+    group_by(Suction, Moisture, Wetting) %>% 
+    do(fit_stats(.)) %>% 
+    mutate(Amendments = "N")
+  
+  rbind(fit_stats_C, fit_stats_N) %>% 
+    mutate(label = case_when(p_value <= 0.05 ~ "*",
+                             p_value > 0.05 & p_value <= 0.10 ~ "\U00B7"),
+           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
+                           Moisture=="fm"&Wetting=="groundw" ~ 2,
+                           Moisture=="drought"&Wetting=="precip" ~ 3,
+                           Moisture=="drought"&Wetting=="groundw" ~ 4),
+           x_2 = case_when(Amendments=="control" ~ -0.2,
+                           Amendments=="C" ~ 0,
+                           Amendments=="N" ~ +0.2),
+           x = x_1 + x_2)
+  }
+  
+  scatterplot_label = do_scatterplot_stats(relabund_cores_complex_int)
+  
+  
+  }
 
 
 
@@ -603,128 +958,177 @@ plot_complex_homo <- function(relabund_cores_complex) {
 #
 # IV. PCA ---------------------------------------------------------------------
 
-
-## generalized PCA plots ---------------------------------------------------
-
-plot_pca_general_int = function(relabund_cores){
-  pca_file_int = 
+do_pca_intact = function(relabund_cores){
+  ## PCA functions ----
+  do_pca_functions = function(dat){
+    num = 
+      dat %>% 
+      dplyr::select(.,-(1:6))
+    
+    grp = 
+      dat %>% 
+      dplyr::select(.,(1:6)) %>% 
+      dplyr::mutate(row = row_number())
+    
+    pca_int = prcomp(num, scale. = T)
+    
+    list(num = num,
+         grp = grp,
+         pca_int = pca_int)
+  }
+  
+  ## PCA files ----
+  relabund_pca = 
     relabund_cores %>% 
-    filter(!Suction==15 & Homogenization == "Intact") %>% 
+    filter(!Suction==15) %>% 
     dplyr::select(Core, SampleAssignment, class, relabund, 
                   Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
     spread(class, relabund) %>% 
     replace(is.na(.), 0) %>% 
-    select(-1, -2)
+    select(-1) %>% 
+    filter(Homogenization=="Intact") %>% 
+    mutate(Amendments = dplyr::recode(Amendments, "control" = "unamended"),
+           Amendments = factor(Amendments, levels = c("unamended", "C", "N")))
   
-  pca_num = 
-    pca_file_int %>% 
-    dplyr::select(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)
+  relabund_pca_1 = relabund_pca %>% filter(Suction==1.5)
+  relabund_pca_5 = relabund_pca %>% filter(Suction==50)
   
-  pca_grp = 
-    pca_file_int %>% 
-    dplyr::select(-c(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)) %>% 
-    dplyr::mutate(row = row_number())
   
-  pca_int = prcomp(pca_num, scale. = T)
+  pca = do_pca_functions(relabund_pca)
+  pca_1 = do_pca_functions(relabund_pca_1)
+  pca_5 = do_pca_functions(relabund_pca_5)
   
-  gg_pca_suction = ggbiplot(pca_int, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp$Suction), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups))+
-    labs(title = "effect of suction")
-  
-  ggbiplot(pca_int, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp$Wetting), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups)) 
-  
-  ggbiplot(pca_int, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp$Amendments), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups)) 
+  ## PCA plots ----
+  ### suction separation ----
+  gg_pca_suction1 = 
+     ggbiplot(pca$pca_int, obs.scale = 1, var.scale = 1, 
+              groups = as.character(pca$grp$Suction), ellipse = TRUE, circle = FALSE,
+              var.axes = TRUE) +
+     geom_point(size=3,stroke=1, aes(fill = groups, shape = groups))+
+     scale_shape_manual(values = c(21,25), name = "")+
+     scale_color_manual(values = pal, name = "")+
+     scale_fill_manual(values = pal, name = "")+
+     xlim(-4,4)+
+     ylim(-3.5,3.5)+
+     labs(shape="")+
+     theme_kp()+
+     NULL
 
-  ggbiplot(pca_int, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp$Moisture), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, fill = "white", 
-               aes(color = groups, shape = as.character(pca_grp$Suction)))+
-    scale_shape_manual(values = c(8, 16))+
-    labs(title = "effect of moisture",
-         shape = "Suction")
-  
-  ## 1.5 kPa
-  pca_num_1 = 
-    pca_file_int %>% 
-    filter(Suction==1.5) %>% 
-    dplyr::select(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)
-  
-  pca_grp_1 = 
-    pca_file_int %>% 
-    filter(Suction==1.5) %>% 
-    dplyr::select(-c(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)) %>% 
-    dplyr::mutate(row = row_number())
-  
-  pca_int_1 = prcomp(pca_num_1, scale. = T)
-  
-  gg_pca_1 = ggbiplot(pca_int_1, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp_1$Moisture), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
+  ### amendments separation ----
+  gg_pca_amend_1 = 
+    ggbiplot(pca_1$pca_int, obs.scale = 1, var.scale = 1, 
+             groups = as.character(pca_1$grp$Amendments), ellipse = TRUE, circle = FALSE,
+             var.axes = TRUE) +
     geom_point(size=3,stroke=1, 
-               aes(color = groups, shape = pca_grp_1$Wetting))+
-    labs(title = "effect of Moisture, 1.5 kPa",
-         shape = "Wetting")
+               aes(fill = groups, shape = groups))+
+    #scale_color_manual(values = pal3, name  ="")+
+    scale_color_manual(name = "", values = c("unamended" = "#FFE733", "C" = "#96001B", "N" = "#2E5894"))+ 
+    scale_fill_manual(name = "", values = c("unamended" = "#FFE733", "C" = "#96001B", "N" = "#2E5894")) +
+    scale_shape_manual(values = c(21, 22, 23), name = "")+
+    #scale_fill_manual(values = pal3, name = "")+
+    xlim(-3.5,3.5)+
+    ylim(-3,3)+
+    labs(shape="",
+          title = "1.5 kPa")+
+     theme_kp()+
+     NULL
   
+  gg_pca_amend_5 = 
+      ggbiplot(pca_5$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_5$grp$Amendments), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+      geom_point(size=3,stroke=1, 
+                 aes(fill = groups, shape = groups))+
+    #  scale_color_manual(values = pal, name  ="")+
+      scale_shape_manual(values = c(21, 22, 23), name = "")+
+    #  scale_fill_manual(values = pal, name = "")+
+    scale_color_manual(name = "", values = c("unamended" = "#FFE733", "C" = "#96001B", "N" = "#2E5894"))+ 
+    scale_fill_manual(name = "", values = c("unamended" = "#FFE733", "C" = "#96001B", "N" = "#2E5894")) +
+    
+      xlim(-3.5, 3.5)+
+      ylim(-3,3)+
+      labs(shape="",
+           title = "50 kPa")+
+      theme_kp()+
+      NULL
+ 
+  ### moisture separation ----
   
-  ggbiplot(pca_int_1, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp_1$Wetting), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups, shape = pca_grp_1$Moisture)) 
+  gg_pca_moist1 = 
+     ggbiplot(pca_1$pca_int, obs.scale = 1, var.scale = 1, 
+              groups = as.character(pca_1$grp$Moisture), ellipse = TRUE, circle = FALSE,
+              var.axes = TRUE) +
+     geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_1$grp$Wetting))+
+     geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_1$grp$Wetting), show.legend = F)+
+     scale_fill_manual(values = c("firebrick", "lightskyblue1"))+
+     scale_shape_manual(values = c(21, 24))+
+     scale_color_manual(values = c("firebrick", "lightskyblue1"))+
+     xlim(-3.5,3.5)+
+     ylim(-3,3)+
+     labs(shape="",
+          title = "1.5 kPa")+
+     theme_kp()+
+     NULL
   
+  gg_pca_moist5 = 
+      ggbiplot(pca_5$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_5$grp$Moisture), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+    scale_color_manual(values = c("firebrick", "lightskyblue1"))+
+    geom_point(size=1)+
+      geom_point(size=3,stroke=1, aes(color = groups, fill = groups, shape = pca_5$grp$Wetting))+
+      geom_point(size=3,stroke=1, color = "black", aes(fill = groups, shape = pca_5$grp$Wetting), show.legend = F)+
+      scale_shape_manual(values = c(21, 24))+
+    scale_fill_manual(values = c("firebrick", "lightskyblue1"))+
+    xlim(-3.5, 3.5)+
+      ylim(-3,3)+
+      labs(shape="",
+           title = "50 kPa")+
+      theme_kp()+
+      NULL
   
-  ## 50 kPa
-  pca_num_5 = 
-    pca_file_int %>% 
-    filter(Suction==50) %>% 
-    dplyr::select(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)
+  ### homogenized ----
+  relabund_pca_homo = 
+    relabund_cores %>% 
+    filter(!Suction==15) %>% 
+    dplyr::select(Core, SampleAssignment, class, relabund, 
+                  Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
+    spread(class, relabund) %>% 
+    replace(is.na(.), 0) %>% 
+    select(-1) %>% 
+    filter(Homogenization=="Homogenized" & Amendments == "control" & Moisture == "fm")
   
-  pca_grp_5 = 
-    pca_file_int %>% 
-    filter(Suction==50) %>% 
-    dplyr::select(-c(aliphatic, aromatic, condensed_arom, `unsaturated/lignin`)) %>% 
-    dplyr::mutate(row = row_number())
+  pca_homo = 
+    do_pca_functions(relabund_pca_homo)
   
-  pca_int_5 = prcomp(pca_num_5, scale. = T)
+  gg_pca_suction_homo = 
+      ggbiplot(pca_homo$pca_int, obs.scale = 1, var.scale = 1, 
+               groups = as.character(pca_homo$grp$Suction), ellipse = TRUE, circle = FALSE,
+               var.axes = TRUE) +
+      geom_point(size=3,stroke=1, aes(fill = groups, shape = pca_homo$grp$Wetting))+
+      scale_shape_manual(values = c(21,25), name = "")+
+      scale_color_manual(values = pal, name = "")+
+      scale_fill_manual(values = pal, name = "")+
+      xlim(-4,4)+
+      ylim(-3.5,3.5)+
+      labs(shape="",
+           title = "Homogenized")+
+      theme_kp()+
+      NULL
+
   
-  gg_pca_5 = ggbiplot(pca_int_5, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp_5$Moisture), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups, shape = pca_grp_5$Wetting)) +
-    labs(title = "effect of Moisture, 50 kPa",
-         shape = "Wetting")+
-    xlim(-3,3)
+  ## compiled ----
+  library(ggpubr)
   
+  gg_pca_suction = ggarrange(gg_pca_suction1+theme(legend.position = "right")+theme(plot.margin = unit(c(0, 0, 0, 1), "lines")), NULL)
+  gg_pca_amend = ggarrange(gg_pca_amend_1, gg_pca_amend_5, common.legend = T, legend = "right")+theme(plot.margin = unit(c(1, 1, 1, 1), "lines"))
+  gg_pca_moist = ggarrange(gg_pca_moist1, gg_pca_moist5, common.legend = T, legend = "right")
   
-  ggbiplot(pca_int_5, obs.scale = 1, var.scale = 1, 
-           groups = as.character(pca_grp_5$Wetting), ellipse = TRUE, circle = FALSE,
-           var.axes = TRUE) +
-    geom_point(size=3,stroke=1, 
-               aes(color = groups, shape = pca_grp_5$Moisture)) 
-  
-  
-  library(patchwork)
-  gg_pca_1+gg_pca_5+
-    plot_layout(guides = "collect")
+  ggarrange(gg_pca_suction, gg_pca_amend, gg_pca_moist, nrow = 3, align = "hv", labels = c("A", "B", "C"))
 }
 
 
-
-
-
+#
 
 # -------------------------------------------------------------------------
 
@@ -829,311 +1233,3 @@ do_gg_element_plots <- function(fticr_elements) {
 
 
 
-# IVb. PCA -- unique peaks -----------------------------------------------------
-
-    ##    compute_pca = function(dat){
-    ##     data_unique_all <-  
-    ##       data_long_trt %>% 
-    ##       group_by(formula, Suction, Homogenization, Moisture, Wetting) %>% 
-    ##       dplyr::mutate(n = n()) %>% 
-    ##       filter(n==1) %>% 
-    ##       filter(Homogenization=="Intact")
-    ##     
-    ##   
-    ##     # raw counts ----  
-    ##     data_unique_counts = 
-    ##       data_unique_all %>% 
-    ##       left_join(meta_classes, by = "formula") %>% 
-    ##       group_by(Suction, Moisture, Wetting, Amendments, Homogenization, class) %>% 
-    ##       dplyr::summarise(counts = sum(presence))
-    ##     
-    ##     unique_wide_intact = 
-    ##       data_unique_counts %>% 
-    ##       spread(class, counts) %>% 
-    ##       replace(is.na(.), 0)
-    ##     
-    ##     unique_wide_pca = 
-    ##       unique_wide_intact %>% 
-    ##       ungroup ()
-    ##     
-    ##     ## 1.5 kPa  ---
-    ##     unique_wide_pca_1 = 
-    ##       unique_wide_pca %>% 
-    ##       filter(Suction==1.5)
-    ##     
-    ##     unique_pca_num_1  = 
-    ##       unique_wide_pca_1 %>% 
-    ##       dplyr::select(., -(1:5))
-    ##     
-    ##     unique_pca_grp_1  = 
-    ##       unique_wide_pca_1 %>% 
-    ##       dplyr::select(., (1:5)) %>% 
-    ##       dplyr::mutate(row = row_number())
-    ##     
-    ##     unique_pca_1 = prcomp(unique_pca_num_1, scale. = T)
-    ##     
-    ##     ggbiplot(unique_pca_1, obs.scale = 1, var.scale = 1, 
-    ##              groups = as.character(unique_pca_grp_1$Amendments), ellipse = TRUE, circle = FALSE,
-    ##              var.axes = TRUE) +
-    ##       geom_point(size=5,stroke=1, 
-    ##                  aes(color = groups, 
-    ##                      shape = interaction(as.factor(unique_pca_grp_1$Moisture),
-    ##                                          as.factor(unique_pca_grp_1$Wetting))))+
-    ##       scale_shape_manual(values = c(1, 2, 19, 17))+
-    ##       scale_color_manual(values = pal3)+
-    ##       labs(shape="",
-    ##            title = "INTACT unique",
-    ##            subtitle = "1.5 kPa")+
-    ##       NULL
-    ##     
-    ##     ## 50 kPa  ---
-    ##     unique_wide_pca_5 = 
-    ##       unique_wide_pca %>% 
-    ##       filter(Suction==50)
-    ##     
-    ##     unique_pca_num_5  = 
-    ##       unique_wide_pca_5 %>% 
-    ##       dplyr::select(., -(1:5))
-    ##     
-    ##     unique_pca_grp_5  = 
-    ##       unique_wide_pca_5 %>% 
-    ##       dplyr::select(., (1:5)) %>% 
-    ##       dplyr::mutate(row = row_number())
-    ##     
-    ##     unique_pca_5 = prcomp(unique_pca_num_5, scale. = T)
-    ##     
-    ##     ggbiplot(unique_pca_5, obs.scale = 1, var.scale = 1, 
-    ##              groups = as.character(unique_pca_grp_5$Amendments), ellipse = TRUE, circle = FALSE,
-    ##              var.axes = TRUE) +
-    ##       geom_point(size=5,stroke=1, 
-    ##                  aes(color = groups, 
-    ##                      shape = interaction(as.factor(unique_pca_grp_5$Moisture),
-    ##                                          as.factor(unique_pca_grp_5$Wetting))))+
-    ##       scale_shape_manual(values = c(1, 2, 19, 17))+
-    ##       scale_color_manual(values = pal3)+
-    ##       labs(shape="",
-    ##            title = "INTACT unique",
-    ##            subtitle = "50 kPa")+
-    ##       NULL 
-    ##    
-    ##     
-    ##     # unique relabund ----  
-    ##     data_unique_counts = 
-    ##       data_unique_all %>% 
-    ##       left_join(meta_classes, by = "formula") %>% 
-    ##       group_by(Suction, Moisture, Wetting, Amendments, Homogenization, class) %>% 
-    ##       dplyr::summarise(counts = sum(presence)) %>% 
-    ##       group_by(Suction, Moisture, Wetting, Amendments, Homogenization) %>%
-    ##       dplyr::mutate(total = sum(counts),
-    ##                     unique_rel = round((counts/total)*100,2))
-    ##     
-    ##     unique_wide_pca = 
-    ##       data_unique_counts %>% 
-    ##       dplyr::select(Suction, Moisture, Wetting, Amendments, Homogenization, class, unique_rel) %>% 
-    ##       spread(class, unique_rel) %>% 
-    ##       replace(is.na(.), 0) %>% 
-    ##       ungroup ()
-    ##     
-    ##     ## 1.5 kPa  ---
-    ##     unique_wide_pca_1 = 
-    ##       unique_wide_pca %>% 
-    ##       filter(Suction==1.5)
-    ##     
-    ##     unique_pca_num_1  = 
-    ##       unique_wide_pca_1 %>% 
-    ##       dplyr::select(., -(1:5))
-    ##     
-    ##     unique_pca_grp_1  = 
-    ##       unique_wide_pca_1 %>% 
-    ##       dplyr::select(., (1:5)) %>% 
-    ##       dplyr::mutate(row = row_number())
-    ##     
-    ##     unique_pca_1 = prcomp(unique_pca_num_1, scale. = T)
-    ##     
-    ##     ggbiplot(unique_pca_1, obs.scale = 1, var.scale = 1, 
-    ##              groups = as.character(unique_pca_grp_1$Amendments), ellipse = TRUE, circle = FALSE,
-    ##              var.axes = TRUE) +
-    ##       geom_point(size=5,stroke=1, 
-    ##                  aes(color = groups, 
-    ##                      shape = interaction(as.factor(unique_pca_grp_1$Moisture),
-    ##                                          as.factor(unique_pca_grp_1$Wetting))))+
-    ##       scale_shape_manual(values = c(1, 2, 19, 17))+
-    ##       scale_color_manual(values = pal3)+
-    ##       labs(shape="",
-    ##            title = "INTACT unique",
-    ##            subtitle = "1.5 kPa")+
-    ##       NULL
-    ##     
-    ##     ## 50 kPa  ---
-    ##     unique_wide_pca_5 = 
-    ##       unique_wide_pca %>% 
-    ##       filter(Suction==50)
-    ##     
-    ##     unique_pca_num_5  = 
-    ##       unique_wide_pca_5 %>% 
-    ##       dplyr::select(., -(1:5))
-    ##     
-    ##     unique_pca_grp_5  = 
-    ##       unique_wide_pca_5 %>% 
-    ##       dplyr::select(., (1:5)) %>% 
-    ##       dplyr::mutate(row = row_number())
-    ##     
-    ##     unique_pca_5 = prcomp(unique_pca_num_5, scale. = T)
-    ##     
-    ##     ggbiplot(unique_pca_5, obs.scale = 1, var.scale = 1, 
-    ##              groups = as.character(unique_pca_grp_5$Amendments), ellipse = TRUE, circle = FALSE,
-    ##              var.axes = TRUE) +
-    ##       geom_point(size=5,stroke=1, 
-    ##                  aes(color = groups, 
-    ##                      shape = interaction(as.factor(unique_pca_grp_5$Moisture),
-    ##                                          as.factor(unique_pca_grp_5$Wetting))))+
-    ##       scale_shape_manual(values = c(1, 2, 19, 17))+
-    ##       scale_color_manual(values = pal3)+
-    ##       labs(shape="",
-    ##            title = "INTACT unique",
-    ##            subtitle = "50 kPa")+
-    ##       NULL 
-    ##     
-    ##     
-    ##     
-    ##     
-    ##   ## bar ----
-    ##    data_unique_counts %>% 
-    ##       ggplot(aes(x = Amendments, y = counts, fill = class))+
-    ##       geom_bar(stat = "identity")+
-    ##       facet_grid(Suction ~ Moisture + Wetting)+
-    ##       labs(title = "Unique Peaks, Intact Cores")
-    ##     
-    ##   }
-    ##   
-    ##   
-
-
-
-
-
-
-
-
-
-
-    ##   
-    ##   relabund_wide = 
-    ##     relabund_cores %>% 
-    ##     filter(!Suction==15) %>% 
-    ##     dplyr::select(Core, SampleAssignment, class, relabund, 
-    ##                   Moisture, Wetting, Suction, Homogenization, Amendments) %>% 
-    ##     spread(class, relabund) %>% 
-    ##     replace(is.na(.), 0),
-    ##   
-    ##   relabund_pca=
-    ##     relabund_wide %>% 
-    ##     select(-1),
-
-    ##  # IIIb1. intact cores -----------------------------------------------------
-    ##   relabund_pca_num_intact = 
-    ##     relabund_pca %>% 
-    ##     filter(Homogenization=="Intact") %>% 
-    ##     dplyr::select(.,-(1:6)),
-    ##   
-    ##   relabund_pca_grp_intact = 
-    ##     relabund_pca %>% 
-    ##     filter(Homogenization=="Intact") %>% 
-    ##     dplyr::select(.,(1:6)) %>% 
-    ##     dplyr::mutate(row = row_number()),
-    ##   
-    ##   pca_int = prcomp(relabund_pca_num_intact, scale. = T),
-    ##   #summary(pca)
-    ##   
-    ##   gg_pca_intact_plots = do_gg_pca_intact_plots(pca_int, relabund_pca_grp_intact),    ##  
-
-
-
-
-# alternate homogenization plots ------------------------------------------
-
-
-
-relabund_cores_complex %>% 
-  ggplot(aes(x = Moisture, y = relabund, fill = Homogenization))+
-#  geom_boxplot(# aes(group = Moisture), 
-#               # fill = "grey90", 
-#               alpha = 0.3, color = "grey60", width = 0.6)+
-  geom_point(aes(shape = Wetting, group = Wetting),
-             size=4, stroke=1, position = position_dodge(width = 0.6))+
-  #geom_text(data = totalcounts_label_homo, aes(x = x, y = y, label = label), size=5)+
-  scale_shape_manual(values = c(21,23))+
-  scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
-  
-  guides(fill=guide_legend(override.aes=list(shape=21)))+
-  labs(title = "contribution of complex molecules",
-       y = "% contribution")+
-  facet_grid(Suction~Amendments)+
-  theme_kp()+
-  NULL
-
-
-peakcounts_core %>% 
-  filter(class=="total") %>% 
-  ggplot(aes(x = Moisture, y = counts, fill = Homogenization))+
-#  geom_boxplot(aes(group = Homogenization), 
-#               fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
-  geom_point(aes(shape = Wetting, group = Wetting),
-             size=4, stroke=1, position = position_dodge(width = 0.6))+
-  #geom_text(data = totalcounts_label_homo, aes(x = x, y = y, label = label), size=5)+
-  scale_shape_manual(values = c(21,23))+
-  scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
-  
-  guides(fill=guide_legend(override.aes=list(shape=21)))+
-  labs(title = "total peak counts",
-       y = "count")+
-  facet_grid(Suction~Amendments)+
-  theme_kp()+
-  NULL
-
-
-
-
-## HOMOGENIZATION NEW PEAKS PCA
-
-data_homo_new2 = 
-  data_homo_new %>% 
-  left_join(meta_classes, by = "formula") %>% 
-  group_by(Suction, Moisture, Wetting, Amendments, class) %>% 
-  dplyr::summarise(abund = n()) %>%
-  group_by(Suction, Moisture, Wetting, Amendments) %>% 
-  dplyr::mutate(total = sum(abund)) %>%
-  ungroup() %>% 
-  mutate(relabund = (abund/total)*100) %>% 
-  dplyr::select(-abund, -total) %>% 
-  spread(class, relabund) %>% 
-  replace(is.na(.),0)  
-
-data_homo_pca_num = 
-  data_homo_new2 %>% 
-  dplyr::select(-c(1:4))
-
-data_homo_pca_grp = 
-  data_homo_new2 %>% 
-  dplyr::select(c(1:4)) %>% 
-  dplyr::mutate(row = row_number())
-
-homo_pca = prcomp(data_homo_pca_num, scale. = T)
-summary(homo_pca)
-
-
- ggbiplot(homo_pca, obs.scale = 1, var.scale = 1, 
-          groups = interaction(
-                               as.factor(data_homo_pca_grp$Amendments)), ellipse = TRUE, circle = FALSE,
-          var.axes = TRUE) +
-   geom_point(size=5,stroke=1, 
-              aes(color = groups, 
-                  shape = interaction(as.factor(data_homo_pca_grp$Moisture),
-                                      as.factor(data_homo_pca_grp$Wetting))))+
-   scale_shape_manual(values = c(1, 2, 19, 17))+
-   #scale_color_manual(values = pal3)+
-   labs(shape="",
-        title = "INTACT unique",
-        subtitle = "50 kPa")+
-   NULL 
- 

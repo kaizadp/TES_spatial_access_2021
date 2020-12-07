@@ -105,9 +105,30 @@ readd(vk_pores)
 # readd(gg_fticr_pores_50kPa)
 ```
 
+```{r vk_pores2, fig.width=6, fig.height=7}
+
+readd(vk_pores_amend)
+# readd(gg_fticr_pores_1_5kPa)
+# readd(gg_fticr_pores_50kPa)
+```
+
 </details>
 
 
+#### VK comparisons
+```{r vk_comparisons1, fig.width=9, fig.height=7}
+readd(vk_comparisons)$gg_vk_baseline_combined
+```
+
+```{r vk_comparisons2, fig.width=6, fig.height=6}
+readd(vk_comparisons)$gg_vk_drought_lossgain
+readd(vk_comparisons)$gg_vk_c_lossgain
+readd(vk_comparisons)$gg_vk_n_lossgain
+```
+
+```{r vk_comparisons3, fig.width=8, fig.height=5}
+readd(vk_comparisons)$gg_vk_homo_newpeaks
+```
 
 <details>
   <summary>VK unique</summary>
@@ -209,7 +230,7 @@ readd(relabund_barplots)
 
 relative abundance of complex peaks
 
-```{r fticr_relabund_complex, fig.height=5, fig.width=8}
+```{r fticr_relabund_complex, fig.height=7, fig.width=8}
 # readd(gg_complex_relabund)
 
 readd(gg_relabund_complex)
@@ -218,6 +239,13 @@ readd(gg_relabund_complex)
 ```{r fticr_relabund_complex_homo, fig.height=6, fig.width=8}
 readd(gg_relabund_complex_homo)
 ```
+
+
+### PCA
+```{r gg_pca, fig.width=9, fig.height=12}
+readd(gg_pca)
+```
+
 
 
 
@@ -231,6 +259,20 @@ readd(gg_relabund_complex_homo)
 ```{r permanova_overall}
 readd(relabund_permanova_overall)
 ```
+
+**permanova for intact**
+
+```{r permanova_intact}
+readd(relabund_permanova_int)
+
+readd(relabund_permanova_int_1)
+
+readd(relabund_permanova_int_50)
+
+
+```
+
+
 
 **PERMANOVA for treatments**
 

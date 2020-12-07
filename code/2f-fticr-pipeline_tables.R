@@ -101,8 +101,9 @@ peakcount_table_stats <- function(peakcounts_core){
        peakcount_stats_fullANOVA = peakcount_stats_fullANOVA)
   
 }
-peakcount_table_stats(peakcounts_core)
-
-peakcounts_total %>% 
-  group_by(Suction, Amendments) %>% 
-  dplyr::summarise(mean = as.integer(mean(counts)))
+    ## peakcount_table_stats(peakcounts_core)
+    ## 
+    ## peakcounts_total %>% 
+    ##   group_by(Suction, Amendments) %>% 
+    ##   dplyr::summarise(mean = as.integer(mean(counts)))
+    ## 

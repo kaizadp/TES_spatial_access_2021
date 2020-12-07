@@ -69,12 +69,16 @@ fticr_plan <-
     
     ## Id. vk -- pores ------------------------------------------------------------
     vk_pores = do_vk_pores(data_long_trt),
+    vk_pores_amend = do_vk_pores_amend(data_long_trt),
     
     ## Ie. vk -- unique ---------------------------------------------------------------
     vk_unique = do_vk_unique(data_long_trt),
-
+    
     ## If. vk -- peaks introduced after homogenization -------------------------------------------------------------------------
     vk_homo_new = do_vk_homo_new(data_long_trt),
+    
+    ## Ig. van krevelen baseline comparisons -------------------------------------------------------------------------
+    vk_comparisons = do_vk_comparisons(data_long_trt, relabund_control, meta_classes),
     
     # ----- ---------------------------------------------------------------------
     # II. peaks ---------------------------------------------------------------------
@@ -178,6 +182,11 @@ fticr_plan <-
       do(compute_permanova_intact(.)),
     
     ## IIIb. PCA ---------------------------------------------------------------
+    # pca for ms ----
+    gg_pca = do_pca_intact(relabund_cores),
+    
+    
+    
     # make pca file
     relabund_wide = 
       relabund_cores %>% 
