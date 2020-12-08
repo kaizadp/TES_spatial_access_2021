@@ -27,7 +27,7 @@ flux =
          elapsed_min_bin = `ElapsedMin.BIN.`) %>% 
   mutate(CO2C_mg_g_s = CO2_umol_g_s*12/1000) %>% 
   left_join(corekey, by = c("CORE"="Core")) %>% 
-  mutate(Homogenization = recode(Homogenization, " Intact" = "Intact")) %>% 
+  dplyr::mutate(Homogenization = dplyr::recode(Homogenization, " Intact" = "Intact")) %>% 
   left_join(dplyr::select(coreweights, CORE, Homogenization, totalC_perc), by = c("CORE", "Homogenization")) %>% 
   mutate(CO2C_mg_gC_s = CO2C_mg_g_s*100/totalC_perc)
 

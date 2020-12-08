@@ -41,10 +41,10 @@ do_scatterplot_stats = function(depvar, flux_summary){
   rbind(fit_stats_C, fit_stats_N) %>% 
     mutate(label = case_when(p_value <= 0.05 ~ "*",
                              p_value > 0.05 & p_value <= 0.10 ~ "\u02d9"),
-           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
-                           Moisture=="fm"&Wetting=="groundw" ~ 2,
-                           Moisture=="drought"&Wetting=="precip" ~ 3,
-                           Moisture=="drought"&Wetting=="groundw" ~ 4),
+           x_1 = case_when(Wetting=="precip" ~ 1,
+                           Wetting=="groundw" ~ 2),
+                           #Moisture=="drought"&Wetting=="precip" ~ 3,
+                           #Moisture=="drought"&Wetting=="groundw" ~ 4),
            x_2 = case_when(Amendments=="control" ~ -0.2,
                            Amendments=="C" ~ 0,
                            Amendments=="N" ~ +0.2),
@@ -55,35 +55,74 @@ do_cumflux_boxplot = function(flux_summary){
     do_scatterplot_stats("cum_CO2C_mg_gC", flux_summary %>% 
                            filter(Homogenization=="Intact"))
   
-  
-  flux_summary %>% 
-    filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = interaction(Wetting, Moisture), y = cum_CO2C_mg_gC))+
-    #  geom_boxplot(aes(fill = Amendments), 
-    #               alpha = 0.3, color = "grey60", width = 0.6,
-    #               show.legend = F)+
-    geom_point(aes(fill = Amendments, shape = Wetting),
-               size=4, stroke=1, position = position_dodge(width = 0.6))+
-    geom_text(data = cumflux_label2 %>% filter(label=="*"), 
-              aes(x = x, y = 600, label = label), size=10)+
-    geom_text(data = cumflux_label2 %>% filter(label!="*"), 
-              aes(x = x, y = 1000, label = label), size=10)+
+  ## intact cores
+  (gg_cumflux_intact = 
+      flux_summary %>% 
+      filter(Homogenization=="Intact") %>% 
+      mutate(Amendments = dplyr::recode(Amendments, "control" = "unamended", "C" = "+C", "N" = "+N"),
+             Amendments = factor(Amendments, levels = c("unamended", "+C", "+N")),
+             Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+             Wetting = factor(Wetting, levels = c("PR", "GW"))) %>% 
+      ggplot(aes(x = Wetting, y = cum_CO2C_mg_gC))+
+      #  geom_boxplot(aes(fill = Amendments), 
+      #               alpha = 0.3, color = "grey60", width = 0.6,
+      #               show.legend = F)+
+      geom_point(aes(fill = Amendments, shape = Wetting),
+                 size=4, stroke=1, position = position_dodge(width = 0.6))+
+      geom_text(data = cumflux_label2 %>% filter(label=="*"), 
+                aes(x = x, y = 600, label = label), size=10)+
+      geom_text(data = cumflux_label2 %>% filter(label!="*"), 
+                aes(x = x, y = 1000, label = label), size=10)+
     scale_fill_manual(values = pal3)+
-    scale_shape_manual(values = c(21,23))+
+    scale_shape_manual(values = c(21,24))+
     guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "cumulative CO2C evolved",
-         x = "")+
-    annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "yellow")+
-    annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "red")+
-    annotate("text", label = "FM", x = 1.5, y = 1100)+
-    annotate("text", label = "Drought", x = 3.5, y = 1100)+
-    annotate("segment", x = 2.5, xend = 2.5, y = 5, yend = 1100, color = "grey70")+
-    scale_x_discrete(breaks = c("precip.fm", "groundw.fm", "precip.drought", "groundw.drought"),
-                     labels  =c("precip", "groundw", "precip", "groundw"))+
-    facet_grid(Homogenization~.)+
+      ylim(0, 1100)+
+    labs(# title = "cumulative CO2C evolved",
+         x = "wetting direction",
+         y = expression(bold("cumulative CO"[2]*"-C, mg gC"^-1)))+
+    # annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "yellow")+
+    # annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 1075, ymax = 1125, alpha = 0.2, fill = "red")+
+    #annotate("text", label = "FM", x = 1.5, y = 1200, size=5)+
+    #annotate("text", label = "Drought", x = 3.5, y = 1200, size = 5)+
+    #annotate("segment", x = 2.5, xend = 2.5, y = 5, yend = 1100, color = "grey70")+
+    
+    facet_grid(Homogenization~ Moisture)+
     theme_kp()+
-    theme(panel.grid.major.x = element_blank())+
-    NULL
+    theme(panel.grid.major.x = element_blank(),
+          strip.text.y = element_text(color = "white"))+
+    NULL)
+  
+  
+  ## effect of homogenization
+  
+  summary(aov(log(cum_CO2C_mg_gC) ~ Homogenization, data = flux_summary %>% 
+                filter(Moisture == "fm" & Amendments == "control")))
+  
+  (gg_cumflux_homo = 
+    flux_summary %>% 
+    filter(Moisture == "fm" & Amendments == "control") %>% 
+    mutate(Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+           Wetting = factor(Wetting, levels = c("PR", "GW")),
+           Homogenization = dplyr::recode(Homogenization, "Intact" = "Intact (baseline)")) %>% 
+    ggplot(aes(x = Homogenization, y = cum_CO2C_mg_gC))+
+    geom_boxplot(fill = "grey80", alpha = 0.3, width = 0.4)+
+    geom_point(size = 3.5, position = position_dodge(width = 0.5),
+               aes(fill = Wetting, shape = Wetting))+
+    scale_shape_manual(values = c(21,24))+
+    scale_fill_manual(values = c("#0f85a0", "#ed8b00"))+
+    labs(x = "",
+         y = expression(bold("cumulative CO"[2]*"-C, mg gC"^-1)))+
+    annotate("text", label = "p = 0.0150", x = 1.5, y = 0, size = 4)+
+    theme_kp()+
+    theme(legend.position = c(0.2, 0.8))+
+    NULL)
+  
+  
+  
+  
+  
+  list(gg_cumflux_intact = gg_cumflux_intact,
+       gg_cumflux_homo = gg_cumflux_homo)
 }
 
 #
@@ -367,16 +406,49 @@ do_flux_ts = function(flux){
 ## by core 
 do_flux_ts_bycore = function(flux){
   
-  gg_flux_ts_core_intact = 
+  (gg_flux_ts_core_intact = 
+     flux %>% 
+     filter(Homogenization=="Intact") %>% 
+     arrange(CORE, elapsed_min_bin) %>% 
+     ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
+     geom_path()+ geom_point()+
+     geom_vline(xintercept = 200, linetype = "dashed")+
+     #ylim(0, 30)+
+     labs(title = "intact cores",
+          x = "elapsed time (minutes)")+
+     #facet_wrap(~Assignment, ncol = 3)+
+     facet_grid(Amendments ~ Moisture + Wetting)+
+     theme_kp()+
+     theme(legend.position = "none")+
+     NULL)
+  
+  (gg_flux_ts_intact_panels = 
     flux %>% 
+      mutate(Amendments = dplyr::recode(Amendments, "control" = "unamended", "C" = "+C", "N" = "+N"),
+             Amendments = factor(Amendments, levels = c("unamended", "+C", "+N")),
+             Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+             Wetting = factor(Wetting, levels = c("PR", "GW"))) %>% 
+    #filter(Amendments == "C") %>% 
     filter(Homogenization=="Intact") %>% 
     arrange(CORE, elapsed_min_bin) %>% 
-    ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
-    geom_path()+ geom_point()+
-    ylim(0, 30)+
-    labs(title = "intact cores")+
-    theme(legend.position = "none")+
-    facet_wrap(~Assignment, ncol = 3)
+    ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = Wetting))+
+    geom_path(alpha = 0.2, aes(group = CORE))+ 
+    geom_point(alpha = 0.3)+
+    geom_smooth(se = F, span = 0.2)+
+    geom_vline(xintercept = 200, linetype = "dashed")+
+    scale_color_manual(values = c("#0f85a0", "#ed8b00"))+
+    #ylim(0, 30)+
+    labs(#title = "intact cores",
+         x = "elapsed time (minutes)",
+         y = expression(bold("CO"[2]*"-C, μg gC"^-1 *" s"^-1)))+
+    #facet_wrap(~Assignment, ncol = 3)+
+    facet_grid(Amendments ~ Moisture)+
+    theme_kp()+
+    guides(color = guide_legend(override.aes = list(alpha=1)))+
+    theme(legend.position = c(0.3, 0.9))+
+    NULL
+  )
+  
   
   gg_flux_ts_core_homo = 
     flux %>% 
@@ -384,10 +456,13 @@ do_flux_ts_bycore = function(flux){
     arrange(CORE, elapsed_min_bin) %>% 
     ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
     geom_path()+ geom_point()+
-    ylim(0, 30)+
+#    ylim(0, 30)+
     labs(title = "homogenized cores")+
     theme(legend.position = "none")+
-    facet_wrap(~Assignment, ncol = 3)
+    facet_grid(Amendments ~ Moisture + Wetting)+
+    NULL
+  
+  list(gg_flux_ts_intact_panels = gg_flux_ts_intact_panels)
 }
 
 #
@@ -400,9 +475,51 @@ do_flux_summarytable = function(flux_summary){
               cum_CO2C_mg_gC = mean(cum_CO2C_mg_gC, na.rm = T)) %>% 
     mutate(cum_CO2C_mg_gC = paste(round(cum_CO2C_mg_gC,2), "\u00b1", round(se_cum_CO2C_mg_gC,2))) %>% 
     ungroup %>% 
-    select(Homogenization, Assignment, Moisture, Wetting, Amendments, cum_CO2C_mg_gC)
-  
+    select(Homogenization, Assignment, Moisture, Wetting, Amendments, cum_CO2C_mg_gC) %>% 
+    dplyr::select(-Assignment) %>% 
+    spread(Amendments, cum_CO2C_mg_gC) %>% 
+    knitr::kable()
 }
+
+
+compute_flux_tablestats = function(flux_summary){
+  
+  
+  do_flux_stats_ANOVA = function(flux_summary){
+    l = lm(log(cum_CO2C_mg_gC) ~ Moisture*Wetting, data = flux_summary)
+    a = car::Anova(l)
+    broom::tidy((a)) %>% filter(term != "Residuals")
+  }
+  flux_stats_ANOVA = flux_summary %>% 
+    group_by(Homogenization, Amendments) %>% 
+    do(do_flux_stats_ANOVA(.))
+  
+  do_flux_stats_wetting = function(flux_summary){
+    l = lm(log(cum_CO2C_mg_gC) ~ Wetting, data = flux_summary)
+    a = car::Anova(l)
+    broom::tidy((a)) %>% filter(term != "Residuals")
+  }
+  flux_stats_wetting = flux_summary %>% 
+    group_by(Homogenization, Amendments, Moisture) %>% 
+    do(do_flux_stats_wetting(.))
+  
+  do_flux_dunnett = function(flux_summary){
+    d <-DescTools::DunnettTest(log(cum_CO2C_mg_gC)~Amendments, control = "control", data = flux_summary)
+    tibble(C = d$control["C-control", 4],
+           N = d$control["N-control", 4])
+  }
+  flux_dunnett = flux_summary %>% 
+    group_by(Homogenization, Moisture, Wetting) %>% 
+    do(do_flux_dunnett(.))
+  
+  list(doc_stats_fullANOVA = doc_stats_fullANOVA,
+       doc_stats_wetting = doc_stats_wetting,
+       doc_dunnett = doc_dunnett)
+}
+
+
+
+
 
 # IV. STATISTICS ----------------------------------------------------------
 
@@ -417,3 +534,12 @@ compute_aov_flux_intact = function(flux_summary){
   
   car::Anova(l, type="III")
 }
+
+
+  ## gg_cumflux/gg_flux_ts_intact_panels+
+  ##   plot_layout(heights = c(2,5))+
+  ##   plot_annotation(tag_levels = "A")
+
+
+
+     

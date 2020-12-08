@@ -22,7 +22,9 @@ respiration_plan =
     
     # intact cores (boxplot)
     ## gg_flux_cum_intact_boxplot = do_gg_cumfluxflux_boxplot2(flux_summary),
-    gg_flux_cum_intact_boxplot = do_cumflux_boxplot(flux_summary),
+    gg_flux_cum_intact_boxplot = do_cumflux_boxplot(flux_summary)$gg_cumflux_intact,
+    gg_flux_cum_homo_boxplot = do_cumflux_boxplot(flux_summary)$gg_cumflux_homo,
+    
     # effect of homogenization (boxplot)
     ## gg_cumflux_homo = do_cumflux_boxplot_homo(flux_summary),    
     
@@ -33,6 +35,14 @@ respiration_plan =
     gg_flux_ts_bycore = do_flux_ts_bycore(flux),
     
     #
+    
+    
+    # IIc. combined plot ------------------------------------------------------
+    
+    gg_flux_combined = ggpubr::ggarrange(do_cumflux_boxplot(flux_summary)$gg_cumflux, do_flux_ts_bycore(flux)$gg_flux_ts_intact_panels, 
+                                         nrow = 2, heights = c(1, 2.1),
+                                         labels = c("A", "B")),
+
     # III. summary table -----------------------------------------------------------
     flux_summarytable = do_flux_summarytable(flux_summary),
     

@@ -94,9 +94,18 @@ For intact cores,
 
 ## graphs 
 
-```{r cum_flux_boxplot, fig.width=7, fig.height=5}
+```{r cum_flux_boxplot, fig.width=7, fig.height=5, include = F}
 readd(gg_flux_cum_intact_boxplot)
 ```
+
+```{r cum_flux_boxplot_homo, fig.width=5, fig.height=4, include = T}
+readd(gg_flux_cum_homo_boxplot)
+```
+
+```{r flux_combined, fig.width=6, fig.height=12}
+readd(gg_flux_combined)
+```
+
 
 
 - drought increased respiration only in control soils
@@ -137,10 +146,10 @@ readd(gg_flux_ts_core_homo)
 ## summary table 
 cumulative CO2-C, mgC/g C
 ```{r summarytable}
-readd(flux_summarytable) %>% 
-  dplyr::select(-Assignment) %>% 
-  spread(Amendments, cum_CO2C_mg_gC) %>% 
-  knitr::kable(align = "c")
+readd(flux_summarytable) #%>% 
+  #dplyr::select(-Assignment) %>% 
+  #spread(Amendments, cum_CO2C_mg_gC) %>% 
+  #knitr::kable(align = "c")
 ```
 
   
