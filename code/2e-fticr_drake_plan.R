@@ -442,3 +442,29 @@ make(fticr_plan)
     #   geom_boxplot()+
     #   geom_jitter()+
     #   NULL
+
+
+# HOMOGENIZATION PLOTS -- APPENDIX A --------------------------------------
+source("code/3e-fluxes-functions.R")
+source("code/4c-doc-functions.R")
+
+doc = read_file("data/processed/doc.csv")
+flux_summary = read_file("data/processed/flux_summary.csv")
+meta = read.csv(file_in("data/processed/fticr_meta.csv")) %>% dplyr::select(-Mass) %>% distinct()
+meta_hcoc = select(meta, formula, HC, OC)
+meta_classes = select(meta, formula, class)
+
+fticr_key = read_fticr_key("data/processed/fticr_key.csv")
+data_key = read_fticr_file("data/processed/fticr_long_key.csv.gz")
+data_long_trt = read_fticr_file("data/processed/fticr_long_trt.csv.gz") %>% left_join(meta_hcoc, by = "formula")
+
+
+gg_resp = do_cumflux_boxplot(flux_summary)$gg_cumflux_homo+labs(title = "Respiration")
+gg_wsoc = plot_doc_fullcore(doc)$gg_doc_boxdotplot_fullcore_homo + labs(title = "Water soluble organic C")
+gg_fticr = do_vk_comparisons(data_long_trt, relabund_control, meta_classes)$gg_vk_homo_newpeaks
+#ggpubr::ggarrange(gg_resp, gg_wsoc, gg_fticr, nrow = 2)
+
+library(patchwork)
+(gg_resp + gg_wsoc) / gg_fticr +
+  plot_annotation(tag_levels = "A")
+ggsave("reports/markdown-figs/homogenization_app1.tiff")
