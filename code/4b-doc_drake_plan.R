@@ -13,10 +13,11 @@ doc_plan = drake_plan(
   # II. plots -------------------------------------------------------------------
   
   gg_doc_suctions = plot_doc_suctions(doc),
-  # gg_doc_fullcore = plot_doc_fullcore(doc),
+  gg_doc_fullcore_intact = plot_doc_fullcore(doc)$gg_doc_boxdotplot_fullcore,
+  gg_doc_fullcore_homo = plot_doc_fullcore(doc)$gg_doc_boxdotplot_fullcore_homo,
   
   # gg_doc_fullcore_intact = plot_doc_fullcore_intact2(doc),
-  gg_doc_fullcore_intact = do_doc_boxplot(doc),
+  # gg_doc_fullcore_intact = do_doc_boxplot(doc),
   # gg_doc_fullcore_homo = plot_doc_fullcore_homo(doc),
 
   # III. stats -------------------------------------------------------------------

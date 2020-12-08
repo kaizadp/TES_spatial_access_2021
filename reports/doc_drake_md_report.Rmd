@@ -45,7 +45,7 @@ full core
 readd(gg_doc_fullcore_intact)
 ```
 
-```{r doc_boxplot_homo, fig.width=10, fig.height=4}
+```{r doc_boxplot_homo, fig.width=5, fig.height=4}
 readd(gg_doc_fullcore_homo)
 ```
 

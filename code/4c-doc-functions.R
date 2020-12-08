@@ -80,23 +80,29 @@ plot_doc_fullcore = function(doc){
       NULL)
   
   # effect of homogenization
+  summary(aov(log(DOC_ug_gC) ~ Homogenization, data = doc_fullcore %>% 
+                filter(Moisture == "fm" & Amendments == "control")))
+  
   (gg_doc_boxdotplot_fullcore_homo = 
       doc_fullcore %>% 
+      filter(Moisture == "fm" & Amendments == "control") %>% 
+      mutate(Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+             Wetting = factor(Wetting, levels = c("PR", "GW")),
+             Homogenization = dplyr::recode(Homogenization, "Intact" = "Intact (baseline)")) %>% 
+      
       ggplot(aes(x = Homogenization, y = DOC_ug_gC))+
-      geom_boxplot(aes(group = Homogenization), 
-                   fill = "grey90", alpha = 0.3, color = "grey60", width = 0.4)+
-      geom_point(aes(fill = Moisture, shape = Wetting, group=Moisture),
-                 size=3, stroke=1, position = position_dodge(width = 0.4))+
-      scale_shape_manual(values = c(21,23))+
-      scale_fill_manual(values = soilpalettes::soil_palette("crait",2))+
-      facet_grid(. ~ Amendments, scales = "free_y")+
-      labs(title = "effect of homogenization -- full core")+
+      geom_boxplot(fill = "grey80", alpha = 0.3, width = 0.4)+
+      geom_point(size = 3.5, position = position_dodge(width = 0.5),
+                 aes(fill = Wetting, shape = Wetting))+
+      scale_shape_manual(values = c(21,24))+
+      scale_fill_manual(values = c("#0f85a0", "#ed8b00"))+
+      labs(x = "",
+           y = expression(bold("WSOC, μg gC"^-1)))+
+      annotate("text", label = "p = 0.0102", x = 1.5, y = 0, size = 4)+
       theme_kp()+
-      guides(fill=guide_legend(override.aes=list(shape=21)))+
-      theme(axis.title.x = element_blank())+
+      theme(legend.position = c(0.2, 0.8))+
       NULL)
-  
-  
+
   list(gg_doc_boxdotplot_fullcore = gg_doc_boxdotplot_fullcore,
        gg_doc_boxdotplot_fullcore_homo = gg_doc_boxdotplot_fullcore_homo)  
   
@@ -468,23 +474,45 @@ compute_aov_flux_intact = function(doc){
 
 # IV. TABLES --------------------------------------------------------------
 make_doc_table = function(doc){
+  doc_porewise_summarytable = 
+    doc %>% 
+    group_by(Homogenization, Moisture, Wetting, Amendments, Suction) %>% 
+    dplyr::summarise(meanDOC_ug_gC = round(mean(DOC_ug_gC),2),
+                     se = round(sd(DOC_ug_gC)/sqrt(n()),2)) %>% 
+    ungroup() %>% 
+    mutate(DOC_ug_gC = paste(meanDOC_ug_gC, "\u00b1", se)) %>% 
+    dplyr::select(-c(meanDOC_ug_gC, se)) %>% 
+    spread(Amendments, DOC_ug_gC) %>% knitr::kable()
+  
   doc_fullcore = 
     doc %>% 
     group_by(CORE, Homogenization, Moisture, Wetting, Amendments) %>% 
     dplyr::summarise(DOC_ug_gC = sum(DOC_ug_gC)) %>% 
     filter(DOC_ug_gC != 0)
   
-  doc_summary = 
+  doc_fullcore_summarytable = 
     doc_fullcore %>% 
     group_by(Homogenization, Moisture, Wetting, Amendments) %>% 
     dplyr::summarise(meanDOC_ug_gC = round(mean(DOC_ug_gC),2),
                      se = round(sd(DOC_ug_gC)/sqrt(n()),2)) %>% 
     ungroup() %>% 
-    mutate(DOC_ug_gC = paste(meanDOC_ug_gC, "\u00b1", se))
-  
-  doc_summary %>% 
+    mutate(DOC_ug_gC = paste(meanDOC_ug_gC, "\u00b1", se)) %>% 
     dplyr::select(-c(meanDOC_ug_gC, se)) %>% 
     spread(Amendments, DOC_ug_gC) %>% knitr::kable()
+  
+  doc %>% 
+    dplyr::select(-DOC_mg_L) %>% 
+    mutate(Suction = as.character(Suction)) %>% 
+    bind_rows(doc_fullcore %>% mutate(Suction = "full core")) %>% 
+    mutate(DOC_mg_gC = round(DOC_ug_gC/1000,2)) %>% 
+    group_by(Homogenization, Moisture, Wetting, Amendments, Suction) %>% 
+    dplyr::summarise(meanDOC_ug_gC = round(mean(DOC_ug_gC),2),
+                     se = round(sd(DOC_ug_gC)/sqrt(n()),2)) %>% 
+    ungroup() %>% 
+    mutate(DOC_ug_gC = paste(meanDOC_ug_gC, "\u00b1", se)) %>% 
+    dplyr::select(-c(meanDOC_ug_gC, se)) %>% 
+    spread(Amendments, DOC_ug_gC) %>% knitr::kable()
+  
   }
 compute_doc_tablestats = function(doc){
   doc_fullcore = 
