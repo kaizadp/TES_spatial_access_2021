@@ -103,3 +103,68 @@ respiration_plan =
 # make plan ---------------------------------------------------------------
 make(respiration_plan, lock_cache = F)
 
+
+
+
+
+
+# CH4 ---------------------------------------------------------------------
+
+flux_summary %>% 
+  ggplot()+
+  geom_smooth(data = flux, 
+              aes(x = elapsed_min_bin/60, y = CO2C_mg_gC_s*1000, group=CORE, color = Amendments), 
+              size=0.5, alpha = 0.5, se=FALSE)+
+#  geom_smooth(data = meanflux,
+#              aes(x = elapsed_min_bin/60, y = CO2C_mg_gC_s*1000, color = Amendments),
+#              se=FALSE, size=1.5)+ #geom_point()+
+  scale_color_manual(values = pal3)+
+  labs(title = "mean CO2-C flux",
+       subtitle = "LOESS smooth",
+       x = "elapsed hours")+
+  facet_grid(Homogenization~Moisture+Wetting)+
+  theme_kp()+
+  NULL
+
+
+flux_summary %>% 
+  filter(Homogenization=="Intact") %>% 
+  arrange(CORE, elapsed_min_bin) %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+
+  geom_path()+ geom_point()+
+  geom_vline(xintercept = 200, linetype = "dashed")+
+  #ylim(0, 30)+
+  labs(title = "intact cores",
+       x = "elapsed time (minutes)")+
+  #facet_wrap(~Assignment, ncol = 3)+
+  facet_grid(Amendments ~ Moisture + Wetting)+
+  theme_kp()+
+  theme(legend.position = "none")+
+  NULL
+
+
+
+flux %>% 
+  mutate(Amendments = dplyr::recode(Amendments, "control" = "unamended", "C" = "+C", "N" = "+N"),
+         Amendments = factor(Amendments, levels = c("unamended", "+C", "+N")),
+         Wetting = dplyr::recode(Wetting, "precip" = "PR", "groundw" = "GW"),
+         Wetting = factor(Wetting, levels = c("PR", "GW"))) %>% 
+  #filter(Amendments == "C") %>% 
+  filter(Homogenization=="Intact") %>% 
+  arrange(CORE, elapsed_min_bin) %>% 
+  ggplot(aes(x = elapsed_min_bin, y = CH4C_mg_gC_s*1000, color = Wetting))+
+  geom_path(alpha = 0.2, aes(group = CORE))+ 
+  geom_point(alpha = 0.3)+
+  geom_smooth(se = F, span = 0.2)+
+  geom_vline(xintercept = 200, linetype = "dashed")+
+  scale_color_manual(values = c("#0f85a0", "#ed8b00"))+
+  #ylim(0, 30)+
+  labs(#title = "intact cores",
+    x = "elapsed time (minutes)",
+    y = expression(bold("CH"[4]*"-C, μg gC"^-1 *" s"^-1)))+
+  #facet_wrap(~Assignment, ncol = 3)+
+  facet_grid(Amendments ~ Moisture)+
+  theme_kp()+
+  guides(color = guide_legend(override.aes = list(alpha=1)))+
+  theme(legend.position = c(0.3, 0.9))+
+  NULL
