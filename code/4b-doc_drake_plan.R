@@ -15,10 +15,6 @@ doc_plan = drake_plan(
   gg_doc_suctions = plot_doc_suctions(doc),
   gg_doc_fullcore_intact = plot_doc_fullcore(doc)$gg_doc_boxdotplot_fullcore,
   gg_doc_fullcore_homo = plot_doc_fullcore(doc)$gg_doc_boxdotplot_fullcore_homo,
-  
-  # gg_doc_fullcore_intact = plot_doc_fullcore_intact2(doc),
-  # gg_doc_fullcore_intact = do_doc_boxplot(doc),
-  # gg_doc_fullcore_homo = plot_doc_fullcore_homo(doc),
 
   # III. stats -------------------------------------------------------------------
   aov_doc_all = compute_lme_doc_overall(doc),
@@ -32,13 +28,8 @@ doc_plan = drake_plan(
   
   report1 = rmarkdown::render(
     knitr_in("reports/doc_drake_md_report.Rmd"),
-    #  output_file = file_out("drake_md_report.md"))
-    #      output_format = rmarkdown::html_document(toc = TRUE))
     output_format = rmarkdown::github_document()),
-  
-#  report2 = rmarkdown::render(
-#    knitr_in("reports/results.Rmd"),
-#    output_format = rmarkdown::github_document())
+
   
   # ----- ---------------------------------------------------------------------
 )
