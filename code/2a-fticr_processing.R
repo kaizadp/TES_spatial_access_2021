@@ -9,8 +9,8 @@ library(drake)
 
 fticr_processing_plan = drake_plan(
   # load files --------------------------------------------------------------
-  fticr_data = read.csv(file_in("data/SpatAccess_eData.csv")),
-  fticr_meta = read.csv(file_in("data/SpatAccess_eMeta.csv")),
+  fticr_data = read.csv(file_in("data/fticr_SpatAccess_eData.csv")),
+  fticr_meta = read.csv(file_in("data/fticr_SpatAccess_eMeta.csv")),
   #report = read.csv("data/SpatAccess_dwp14_FTICR_Report.csv")
   fticr_key = read.csv(file_in("data/fticr_key.csv")),
   
