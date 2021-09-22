@@ -42,6 +42,8 @@ respiration_plan =
     gg_flux_combined = ggpubr::ggarrange(do_cumflux_boxplot(flux_summary)$gg_cumflux, do_flux_ts_bycore(flux)$gg_flux_ts_intact_panels, 
                                          nrow = 2, heights = c(1, 2.1),
                                          labels = c("A", "B")),
+    
+    gg_flux_combined_tsonly = do_flux_ts_bycore(flux)$gg_flux_ts_intact_panels,
 
     # III. summary table -----------------------------------------------------------
     flux_summarytable = do_flux_summarytable(flux_summary),

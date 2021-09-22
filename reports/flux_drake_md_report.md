@@ -3,22 +3,23 @@ flux\_drake\_plan
 
 ### HYPOTHESES
 
-  - C amendments will increase CO2 flux
-    
-      - especially in cores wet from below
+-   C amendments will increase CO2 flux
 
-  - post-rewetting CO2 flush: drought \> fm for unamended soils, but
-    drought \< fm for C-amended soils
+    -   especially in cores wet from below
 
-  - N amendments will increase CO2 flux when wet from above
+-   post-rewetting CO2 flush: drought &gt; fm for unamended soils, but
+    drought &lt; fm for C-amended soils
 
------
+-   N amendments will increase CO2 flux when wet from above
+
+------------------------------------------------------------------------
 
 ## stats
 
 <details>
-
-<summary>stats</summary>
+<summary>
+stats
+</summary>
 
 intact cores
 
@@ -66,17 +67,17 @@ intact cores: interaction of Amendments and Moisture
 
 Homogenization:
 
-  - interactive response with Amendment  
-  - Homogenization increased respiration in the control soils  
-  - Homogenization decreased respiration in the amended soils
+-   interactive response with Amendment  
+-   Homogenization increased respiration in the control soils  
+-   Homogenization decreased respiration in the amended soils
 
 For intact cores,
 
-  - respiration was influenced by Moisture:Amendments
-      - drought+rewetting increased flux for control soils only
-      - for +C/+N amended soils, drought did not have a strong effect
-  - C-amendments increased respiration in FM soils  
-  - N-amendments increased respiration only in FM-precip soils
+-   respiration was influenced by Moisture:Amendments
+    -   drought+rewetting increased flux for control soils only
+    -   for +C/+N amended soils, drought did not have a strong effect
+-   C-amendments increased respiration in FM soils  
+-   N-amendments increased respiration only in FM-precip soils
 
 ## graphs
 
@@ -84,31 +85,36 @@ For intact cores,
 
 ![](markdown-figs/flux/flux_combined-1.png)<!-- -->
 
-  - drought increased respiration only in control soils
-      - microbes limited by substrate as well as N, which were released
-        during drought?
-      - the C/N amendments alleviated these limitations, and therefore
-        drought did not alter mineralization
-  - in the drought soils, precip had more min than groundw, but only in
-    control soils
-      - possibly because there was more C available in the top 3 cm,
-        which stimulated respiration when rewet.
-      - but when we consider all the amendments, this effect of wetting
-        direction is lost
-  - fm soils, on the other hand, showed greater response to amendments
-      - possibly because less C was available, and therefore microbes
-        were more limited
-      - N??
+![](markdown-figs/flux/flux_ts-1.png)<!-- -->
 
-![](markdown-figs/flux/cum_flux_homo-1.png)<!-- -->
+-   drought increased respiration only in control soils
+    -   microbes limited by substrate as well as N, which were released
+        during drought?
+    -   the C/N amendments alleviated these limitations, and therefore
+        drought did not alter mineralization
+-   in the drought soils, precip had more min than groundw, but only in
+    control soils
+    -   possibly because there was more C available in the top 3 cm,
+        which stimulated respiration when rewet.
+    -   but when we consider all the amendments, this effect of wetting
+        direction is lost
+-   fm soils, on the other hand, showed greater response to amendments
+    -   possibly because less C was available, and therefore microbes
+        were more limited
+    -   N??
+
+<!-- -->
+
+    #> [1] NA
 
     #> $gg_flux_ts
 
 ![](markdown-figs/flux/meanflux_ts-1.png)<!-- -->
 
 <details>
-
-<summary>time series by core</summary>
+<summary>
+time series by core
+</summary>
 
     #> [1] NA
     #> [1] NA
@@ -120,7 +126,7 @@ For intact cores,
 cumulative CO2-C, mgC/g C
 
 | Homogenization | Moisture | Wetting | control         | C               | N              |
-| :------------- | :------- | :------ | :-------------- | :-------------- | :------------- |
+|:---------------|:---------|:--------|:----------------|:----------------|:---------------|
 | Intact         | fm       | precip  | 73.18 ± 32.93   | 460.58 ± 183.17 | 303.24 ± 82.36 |
 | Intact         | fm       | groundw | 115.36 ± 26.67  | 268.21 ± 47.75  | 147.65 ± 40.97 |
 | Intact         | drought  | precip  | 370.13 ± 28.76  | 235.6 ± 29.9    | 333.8 ± 58.3   |
@@ -130,15 +136,16 @@ cumulative CO2-C, mgC/g C
 | Homogenized    | drought  | precip  | 330.66 ± 62.16  | 47.29 ± 23.88   | 96.38 ± 32.15  |
 | Homogenized    | drought  | groundw | 360.16 ± 103.62 | 311.76 ± 78.33  | 257.53 ± 51.06 |
 
------
+------------------------------------------------------------------------
 
 #### Session Info
 
 <details>
+<summary>
+click to expand
+</summary>
 
-<summary>click to expand</summary>
-
-Date run: 2020-12-08
+Date run: 2021-06-08
 
     #> R version 4.0.2 (2020-06-22)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
@@ -155,26 +162,38 @@ Date run: 2020-12-08
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] lme4_1.1-23     Matrix_1.2-18   drake_7.12.4    ggbiplot_0.55   PNWColors_0.1.0 forcats_0.5.0  
-    #>  [7] stringr_1.4.0   dplyr_1.0.1     purrr_0.3.4     readr_1.3.1     tidyr_1.1.1     tibble_3.0.3   
-    #> [13] ggplot2_3.3.2   tidyverse_1.3.0
+    #>  [1] lme4_1.1-26     Matrix_1.3-2    drake_7.13.1    ggbiplot_0.55   PNWColors_0.1.0
+    #>  [6] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.6     purrr_0.3.4     readr_1.4.0    
+    #> [11] tidyr_1.1.3     tibble_3.1.2    ggplot2_3.3.3   tidyverse_1.3.1
     #> 
     #> loaded via a namespace (and not attached):
-    #>  [1] nlme_3.1-148      fs_1.5.0          lubridate_1.7.9   filelock_1.0.2    progress_1.2.2    httr_1.4.2       
-    #>  [7] tools_4.0.2       backports_1.1.8   R6_2.4.1          mgcv_1.8-31       DBI_1.1.0         colorspace_1.4-1 
-    #> [13] withr_2.2.0       Exact_2.1         tidyselect_1.1.0  prettyunits_1.1.1 curl_4.3          compiler_4.0.2   
-    #> [19] cli_2.0.2         rvest_0.3.6       expm_0.999-5      xml2_1.3.2        labeling_0.3      scales_1.1.1     
-    #> [25] mvtnorm_1.1-1     digest_0.6.25     minqa_1.2.4       foreign_0.8-80    txtq_0.2.3        rmarkdown_2.3    
-    #> [31] rio_0.5.16        pkgconfig_2.0.3   htmltools_0.5.0   highr_0.8         dbplyr_1.4.4      rlang_0.4.7      
-    #> [37] readxl_1.3.1      rstudioapi_0.11   farver_2.0.3      generics_0.0.2    jsonlite_1.7.0    zip_2.1.0        
-    #> [43] car_3.0-9         magrittr_1.5      DescTools_0.99.38 Rcpp_1.0.5        munsell_0.5.0     fansi_0.4.1      
-    #> [49] abind_1.4-5       lifecycle_0.2.0   stringi_1.4.6     yaml_2.2.1        carData_3.0-4     rootSolve_1.8.2.1
-    #> [55] MASS_7.3-51.6     storr_1.2.1       plyr_1.8.6        grid_4.0.2        blob_1.2.1        parallel_4.0.2   
-    #> [61] lmom_2.8          crayon_1.3.4      lattice_0.20-41   cowplot_1.0.0     haven_2.3.1       splines_4.0.2    
-    #> [67] hms_0.5.3         knitr_1.29        pillar_1.4.6      igraph_1.2.5      ggpubr_0.4.0      gld_2.6.2        
-    #> [73] boot_1.3-25       ggsignif_0.6.0    base64url_1.4     reprex_0.3.0      glue_1.4.1        packrat_0.5.0    
-    #> [79] evaluate_0.14     data.table_1.13.0 modelr_0.1.8      nloptr_1.2.2.2    vctrs_0.3.2       cellranger_1.1.0 
-    #> [85] gtable_0.3.0      assertthat_0.2.1  xfun_0.16         openxlsx_4.1.5    broom_0.7.0       e1071_1.7-3      
-    #> [91] rstatix_0.6.0     class_7.3-17      statmod_1.4.34    ellipsis_0.3.1
+    #>   [1] minqa_1.2.4        colorspace_2.0-0   ggsignif_0.6.0     ellipsis_0.3.2    
+    #>   [5] class_7.3-18       rio_0.5.16         fs_1.5.0           gld_2.6.2         
+    #>   [9] crunch_1.27.5      rstudioapi_0.13    farver_2.0.3       ggpubr_0.4.0      
+    #>  [13] soilpalettes_0.1.0 fansi_0.4.2        mvtnorm_1.1-1      lubridate_1.7.10  
+    #>  [17] xml2_1.3.2         splines_4.0.2      rootSolve_1.8.2.1  knitr_1.31        
+    #>  [21] jsonlite_1.7.2     nloptr_1.2.2.2     broom_0.7.6        cluster_2.1.0     
+    #>  [25] dbplyr_2.1.1       shiny_1.6.0        compiler_4.0.2     httr_1.4.2        
+    #>  [29] backports_1.2.1    fastmap_1.1.0      assertthat_0.2.1   cli_2.5.0         
+    #>  [33] later_1.1.0.1      htmltools_0.5.1.1  prettyunits_1.1.1  tools_4.0.2       
+    #>  [37] igraph_1.2.6       gtable_0.3.0       agricolae_1.3-3    glue_1.4.2        
+    #>  [41] lmom_2.8           tinytex_0.29       Rcpp_1.0.6         carData_3.0-4     
+    #>  [45] cellranger_1.1.0   vctrs_0.3.8        nlme_3.1-152       xfun_0.20         
+    #>  [49] openxlsx_4.2.3     rvest_1.0.0        mime_0.9           miniUI_0.1.1.1    
+    #>  [53] lifecycle_1.0.0    statmod_1.4.35     rstatix_0.6.0      MASS_7.3-53       
+    #>  [57] scales_1.1.1       promises_1.1.1     hms_1.0.0          parallel_4.0.2    
+    #>  [61] httpcache_1.2.0    expm_0.999-6       yaml_2.2.1         curl_4.3          
+    #>  [65] Exact_2.1          labelled_2.7.0     stringi_1.5.3      AlgDesign_1.2.0   
+    #>  [69] highr_0.8          klaR_0.6-15        e1071_1.7-4        filelock_1.0.2    
+    #>  [73] boot_1.3-26        zip_2.1.1          storr_1.2.5        rlang_0.4.10      
+    #>  [77] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41    labeling_0.4.2    
+    #>  [81] cowplot_1.1.1      tidyselect_1.1.0   plyr_1.8.6         magrittr_2.0.1    
+    #>  [85] R6_2.5.0           DescTools_0.99.40  generics_0.1.0     base64url_1.4     
+    #>  [89] combinat_0.0-8     txtq_0.2.3         DBI_1.1.1          mgcv_1.8-33       
+    #>  [93] pillar_1.6.1       haven_2.3.1        foreign_0.8-81     withr_2.4.1       
+    #>  [97] abind_1.4-5        questionr_0.7.4    modelr_0.1.8       crayon_1.4.1      
+    #> [101] car_3.0-10         utf8_1.1.4         rmarkdown_2.6.6    progress_1.2.2    
+    #> [105] grid_4.0.2         readxl_1.3.1       data.table_1.13.6  reprex_2.0.0      
+    #> [109] digest_0.6.27      xtable_1.8-4       httpuv_1.5.5       munsell_0.5.0
 
 </details>
