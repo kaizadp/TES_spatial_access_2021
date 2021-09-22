@@ -56,10 +56,6 @@ intact cores
     #> ---
     #> Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
-homogenized cores
-
-    #> [1] NA
-
 intact cores: interaction of Amendments and Moisture
 ![](markdown-figs/flux/flux_interx_plot-1.png)<!-- -->![](markdown-figs/flux/flux_interx_plot-2.png)<!-- -->![](markdown-figs/flux/flux_interx_plot-3.png)<!-- -->
 
@@ -83,8 +79,6 @@ For intact cores,
 
 ![](markdown-figs/flux/cum_flux_boxplot_homo-1.png)<!-- -->
 
-![](markdown-figs/flux/flux_combined-1.png)<!-- -->
-
 ![](markdown-figs/flux/flux_ts-1.png)<!-- -->
 
 -   drought increased respiration only in control soils
@@ -105,21 +99,9 @@ For intact cores,
 
 <!-- -->
 
-    #> [1] NA
-
     #> $gg_flux_ts
 
 ![](markdown-figs/flux/meanflux_ts-1.png)<!-- -->
-
-<details>
-<summary>
-time series by core
-</summary>
-
-    #> [1] NA
-    #> [1] NA
-
-</details>
 
 ## summary table
 
@@ -145,15 +127,15 @@ cumulative CO2-C, mgC/g C
 click to expand
 </summary>
 
-Date run: 2021-06-08
+Date run: 2021-09-22
 
-    #> R version 4.0.2 (2020-06-22)
+    #> R version 4.1.1 (2021-08-10)
     #> Platform: x86_64-apple-darwin17.0 (64-bit)
     #> Running under: macOS Catalina 10.15.7
     #> 
     #> Matrix products: default
     #> BLAS:   /System/Library/Frameworks/Accelerate.framework/Versions/A/Frameworks/vecLib.framework/Versions/A/libBLAS.dylib
-    #> LAPACK: /Library/Frameworks/R.framework/Versions/4.0/Resources/lib/libRlapack.dylib
+    #> LAPACK: /Library/Frameworks/R.framework/Versions/4.1/Resources/lib/libRlapack.dylib
     #> 
     #> locale:
     #> [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
@@ -162,38 +144,42 @@ Date run: 2021-06-08
     #> [1] stats     graphics  grDevices utils     datasets  methods   base     
     #> 
     #> other attached packages:
-    #>  [1] lme4_1.1-26     Matrix_1.3-2    drake_7.13.1    ggbiplot_0.55   PNWColors_0.1.0
-    #>  [6] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.6     purrr_0.3.4     readr_1.4.0    
-    #> [11] tidyr_1.1.3     tibble_3.1.2    ggplot2_3.3.3   tidyverse_1.3.1
+    #>  [1] lme4_1.1-27.1   Matrix_1.3-4    drake_7.13.2    ggbiplot_0.55   PNWColors_0.1.0
+    #>  [6] forcats_0.5.1   stringr_1.4.0   dplyr_1.0.7     purrr_0.3.4     readr_2.0.1    
+    #> [11] tidyr_1.1.3     tibble_3.1.4    ggplot2_3.3.5   tidyverse_1.3.1
     #> 
     #> loaded via a namespace (and not attached):
-    #>   [1] minqa_1.2.4        colorspace_2.0-0   ggsignif_0.6.0     ellipsis_0.3.2    
-    #>   [5] class_7.3-18       rio_0.5.16         fs_1.5.0           gld_2.6.2         
-    #>   [9] crunch_1.27.5      rstudioapi_0.13    farver_2.0.3       ggpubr_0.4.0      
-    #>  [13] soilpalettes_0.1.0 fansi_0.4.2        mvtnorm_1.1-1      lubridate_1.7.10  
-    #>  [17] xml2_1.3.2         splines_4.0.2      rootSolve_1.8.2.1  knitr_1.31        
-    #>  [21] jsonlite_1.7.2     nloptr_1.2.2.2     broom_0.7.6        cluster_2.1.0     
-    #>  [25] dbplyr_2.1.1       shiny_1.6.0        compiler_4.0.2     httr_1.4.2        
-    #>  [29] backports_1.2.1    fastmap_1.1.0      assertthat_0.2.1   cli_2.5.0         
-    #>  [33] later_1.1.0.1      htmltools_0.5.1.1  prettyunits_1.1.1  tools_4.0.2       
-    #>  [37] igraph_1.2.6       gtable_0.3.0       agricolae_1.3-3    glue_1.4.2        
-    #>  [41] lmom_2.8           tinytex_0.29       Rcpp_1.0.6         carData_3.0-4     
-    #>  [45] cellranger_1.1.0   vctrs_0.3.8        nlme_3.1-152       xfun_0.20         
-    #>  [49] openxlsx_4.2.3     rvest_1.0.0        mime_0.9           miniUI_0.1.1.1    
-    #>  [53] lifecycle_1.0.0    statmod_1.4.35     rstatix_0.6.0      MASS_7.3-53       
-    #>  [57] scales_1.1.1       promises_1.1.1     hms_1.0.0          parallel_4.0.2    
-    #>  [61] httpcache_1.2.0    expm_0.999-6       yaml_2.2.1         curl_4.3          
-    #>  [65] Exact_2.1          labelled_2.7.0     stringi_1.5.3      AlgDesign_1.2.0   
-    #>  [69] highr_0.8          klaR_0.6-15        e1071_1.7-4        filelock_1.0.2    
-    #>  [73] boot_1.3-26        zip_2.1.1          storr_1.2.5        rlang_0.4.10      
-    #>  [77] pkgconfig_2.0.3    evaluate_0.14      lattice_0.20-41    labeling_0.4.2    
-    #>  [81] cowplot_1.1.1      tidyselect_1.1.0   plyr_1.8.6         magrittr_2.0.1    
-    #>  [85] R6_2.5.0           DescTools_0.99.40  generics_0.1.0     base64url_1.4     
-    #>  [89] combinat_0.0-8     txtq_0.2.3         DBI_1.1.1          mgcv_1.8-33       
-    #>  [93] pillar_1.6.1       haven_2.3.1        foreign_0.8-81     withr_2.4.1       
-    #>  [97] abind_1.4-5        questionr_0.7.4    modelr_0.1.8       crayon_1.4.1      
-    #> [101] car_3.0-10         utf8_1.1.4         rmarkdown_2.6.6    progress_1.2.2    
-    #> [105] grid_4.0.2         readxl_1.3.1       data.table_1.13.6  reprex_2.0.0      
-    #> [109] digest_0.6.27      xtable_1.8-4       httpuv_1.5.5       munsell_0.5.0
+    #>   [1] readxl_1.3.1       backports_1.2.1    plyr_1.8.6         igraph_1.2.6      
+    #>   [5] splines_4.1.1      storr_1.2.5        AlgDesign_1.2.0    usethis_2.0.1     
+    #>   [9] digest_0.6.27      httpcache_1.2.0    htmltools_0.5.1.1  fansi_0.5.0       
+    #>  [13] magrittr_2.0.1     memoise_2.0.0      base64url_1.4      cluster_2.1.2     
+    #>  [17] tzdb_0.1.2         openxlsx_4.2.4     remotes_2.4.0      modelr_0.1.8      
+    #>  [21] prettyunits_1.1.1  colorspace_2.0-2   rvest_1.0.1        haven_2.4.3       
+    #>  [25] xfun_0.25          callr_3.7.0        crayon_1.4.1       jsonlite_1.7.2    
+    #>  [29] Exact_2.1          glue_1.4.2         gtable_0.3.0       questionr_0.7.4   
+    #>  [33] car_3.0-11         pkgbuild_1.2.0     abind_1.4-5        scales_1.1.1      
+    #>  [37] mvtnorm_1.1-2      DBI_1.1.1          rstatix_0.7.0      miniUI_0.1.1.1    
+    #>  [41] Rcpp_1.0.7         progress_1.2.2     xtable_1.8-4       foreign_0.8-81    
+    #>  [45] proxy_0.4-26       txtq_0.2.4         httr_1.4.2         ellipsis_0.3.2    
+    #>  [49] farver_2.1.0       pkgconfig_2.0.3    dbplyr_2.1.1       utf8_1.2.2        
+    #>  [53] labeling_0.4.2     tidyselect_1.1.1   rlang_0.4.11       later_1.3.0       
+    #>  [57] munsell_0.5.0      cellranger_1.1.0   tools_4.1.1        cachem_1.0.6      
+    #>  [61] cli_3.0.1          generics_0.1.0     devtools_2.4.2     broom_0.7.9       
+    #>  [65] evaluate_0.14      fastmap_1.1.0      yaml_2.2.1         processx_3.5.2    
+    #>  [69] knitr_1.33         fs_1.5.0           zip_2.2.0          rootSolve_1.8.2.2 
+    #>  [73] nlme_3.1-152       mime_0.11          xml2_1.3.2         compiler_4.1.1    
+    #>  [77] rstudioapi_0.13    filelock_1.0.2     curl_4.3.2         e1071_1.7-8       
+    #>  [81] testthat_3.0.4     ggsignif_0.6.3     reprex_2.0.1       klaR_0.6-15       
+    #>  [85] DescTools_0.99.42  stringi_1.7.3      highr_0.9          ps_1.6.0          
+    #>  [89] desc_1.3.0         lattice_0.20-44    nloptr_1.2.2.2     vctrs_0.3.8       
+    #>  [93] pillar_1.6.2       lifecycle_1.0.0    combinat_0.0-8     cowplot_1.1.1     
+    #>  [97] data.table_1.14.0  soilpalettes_0.1.0 lmom_2.8           httpuv_1.6.2      
+    #> [101] agricolae_1.3-5    R6_2.5.1           promises_1.2.0.1   rio_0.5.27        
+    #> [105] gld_2.6.2          sessioninfo_1.1.1  boot_1.3-28        MASS_7.3-54       
+    #> [109] assertthat_0.2.1   pkgload_1.2.1      rprojroot_2.0.2    withr_2.4.2       
+    #> [113] crunch_1.28.1      mgcv_1.8-36        expm_0.999-6       parallel_4.1.1    
+    #> [117] hms_1.1.0          grid_4.1.1         labelled_2.8.0     class_7.3-19      
+    #> [121] minqa_1.2.4        rmarkdown_2.10     carData_3.0-4      ggpubr_0.4.0      
+    #> [125] shiny_1.6.0        lubridate_1.7.10   tinytex_0.33
 
 </details>

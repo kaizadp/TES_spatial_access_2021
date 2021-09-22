@@ -39,7 +39,8 @@ respiration_plan =
     
     # IIc. combined plot ------------------------------------------------------
     
-    gg_flux_combined = ggpubr::ggarrange(do_cumflux_boxplot(flux_summary)$gg_cumflux, do_flux_ts_bycore(flux)$gg_flux_ts_intact_panels, 
+    gg_flux_combined = ggpubr::ggarrange(do_cumflux_boxplot(flux_summary)$gg_cumflux, 
+                                         do_flux_ts_bycore(flux)$gg_flux_ts_intact_panels, 
                                          nrow = 2, heights = c(1, 2.1),
                                          labels = c("A", "B")),
     
@@ -112,6 +113,9 @@ make(respiration_plan, lock_cache = F)
 
 # CH4 ---------------------------------------------------------------------
 
+flux = read_file("data/processed/flux.csv")
+flux_summary = read_file("data/processed/flux_summary.csv")
+
 flux_summary %>% 
   ggplot()+
   geom_smooth(data = flux, 
@@ -128,8 +132,7 @@ flux_summary %>%
   theme_kp()+
   NULL
 
-
-flux_summary %>% 
+flux %>% 
   filter(Homogenization=="Intact") %>% 
   arrange(CORE, elapsed_min_bin) %>% 
   ggplot(aes(x = elapsed_min_bin, y = CO2C_mg_gC_s*1000, color = as.character(CORE)))+

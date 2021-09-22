@@ -41,12 +41,6 @@ readd(aov_flux_all)
 readd(aov_flux_intact)
 ```
 
-homogenized cores
-
-```{r aov_flux_homo}
-readd(aov_flux_homo)
-```
-
 intact cores: interaction of Amendments and Moisture
 ```{r flux_interx_plot}
 readd(flux_interx_plot)
@@ -102,7 +96,7 @@ readd(gg_flux_cum_intact_boxplot)
 readd(gg_flux_cum_homo_boxplot)
 ```
 
-```{r flux_combined, fig.width=6, fig.height=12}
+```{r flux_combined, fig.width=6, fig.height=12, eval=FALSE}
 readd(gg_flux_combined)
 ```
 
@@ -121,30 +115,10 @@ readd(gg_flux_combined_tsonly)
 - fm soils, on the other hand, showed greater response to amendments
   - possibly because less C was available, and therefore microbes were more limited
   - N??
- 
-```{r cum_flux_homo, fig.width=10, fig.height=4}
-readd(gg_cumflux_homo)
-```
-
-```{r cum_flux_ggplot, fig.width=10, fig.height=6, eval=F}
-readd(gg_flux_cum)
-```
 
 ```{r meanflux_ts, fig.width=10, fig.height=6}
 readd(gg_flux_ts)
 ```
-
-
-<details>
-  <summary>time series by core</summary>
-  
-```{r corewise_flux}
-readd(gg_flux_ts_core_intact)
-
-readd(gg_flux_ts_core_homo)
-```
-
-</details>
 
 
 ## summary table 
