@@ -10,10 +10,10 @@ library(patchwork)
 library(dplyr)
 
 # Pipeline functions
-source("code/2f-fticr-pipeline_plotting_new.R")
-source("code/2f-fticr-pipeline_tables.R")
-source("code/2f-fticr-pipeline_compute.R")
-source("code/2f-fticr-pipeline_reading.R")
+source("code/2c-fticr-pipeline_plotting.R")
+source("code/2c-fticr-pipeline_tables.R")
+source("code/2c-fticr-pipeline_compute.R")
+source("code/2c-fticr-pipeline_reading.R")
 
 # Setup (from here from plan)
 pal <- PNWColors::pnw_palette("Bay", 3)
