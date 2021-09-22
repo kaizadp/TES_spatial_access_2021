@@ -1,4 +1,7 @@
+[![DOI](https://zenodo.org/badge/275862873.svg)](https://zenodo.org/badge/latestdoi/275862873)
+
 # Spatial access and resource limitations control carbon mineralization in soils
+
 
 
 This repository contains data and code for the manuscript: *Spatial access and resource limitations control carbon mineralization in soils*
