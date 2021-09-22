@@ -1,3 +1,6 @@
+# TES SPATIAL ACCESS
+# KAIZAD F. PATEL
+
 # Tables for various pipeline targets
 
 do_peakcount_tables <- function(peakcounts_core, fticr_key) {
@@ -101,9 +104,3 @@ peakcount_table_stats <- function(peakcounts_core){
        peakcount_stats_fullANOVA = peakcount_stats_fullANOVA)
   
 }
-    ## peakcount_table_stats(peakcounts_core)
-    ## 
-    ## peakcounts_total %>% 
-    ##   group_by(Suction, Amendments) %>% 
-    ##   dplyr::summarise(mean = as.integer(mean(counts)))
-    ## 

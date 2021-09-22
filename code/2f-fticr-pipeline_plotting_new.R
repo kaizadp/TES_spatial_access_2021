@@ -93,18 +93,7 @@ do_vk_reps <- function(data_key, meta_hcoc) {
 }
 
 do_vk_pores <- function(data_long_trt) {
- # (gg_fticr_pores_1_5kPa <-  
- #   data_long_trt %>%
- #   filter(Suction=="1.5") %>% 
- #   gg_vankrev(aes(x = OC, y = HC, color = Amendments))+
- #   stat_ellipse()+
- #   scale_color_manual(values = pal3)+
- #   # scale_alpha_manual(values = c(0.1, 0.3, 0.3))+
- #   facet_grid(Homogenization~Moisture+Wetting)+
- #   labs(title = "1.5 kPa")+
- #   NULL)
-  
-  
+
   gg_fticr_pores_intact <-  
     data_long_trt %>%
     filter(Homogenization == "Intact") %>% 
@@ -746,8 +735,6 @@ do_gg_complex <- function(relabund_cores_complex) {
     theme_kp()+
     NULL
 }
-
-
 do_gg_complex_stats = function(relabund_cores_complex){
   relabund_cores_complex_int = 
     relabund_cores_complex %>% filter(Homogenization == "Intact")
@@ -770,157 +757,6 @@ do_gg_complex_stats = function(relabund_cores_complex){
   list(complex_dunnett = complex_dunnett,
        complex_fullANOVA = complex_fullANOVA)
 }
-# complex_ANOVA = do_gg_complex_stats(relabund_cores_complex)$complex_fullANOVA %>% 
-#   rename(p_value = `p.value`) %>% 
-#   filter(p_value <=0.05) %>% 
-#   filter(term != "(Intercept)")
-
-do_gg_complex2 <- function(relabund_cores_complex) {
-  #label <- do_labels_complex_intact("relabund", relabund_cores_complex)
-  
-  label = 
-    tribble(
-    ~Suction, ~Amendments, ~label, ~y, 
-    #1.5, "control", "-", 90,
-    1.5, "C", "W, M:W", 90,
-    1.5, "N", "W", 90,
-    #50, "control", "-", 90,
-    #50, "C", "-", 90,
-    #50, "N", "-", 90,
-    50, "C", "*", 92,
-    50, "N", "*", 92
-  )
-  
-  
-  relabund_cores_complex %>% 
-    filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = Amendments, y = relabund))+
-    geom_boxplot(aes(group = Amendments), 
-                 fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
-    geom_point(aes(fill = Moisture, shape = Wetting, group = Wetting),
-               size=4, stroke=1, position = position_dodge(width = 0.6), alpha = 0.8)+
-    geom_text(data = label %>% filter(label == "*"), aes(x = Amendments, y = y, label = label), size=8)+
-    geom_text(data = label %>% filter(label != "*"), aes(x = Amendments, y = y, label = label), size=5)+
-    scale_fill_manual(values = pal3)+
-    scale_shape_manual(values = c(21,23))+
-    guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "contribution of complex molecules",
-         y = "% contribution")+
-    facet_grid(Homogenization~Suction)+
-    theme_kp()+
-    NULL
-}
-
-
-do_gg_complex3 = function(relabund_cores_complex){
-  do_dunnett = function(dat){
-    d <-DescTools::DunnettTest(log(relabund)~Amendments, control = "control", data = dat)
-    tibble(C = d$control["C-control", 4],
-           N = d$control["N-control", 4])
-  }
-  dunnett_complex = 
-    relabund_cores_complex %>% 
-    filter(Homogenization == "Intact") %>% 
-    group_by(Suction, Moisture, Wetting) %>% 
-    do(do_dunnett(.)) %>% 
-    reshape2::melt(id = c("Suction", "Moisture", "Wetting"), 
-                   variable = "Amendments") %>% 
-    #filter(value <= 0.10) %>% 
-    mutate(label = case_when(value <= 0.05 ~ "*",
-                             value > 0.05 & value <= 0.10 ~ "\U00B7"),
-           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
-                           Moisture=="fm"&Wetting=="groundw" ~ 2,
-                           Moisture=="drought"&Wetting=="precip" ~ 3,
-                           Moisture=="drought"&Wetting=="groundw" ~ 4),
-           x_2 = case_when(Amendments=="control" ~ -0.2,
-                           Amendments=="C" ~ 0,
-                           Amendments=="N" ~ +0.2),
-           x = x_1 + x_2)
-  
-  relabund_cores_complex %>% 
-    filter(Homogenization=="Intact") %>% 
-    ggplot(aes(x = interaction(Wetting, Moisture), y = relabund))+
-    #   geom_boxplot(aes(group = Moisture), 
-    #                fill = "grey90", alpha = 0.3, color = "grey60", width = 0.6)+
-    geom_point(aes(fill = Amendments, shape = Wetting),
-               size=4, stroke=1, position = position_dodge(width = 0.6), alpha = 0.8)+
-    #  geom_text(data = label %>% filter(label == "*"), aes(x = Amendments, y = y, label = label), size=8)+
-    geom_text(data = scatterplot_label, 
-              aes(x = x, y = 90, 
-                  group = Amendments, label = label), size=8)+
-    scale_fill_manual(values = pal3)+
-    scale_shape_manual(values = c(21,23))+
-    guides(fill=guide_legend(override.aes=list(shape=21)))+
-    labs(title = "contribution of complex molecules",
-         y = "% contribution", 
-         x = "")+
-    annotate("rect", xmin = 0.8, xmax = 2.2, ymin = 95, ymax = 100, alpha = 0.2, fill = "yellow")+
-    annotate("rect", xmin = 2.8, xmax = 4.2, ymin = 95, ymax = 100, alpha = 0.2, fill = "red")+
-    annotate("text", label = "FM", x = 1.5, y = 97.5)+
-    annotate("text", label = "Drought", x = 3.5, y = 97.5)+
-    annotate("segment", x = 2.5, xend = 2.5, y = 5, yend = 95, color = "grey70")+
-    scale_x_discrete(breaks = c("precip.fm", "groundw.fm", "precip.drought", "groundw.drought"),
-                     labels  =c("precip", "groundw", "precip", "groundw"))+
-    ylim(0,100)+
-    facet_grid(Suction ~ Homogenization)+
-    theme_kp()+
-    NULL
-  
-  
-    ##  subset = subset %>% filter(Homogenization=="Intact")
-    ##  summary(aov(log(relabund) ~ Amendments, data = subset))
-    ##
-    ##  car::Anova(lm(log(relabund) ~ Amendments, data = subset), type = "III")
-    ##  
-    ##  relabund_cores_complex_int %>% 
-    ##    group_by(Suction, Moisture, Wetting) %>% 
-    ##    do(fit_hsd_amend(.$relabund, .$Amendments))
-    ##  
-      subset = 
-        relabund_cores_complex_int %>% 
-        filter(Suction==50 & Moisture == "drought" & Wetting == "groundw" & Amendments != "N")
-  
-  do_scatterplot_stats = function(dat){
-    fit_stats = function(dat){
-      l = lm(log(relabund) ~ Amendments, data = dat)
-      a = car::Anova(l, type = "III")
-      broom::tidy(a) %>% 
-        filter(term == "Amendments") %>% 
-        rename(p_value = `p.value`)
-    }
-  fit_stats_C = 
-    relabund_cores_complex_int %>% 
-    filter(Amendments != "N") %>% 
-    group_by(Suction, Moisture, Wetting) %>% 
-    do(fit_stats(.)) %>% 
-    mutate(Amendments = "C")
-  
-  fit_stats_N = 
-    relabund_cores_complex_int %>% 
-    filter(Amendments != "C") %>% 
-    group_by(Suction, Moisture, Wetting) %>% 
-    do(fit_stats(.)) %>% 
-    mutate(Amendments = "N")
-  
-  rbind(fit_stats_C, fit_stats_N) %>% 
-    mutate(label = case_when(p_value <= 0.05 ~ "*",
-                             p_value > 0.05 & p_value <= 0.10 ~ "\U00B7"),
-           x_1 = case_when(Moisture=="fm"&Wetting=="precip" ~ 1,
-                           Moisture=="fm"&Wetting=="groundw" ~ 2,
-                           Moisture=="drought"&Wetting=="precip" ~ 3,
-                           Moisture=="drought"&Wetting=="groundw" ~ 4),
-           x_2 = case_when(Amendments=="control" ~ -0.2,
-                           Amendments=="C" ~ 0,
-                           Amendments=="N" ~ +0.2),
-           x = x_1 + x_2)
-  }
-  
-  scatterplot_label = do_scatterplot_stats(relabund_cores_complex_int)
-  
-  
-  }
-
-
 
 # complex peaks, effect of homogenization
 plot_complex_homo <- function(relabund_cores_complex) {
@@ -1127,13 +963,6 @@ do_pca_intact = function(relabund_cores){
   ggarrange(gg_pca_suction, gg_pca_amend, gg_pca_moist, nrow = 3, align = "hv", labels = c("A", "B", "C"))
 }
 
-
-#
-
-# -------------------------------------------------------------------------
-
-
-
 do_gg_pca_intact_plots <- function(pca_int, relabund_pca_grp_intact) {
   gg_pca_intact_suction <- 
     ggbiplot(pca_int, obs.scale = 1, var.scale = 1, 
@@ -1170,7 +999,6 @@ do_gg_pca_intact_plots <- function(pca_int, relabund_pca_grp_intact) {
        gg_fticr_pca_intact = gg_pca_intact_suction + gg_pca_intact_amend
   )
 }
-
 do_gg_pca_home_plots <- function(pca_homo, relabund_pca_grp_Homogenized) {
   gg_pca_homo_amend <- 
     ggbiplot(pca_homo, obs.scale = 1, var.scale = 1, 
@@ -1208,28 +1036,5 @@ do_gg_pca_home_plots <- function(pca_homo, relabund_pca_grp_Homogenized) {
        #gg_pca_homo_suction = gg_pca_homo_suction,
        gg_fticr_pca_homo = gg_pca_homo_suction + gg_pca_homo_amend)
 }
-
-do_gg_element_plots <- function(fticr_elements) {
-  
-  gg_elements_n <-  
-    fticr_elements %>% 
-    ggplot(aes(x = N, color = Amendments, fill = Amendments))+
-    geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
-    #geom_density(alpha = 0.2)+
-    facet_grid(Suction + Wetting ~ Moisture)+
-    ylim(0,1000)
-  
-  gg_elements_o <-  
-    fticr_elements %>% 
-    ggplot(aes(x = O, color = Amendments, fill = Amendments))+
-    geom_histogram(position = position_dodge(width = 0.3), alpha = 0.5)+
-    #geom_density(alpha = 0.2)+
-    facet_grid(Suction + Wetting ~ Moisture)+
-    ylim(0,1000)
-  
-  list(gg_elements_n = gg_elements_n,
-       gg_elements_o = gg_elements_o)
-}
-
 
 
