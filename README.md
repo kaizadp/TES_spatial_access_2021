@@ -5,6 +5,9 @@ This repository contains data and code for the manuscript: *Spatial access and r
 
 Kaizad F. Patel et al. [doi: 10.1016/j.soilbio.2021.108427](https://doi.org/10.1016/j.soilbio.2021.108427)  
 
+![PatelKF_SpatialAccess_graphical_abstract](https://user-images.githubusercontent.com/50244730/134402880-bb7c755c-acb9-406c-9fbf-1c739e13a255.jpg)
+
+
 
 **Abstract**
 
