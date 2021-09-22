@@ -106,6 +106,10 @@ readd(gg_flux_cum_homo_boxplot)
 readd(gg_flux_combined)
 ```
 
+```{r, flux_ts, fig.width=6, fig.height=8}
+readd(gg_flux_combined_tsonly)
+```
+
 
 
 - drought increased respiration only in control soils
