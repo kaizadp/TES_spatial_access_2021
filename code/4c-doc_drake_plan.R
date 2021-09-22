@@ -4,7 +4,7 @@ source("code/0-packages.R")
 library(drake)
 library(car)
 
-source("code/4c-doc-functions.R")
+source("code/4b-doc_functions.R")
 
 doc_plan = drake_plan(
   # I. load files --------------------------------------------------------------
